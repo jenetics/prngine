@@ -23,4 +23,4 @@
  * (PRNG), suitable for simulation tasks.
  *
  */
-package org.jenetics.random;
+package io.jenetics.prngine;

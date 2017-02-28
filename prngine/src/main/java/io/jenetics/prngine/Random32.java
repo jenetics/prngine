@@ -17,7 +17,7 @@
  * Author:
  *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
-package org.jenetics.random;
+package io.jenetics.prngine;
 
 import java.util.Objects;
 import java.util.Random;

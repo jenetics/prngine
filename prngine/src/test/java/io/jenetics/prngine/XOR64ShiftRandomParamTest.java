@@ -17,7 +17,7 @@
  * Author:
  *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
-package org.jenetics.random;
+package io.jenetics.prngine;
 
 import static java.lang.String.format;
 import static java.util.Collections.singletonList;
@@ -29,11 +29,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.jenetics.random.XOR64ShiftRandom.Param;
-import org.jenetics.random.XOR64ShiftRandom.Shift;
-import org.jenetics.random.internal.DieHarder;
-import org.jenetics.random.internal.DieHarder.Assessment;
-import org.jenetics.random.internal.DieHarder.Result;
+import io.jenetics.prngine.XOR64ShiftRandom.Param;
+import io.jenetics.prngine.XOR64ShiftRandom.Shift;
+import io.jenetics.prngine.internal.DieHarder;
+import io.jenetics.prngine.internal.DieHarder.Assessment;
+import io.jenetics.prngine.internal.DieHarder.Result;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>

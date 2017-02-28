@@ -17,7 +17,7 @@
  * Author:
  *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
-package org.jenetics.random;
+package io.jenetics.prngine;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -30,9 +30,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import org.jenetics.random.XOR32ShiftRandom.Param;
-import org.jenetics.random.XOR32ShiftRandom.ParamSelector;
-import org.jenetics.random.XOR32ShiftRandom.Shift;
+import io.jenetics.prngine.XOR32ShiftRandom.Param;
+import io.jenetics.prngine.XOR32ShiftRandom.ParamSelector;
+import io.jenetics.prngine.XOR32ShiftRandom.Shift;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>

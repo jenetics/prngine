@@ -17,7 +17,7 @@
  * Author:
  *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
-package org.jenetics.random.internal;
+package io.jenetics.prngine.internal;
 
 import java.io.BufferedInputStream;
 import java.io.Closeable;
@@ -26,7 +26,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-import org.jenetics.random.Random64;
+import io.jenetics.prngine.Random64;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>

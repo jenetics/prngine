@@ -17,10 +17,10 @@
  * Author:
  *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
-package org.jenetics.random.internal;
+package io.jenetics.prngine.internal;
 
-import org.jenetics.random.PRNG;
-import org.jenetics.random.Random64;
+import io.jenetics.prngine.PRNG;
+import io.jenetics.prngine.Random64;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
