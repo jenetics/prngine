@@ -1,5 +1,5 @@
 /*
- * Java Genetic Algorithm Library (@__identifier__@).
+ * PRNGine - Java PRNG Library (@__identifier__@).
  * Copyright (c) @__year__@ Franz Wilhelmstötter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,10 +37,10 @@
 
 
 /**
- * 
- */ 
+ *
+ */
 template<
-	typename Random, 
+	typename Random,
 	typename SeedType,
 	typename ResultType
 >
@@ -74,10 +74,10 @@ private:
 };
 
 /**
- * 
- */ 
+ *
+ */
 template<
-	typename Random, 
+	typename Random,
 	typename SeedType,
 	typename SplitType,
 	typename JumpType,
@@ -127,13 +127,13 @@ private:
 
 
 template<
-	typename Random, 
+	typename Random,
 	typename SeedType,
 	typename ResultType
 >
 void write(
-	const std::string& dir, 
-	TRNG<Random, SeedType, ResultType>& random, 
+	const std::string& dir,
+	TRNG<Random, SeedType, ResultType>& random,
 	std::size_t numbers
 ) {
 	std::string file = dir + "/" + random.fileName();
@@ -147,7 +147,7 @@ void write(
 }
 
 template<
-	typename Random, 
+	typename Random,
 	typename SeedType,
 	typename SplitType,
 	typename JumpType,
@@ -155,8 +155,8 @@ template<
 	typename ResultType
 >
 void write(
-	const std::string& dir, 
-	TRNGParallel<Random, SeedType, SplitType, JumpType, Jump2Type, ResultType>& random, 
+	const std::string& dir,
+	TRNGParallel<Random, SeedType, SplitType, JumpType, Jump2Type, ResultType>& random,
 	std::size_t numbers
 ) {
 	std::string file = dir + "/" + random.fileName();
@@ -170,60 +170,60 @@ void write(
 }
 
 void lcg64_shift(
-	unsigned long seed, 
-	unsigned long splitp, 
+	unsigned long seed,
+	unsigned long splitp,
 	unsigned long splits,
 	unsigned long long jump,
 	unsigned int jump2
 ) {
 	mkdir("./LCG64ShiftRandom", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	
+
 	TRNGParallel<
-		trng::lcg64_shift, 
-		unsigned long, 
-		unsigned long, 
-		unsigned long long, 
-		unsigned int, 
+		trng::lcg64_shift,
+		unsigned long,
+		unsigned long,
+		unsigned long long,
+		unsigned int,
 		long long
 	> random(seed, splitp, splits, jump, jump2);
 	write("./LCG64ShiftRandom", random, 150);
 }
 
 void mrg2(
-	unsigned long seed, 
-	unsigned long splitp, 
+	unsigned long seed,
+	unsigned long splitp,
 	unsigned long splits,
 	unsigned long long jump,
 	unsigned int jump2
 ) {
 	mkdir("./MRG2Random", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	
+
 	TRNGParallel<
-		trng::mrg2, 
-		unsigned long, 
-		unsigned long, 
-		unsigned long long, 
-		unsigned int, 
+		trng::mrg2,
+		unsigned long,
+		unsigned long,
+		unsigned long long,
+		unsigned int,
 		long
 	> random(seed, splitp, splits, jump, jump2);
 	write("./MRG2Random", random, 150);
 }
 
 void mrg3(
-	unsigned long seed, 
-	unsigned long splitp, 
+	unsigned long seed,
+	unsigned long splitp,
 	unsigned long splits,
 	unsigned long long jump,
 	unsigned int jump2
 ) {
 	mkdir("./MRG3Random", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	
+
 	TRNGParallel<
-		trng::mrg2, 
-		unsigned long, 
-		unsigned long, 
-		unsigned long long, 
-		unsigned int, 
+		trng::mrg2,
+		unsigned long,
+		unsigned long,
+		unsigned long long,
+		unsigned int,
 		int
 	> random(seed, splitp, splits, jump, jump2);
 	write("./MRG3Random", random, 150);
@@ -231,19 +231,19 @@ void mrg3(
 
 void mt19937_32(unsigned long seed ) {
 	mkdir("./MT19937_32Random", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	
-	TRNG<trng::mt19937, unsigned long, int> 
+
+	TRNG<trng::mt19937, unsigned long, int>
 	random(seed);
-	
+
 	write("./MT19937_32Random", random, 150);
 }
 
 void mt19937_64(unsigned long seed ) {
 	mkdir("./MT19937_64Random", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-	
-	TRNG<trng::mt19937_64, unsigned long, long> 
+
+	TRNG<trng::mt19937_64, unsigned long, long>
 	random(seed);
-	
+
 	write("./MT19937_64Random", random, 150);
 }
 
@@ -264,7 +264,7 @@ int main(void) {
 		}
 	}
 	*/
-	
+
 	for (unsigned long long seed = 0; seed < 1000000000; seed += 12345678) {
 		mt19937_32(seed);
 		mt19937_64(seed);
