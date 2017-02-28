@@ -1,5 +1,5 @@
 /*
- * Java Genetic Algorithm Library (@__identifier__@).
+ * PRNGine - Java PRNG Library (@__identifier__@).
  * Copyright (c) @__year__@ Franz Wilhelmstötter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,14 +24,11 @@
  * @version !__version__!
  */
 
-plugins {
-    id "me.champeau.gradle.jmh" version "0.1.2"
-}
+description = 'PRNGine - Java PRNG Library'
 
-apply plugin: 'packaging'
-apply plugin: 'nexus'
-
-description = 'Jenetics PRNG module'
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
 	mavenCentral()
@@ -39,30 +36,164 @@ repositories {
 }
 
 dependencies {
-	testCompile Include.Apache.Commons.Math
-	testCompile Include.TestNG
-
-    jmh Include.JMH.Core
-    jmh Include.JMH.Processor
-    jmh files('build/classes/main')
+	testCompile 'org.testng:testng:6.10'
 }
 
-jmhJar {
-    appendix = 'jmh'
+javadoc {
+	project.configure(options) {
+		memberLevel = 'PROTECTED'
+		version = true
+		author = true
+		docEncoding = 'UTF-8'
+		charSet = 'UTF-8'
+		linkSource = true
+		links = [
+			'https://docs.oracle.com/javase/8/docs/api'
+		]
+		windowTitle = "PRNGine ${project.version}"
+		docTitle = "<h1>PRNGine ${project.version}</h1>"
+		bottom = "&copy; ${copyrightYear} Franz Wilhelmst&ouml;tter  &nbsp;<i>(${dateformat.format(now.time)})</i>"
+
+		exclude '**/internal/**'
+	}
+
+	// Copy the doc-files.
+	doLast {
+		project.copy {
+			from('src/main/java') {
+				include 'io/**/doc-files/*.*'
+			}
+			includeEmptyDirs = false
+			into destinationDir.path
+		}
+	}
 }
 
-jar.manifest.instruction('Export-Package',
-	'org.jenetics.random'
-)
+test {
+	outputs.upToDateWhen { false }
+	testLogging.showStandardStreams = true
 
-packaging {
-	name = 'Jenetix'
-	author = 'Franz Wilhelmstötter'
-	url = 'http://jenetics.sourceforge.net'
+	useTestNG {
+		preserveOrder true
+		parallel = 'tests' // 'methods'
+		threadCount = Math.max(Runtime.runtime.availableProcessors() + 1, 4)
+	}
 }
 
-idea {
-    module{
-        scopes.COMPILE.plus += [configurations.jmh]
-    }
+jar {
+	manifest {
+		attributes(
+			'Implementation-Title': 'PRNGine - Java PRNG Library',
+			'Implementation-Version': "${project.name}-${project.version}",
+			'Implementation-URL': 'https://jenetics.github.io/prngine',
+			'Implementation-Vendor': 'jenetics',
+			'ProjectName': project.name,
+			'Version': project.version,
+			'Maintainer': 'Franz Wilhelmstötter'
+		)
+	}
+}
+
+
+/ ******************************************************************************
+ * Artifact publishing code.
+ ******************************************************************************/
+
+afterEvaluate { project ->
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				beforeDeployment {
+					MavenDeployment deployment -> signing.signPom(deployment)
+				}
+
+				pom.groupId = project.group
+				pom.artifactId = project.name
+				pom.version = project.version
+
+				repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+					authentication(
+						userName: project.hasProperty('nexus_username')
+							? project.property('nexus_username')
+							: 'nexus_username',
+						password: project.hasProperty('nexus_password')
+							? project.property('nexus_password')
+							: 'nexus_password'
+					)
+				}
+				snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+					authentication(
+						userName: project.hasProperty('nexus_username')
+							? project.property('nexus_username')
+							: 'nexus_username',
+						password: project.hasProperty('nexus_password')
+							? project.property('nexus_password')
+							: 'nexus_password'
+					)
+				}
+
+				pom.project {
+					name 'PRNGine'
+					packaging 'pom'
+					description 'PRNGine - Java PRNG Library'
+					url 'https://jenetics.github.io/prngine'
+					inceptionYear '2017'
+
+					scm {
+						url 'https://github.com/jenetics/prngine'
+						connection 'scm:git:https://github.com/jenetics/prngine.git'
+						developerConnection 'scm:git:https://github.com/jenetics/prngine.git'
+					}
+
+					licenses {
+						license {
+							name 'The Apache Software License, Version 2.0'
+							url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+							distribution 'repo'
+						}
+					}
+
+					developers {
+						developer {
+							id 'jenetics'
+							name 'Franz Wilhelmstötter'
+							email 'franz.wilhelmstoetter@gmail.com'
+						}
+					}
+				}
+			}
+		}
+	}
+
+	task sourcesJar(type: Jar) {
+		classifier = 'sources'
+		from project.sourceSets.main.allSource
+		filter(ReplaceTokens, tokens: [
+			__identifier__: project.name + '-' + project.version,
+			__year__: project.copyrightYear
+		])
+	}
+
+	task javadocJar(type: Jar, dependsOn: javadoc) {
+		classifier = 'javadoc'
+		from project.javadoc
+		filter(ReplaceTokens, tokens: [
+			__identifier__: project.name + '-' + project.version,
+			__year__: project.copyrightYear
+		])
+	}
+
+	signing {
+		required {
+			!project.version.endsWith('SNAPSHOT') &&
+			gradle.taskGraph.hasTask("uploadArchives")
+		}
+		sign configurations.archives
+	}
+
+	artifacts {
+		archives sourcesJar
+		archives javadocJar
+	}
+
 }
