@@ -19,9 +19,6 @@
  */
 package io.jenetics.prngine;
 
-import static io.jenetics.prngine.utils.toBytes;
-
-import java.util.Arrays;
 import java.util.Random;
 
 import org.testng.Assert;
