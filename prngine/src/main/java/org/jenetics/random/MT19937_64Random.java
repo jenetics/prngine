@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  * Author:
- *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmx.at)
+ *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
 package org.jenetics.random;
 
@@ -43,7 +43,7 @@ import java.util.Random;
  * <a href="http://numbercrunch.de/trng/">TRNG</a> library created by Heiko
  * Bauke.</em>
  *
- * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+ * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since !__version__!
  * @version !__version__!
  */
@@ -64,7 +64,7 @@ public class MT19937_64Random extends Random64 {
 	 * This class represents a <i>thread local</i> implementation of the
 	 * {@code MT19937_32Random} PRNG.
 	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since !__version__!
 	 * @version !__version__!
 	 */
@@ -106,7 +106,7 @@ public class MT19937_64Random extends Random64 {
 	 * This is a <i>thread safe</i> variation of the this PRNG&mdash;by
 	 * synchronizing the random number generation.
 	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since !__version__!
 	 * @version !__version__!
 	 */

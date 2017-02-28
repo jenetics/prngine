@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  * Author:
- *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmx.at)
+ *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
 package org.jenetics.random;
 
@@ -42,7 +42,7 @@ import java.util.stream.StreamSupport;
  * Helper class for reading test data from file. The file has the following
  * format: {@code $resource[$param1, $param2,...].dat}.
  *
- * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+ * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  */
 public class TestData implements Iterable<String[]> {
 

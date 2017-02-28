@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  * Author:
- *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmx.at)
+ *    Franz Wilhelmstötter (franz.wilhelmstoetter@gmail.com)
  */
 package org.jenetics.random;
 
@@ -53,7 +53,7 @@ import java.util.Objects;
  * @see <a href="http://www.jstatsoft.org/v08/i14/paper">
  *      Xorshift RNGs, George Marsaglia</a>
  *
- * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+ * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since !__version__!
  * @version !__version__!
  */
@@ -68,7 +68,7 @@ public class XOR64ShiftRandom extends Random64 {
 	/**
 	 * Enumeration of the different <em>shift</em> strategies.
 	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since !__version__!
 	 * @version !__version__!
 	 */
@@ -245,7 +245,7 @@ public class XOR64ShiftRandom extends Random64 {
 	/**
 	 * Parameter class for the {@code XOR64ShiftRandom} generator.
 	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @version !__version__!
 	 * @since !__version__!
 	 */
@@ -453,7 +453,7 @@ public class XOR64ShiftRandom extends Random64 {
 	 * This class represents a <i>thread local</i> implementation of the
 	 * {@code XOR64ShiftRandom} PRNG.
 	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since !__version__!
 	 * @version !__version__!
 	 */
@@ -593,7 +593,7 @@ public class XOR64ShiftRandom extends Random64 {
 	 * This is a <i>thread safe</i> variation of the this PRNG&mdash;by
 	 * synchronizing the random number generation.
 	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmx.at">Franz Wilhelmstötter</a>
+	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since !__version__!
 	 * @version !__version__!
 	 */
