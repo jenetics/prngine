@@ -23,7 +23,7 @@ import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
-import static org.jenetics.random.utils.listOf;
+import static io.jenetics.prngine.utils.listOf;
 
 import java.util.List;
 import java.util.Map;

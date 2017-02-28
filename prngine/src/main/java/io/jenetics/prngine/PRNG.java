@@ -22,7 +22,7 @@ package io.jenetics.prngine;
 import static java.lang.Math.min;
 import static java.lang.Math.nextDown;
 import static java.lang.String.format;
-import static org.jenetics.random.utils.toBytes;
+import static io.jenetics.prngine.utils.toBytes;
 
 import java.util.Random;
 

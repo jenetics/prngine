@@ -19,7 +19,7 @@
  */
 package io.jenetics.prngine;
 
-import static org.jenetics.random.utils.toBytes;
+import static io.jenetics.prngine.utils.toBytes;
 
 import java.util.Arrays;
 import java.util.Random;

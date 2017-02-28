@@ -20,8 +20,8 @@
 package io.jenetics.prngine;
 
 import static java.lang.String.format;
-import static org.jenetics.random.utils.readInt;
-import static org.jenetics.random.utils.readLong;
+import static io.jenetics.prngine.utils.readInt;
+import static io.jenetics.prngine.utils.readLong;
 
 import java.io.Serializable;
 import java.util.Objects;

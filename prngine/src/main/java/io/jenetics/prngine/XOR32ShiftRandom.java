@@ -23,8 +23,8 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Objects.requireNonNull;
-import static org.jenetics.random.utils.listOf;
-import static org.jenetics.random.utils.readInt;
+import static io.jenetics.prngine.utils.listOf;
+import static io.jenetics.prngine.utils.readInt;
 
 import java.io.Serializable;
 import java.util.List;
