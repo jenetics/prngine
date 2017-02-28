@@ -1,5 +1,5 @@
 /*
- * Java GPX Library (@__identifier__@).
+ * PRNGine - Java PRNG Library (@__identifier__@).
  * Copyright (c) @__year__@ Franz Wilhelmstötter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,7 @@ ext {
 
 	now = Calendar.getInstance()
 	year = now.get(Calendar.YEAR);
-	copyrightYear = "2016-${year}".toString()
+	copyrightYear = "2017-${year}".toString()
 	identifier = "${rootProject.name}-${version}".toString()
 	dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm")
 }
