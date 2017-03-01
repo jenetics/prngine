@@ -77,6 +77,19 @@ public class PRNGTest {
 	}
 
 	@Test
+	public void nextLongMinMaxCompatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
+
+		final int origin = 100;
+		final int bound = 100_000_000;
+
+		random1.longs(origin, bound).limit(1000).forEach(i -> {
+			Assert.assertEquals(i, PRNG.nextLong(origin, bound, random2));
+		});
+	}
+
+	@Test
 	public void nextLongMax() {
 		final long max = 100000;
 

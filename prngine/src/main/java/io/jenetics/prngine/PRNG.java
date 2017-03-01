@@ -74,19 +74,19 @@ public abstract class PRNG extends Random {
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed int value between min
-	 * and max (end points included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
-	 * @param min lower bound for generated long integer (inclusively)
-	 * @param max upper bound for generated long integer (inclusively)
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
 	 * @return a random long integer greater than or equal to {@code min}
 	 *         and less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min >= max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 *
 	 * @see PRNG#nextLong(long, long, Random)
 	 */
-	public long nextLong(final long min, final long max) {
-		return nextLong(min, max, this);
+	public long nextLong(final long origin, final long bound) {
+		return nextLong(origin, bound, this);
 	}
 
 	/**
@@ -203,43 +203,50 @@ public abstract class PRNG extends Random {
 	}
 
 	/**
-	 * Returns a pseudo-random, uniformly distributed int value between min
-	 * and max (min and max included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
-	 * @param min lower bound for generated long integer
-	 * @param max upper bound for generated long integer
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
 	 * @param random the random engine to use for calculating the random
 	 *        long value
 	 * @return a random long integer greater than or equal to {@code min}
 	 *         and less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min > max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static long nextLong(
-		final long min, final long max,
+		final long origin, final long bound,
 		final Random random
 	) {
-		if (min > max) {
+		if (origin >= bound) {
 			throw new IllegalArgumentException(format(
-				"min >= max: %d >= %d.", min, max
+				"origin >= bound: %d >= %d.", origin, bound
 			));
 		}
 
-		final long diff = (max - min) + 1;
-		long result = 0;
+		long value = random.nextLong();
+		if (origin < bound) {
+			long n = bound - origin, m = n - 1;
+			if ((n & m) == 0L) {
+				value = (value & m) + origin;
+			} else if (n > 0L) {
+				for (long u = value >>> 1;
+					 u + m - (value = u % n) < 0L;
+					 u = random.nextLong() >>> 1)
+				{
+				}
 
-		if (diff <= 0) {
-			do {
-				result = random.nextLong();
-			} while (result < min || result > max);
-		} else if (diff < Integer.MAX_VALUE) {
-			result = random.nextInt((int)diff) + min;
-		} else {
-			result = nextLong(diff, random) + min;
+				value += origin;
+			} else {
+				while (value < origin || value >= bound) {
+					value = random.nextLong();
+				}
+			}
 		}
 
-		return result;
+		return value;
 	}
 
 	/**
