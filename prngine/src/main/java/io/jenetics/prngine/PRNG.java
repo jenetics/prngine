@@ -19,6 +19,8 @@
  */
 package io.jenetics.prngine;
 
+import static java.lang.Double.doubleToLongBits;
+import static java.lang.Double.longBitsToDouble;
 import static java.lang.Math.min;
 import static java.lang.Math.nextDown;
 import static java.lang.String.format;
@@ -124,17 +126,17 @@ public abstract class PRNG extends Random {
 
 	/**
 	 * Returns a pseudorandom, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
-	 * @param min lower bound for generated double value (inclusively)
-	 * @param max upper bound for generated double value (exclusively)
-	 * @return a random double greater than or equal to {@code min} and less
-	 *         than to {@code max}
+	 * @param origin lower bound for generated double value (inclusively)
+	 * @param bound upper bound for generated double value (exclusively)
+	 * @return a random double greater than or equal to {@code origin} and less
+	 *         than to {@code bound}
 	 *
 	 * @see PRNG#nextDouble(double, double, Random)
 	 */
-	public double nextDouble(final double min, final double max) {
-		return nextDouble(min, max, this);
+	public double nextDouble(final double origin, final double bound) {
+		return nextDouble(origin, bound, this);
 	}
 
 
@@ -316,10 +318,10 @@ public abstract class PRNG extends Random {
 
 	/**
 	 * Returns a pseudo-random, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
-	 * @param min lower bound for generated double value (inclusively)
-	 * @param max upper bound for generated double value (exclusively)
+	 * @param origin lower bound for generated double value (inclusively)
+	 * @param bound upper bound for generated double value (exclusively)
 	 * @param random the random engine used for creating the random number.
 	 * @return a random double greater than or equal to {@code min} and less
 	 *         than to {@code max}
@@ -327,20 +329,20 @@ public abstract class PRNG extends Random {
 	 *         engine is {@code null}.
 	 */
 	public static double nextDouble(
-		final double min, final double max,
+		final double origin, final double bound,
 		final Random random
 	) {
-		if (min >= max) {
+		if (!(origin < bound)) {
 			throw new IllegalArgumentException(format(
-				"min >= max: %f >= %f.", min, max
+				"min >= max: %f >= %f.", origin, bound
 			));
 		}
 
 		double value = random.nextDouble();
-		if (min < max) {
-			value = value*(max - min) + min;
-			if (value >= max) {
-				value = nextDown(value);
+		if (origin < bound) {
+			value = value*(bound - origin) + origin;
+			if (value >= bound) {
+				value = longBitsToDouble(doubleToLongBits(bound) - 1);
 			}
 		}
 

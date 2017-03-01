@@ -130,6 +130,19 @@ public class PRNGTest {
 	}
 
 	@Test
+	public void nextDoubleMinMaxCompatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
+
+		final int origin = 100;
+		final int bound = 100_000_000;
+
+		random1.doubles(origin, bound).limit(1000).forEach(i -> {
+			Assert.assertEquals(i, PRNG.nextDouble(origin, bound, random2));
+		});
+	}
+
+	@Test
 	public void seedBytes() {
 		final byte[] bytes = PRNG.seedBytes(1123412431234L, 20);
 		System.out.println(Arrays.toString(bytes));
