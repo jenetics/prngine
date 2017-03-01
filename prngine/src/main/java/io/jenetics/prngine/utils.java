@@ -48,7 +48,7 @@ final class utils {
 		}
 
 		return
-			((bytes[offset + 0] & 255) << 24) +
+			((bytes[offset    ] & 255) << 24) +
 			((bytes[offset + 1] & 255) << 16) +
 			((bytes[offset + 2] & 255) << 8) +
 			((bytes[offset + 3] & 255));
@@ -73,7 +73,7 @@ final class utils {
 		}
 
 		return
-			((long)(bytes[offset + 0] & 255) << 56) +
+			((long)(bytes[offset    ] & 255) << 56) +
 			((long)(bytes[offset + 1] & 255) << 48) +
 			((long)(bytes[offset + 2] & 255) << 40) +
 			((long)(bytes[offset + 3] & 255) << 32) +
