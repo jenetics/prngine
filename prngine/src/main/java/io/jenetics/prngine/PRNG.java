@@ -67,10 +67,10 @@ public abstract class PRNG extends Random {
 	 *         than or equal to {@code max}
 	 * @throws IllegalArgumentException if {@code min >= max}
 	 *
-	 * @see PRNG#nextInt(java.util.Random, int, int)
+	 * @see PRNG#nextInt(int, int, Random)
 	 */
 	public int nextInt(final int min, final int max) {
-		return nextInt(this, min, max);
+		return nextInt(min, max, this);
 	}
 
 	/**
@@ -83,10 +83,10 @@ public abstract class PRNG extends Random {
 	 *         and less than or equal to {@code max}
 	 * @throws IllegalArgumentException if {@code min >= max}
 	 *
-	 * @see PRNG#nextLong(java.util.Random, long, long)
+	 * @see PRNG#nextLong(long, long, Random)
 	 */
 	public long nextLong(final long min, final long max) {
-		return nextLong(this, min, max);
+		return nextLong(min, max, this);
 	}
 
 	/**
@@ -101,10 +101,10 @@ public abstract class PRNG extends Random {
 	 *         number generator's sequence
 	 * @throws IllegalArgumentException if n is smaller than 1.
 	 *
-	 * @see PRNG#nextLong(java.util.Random, long)
+	 * @see PRNG#nextLong(long, Random)
 	 */
 	public long nextLong(final long n) {
-		return nextLong(this, n);
+		return nextLong(n, this);
 	}
 
 	/**
@@ -116,10 +116,10 @@ public abstract class PRNG extends Random {
 	 * @return a random float greater than or equal to {@code min} and less
 	 *         than to {@code max}
 	 *
-	 * @see PRNG#nextFloat(java.util.Random, float, float)
+	 * @see PRNG#nextFloat(float, float, Random)
 	 */
 	public float nextFloat(final float min, final float max) {
-		return nextFloat(this, min, max);
+		return nextFloat(min, max, this);
 	}
 
 	/**
@@ -131,10 +131,10 @@ public abstract class PRNG extends Random {
 	 * @return a random double greater than or equal to {@code min} and less
 	 *         than to {@code max}
 	 *
-	 * @see PRNG#nextDouble(java.util.Random, double, double)
+	 * @see PRNG#nextDouble(double, double, Random)
 	 */
 	public double nextDouble(final double min, final double max) {
-		return nextDouble(this, min, max);
+		return nextDouble(min, max, this);
 	}
 
 
@@ -155,17 +155,17 @@ public abstract class PRNG extends Random {
 	}
 
 	public static short nextShort(final Random random) {
-		return (short)nextInt(random, Short.MIN_VALUE, Short.MAX_VALUE);
+		return (short)nextInt(Short.MIN_VALUE, Short.MAX_VALUE, random);
 	}
 
 	/**
 	 * Returns a pseudo-random, uniformly distributed int value between min and
 	 * max (min and max included).
 	 *
-	 * @param random the random engine to use for calculating the random int
-	 *        value
 	 * @param min lower bound for generated integer
 	 * @param max upper bound for generated integer
+	 * @param random the random engine to use for calculating the random int
+	 *        value
 	 * @return a random integer greater than or equal to {@code min} and
 	 *         less than or equal to {@code max}
 	 * @throws IllegalArgumentException if {@code min > max}
@@ -173,8 +173,8 @@ public abstract class PRNG extends Random {
 	 *         engine is {@code null}.
 	 */
 	public static int nextInt(
-		final Random random,
-		final int min, final int max
+		final int min, final int max,
+		final Random random
 	) {
 		if (min > max) {
 			throw new IllegalArgumentException(format(
@@ -200,10 +200,10 @@ public abstract class PRNG extends Random {
 	 * Returns a pseudo-random, uniformly distributed int value between min
 	 * and max (min and max included).
 	 *
-	 * @param random the random engine to use for calculating the random
-	 *        long value
 	 * @param min lower bound for generated long integer
 	 * @param max upper bound for generated long integer
+	 * @param random the random engine to use for calculating the random
+	 *        long value
 	 * @return a random long integer greater than or equal to {@code min}
 	 *         and less than or equal to {@code max}
 	 * @throws IllegalArgumentException if {@code min > max}
@@ -211,8 +211,8 @@ public abstract class PRNG extends Random {
 	 *         engine is {@code null}.
 	 */
 	public static long nextLong(
-		final Random random,
-		final long min, final long max
+		final long min, final long max,
+		final Random random
 	) {
 		if (min > max) {
 			throw new IllegalArgumentException(format(
@@ -230,7 +230,7 @@ public abstract class PRNG extends Random {
 		} else if (diff < Integer.MAX_VALUE) {
 			result = random.nextInt((int)diff) + min;
 		} else {
-			result = nextLong(random, diff) + min;
+			result = nextLong(diff, random) + min;
 		}
 
 		return result;
@@ -241,9 +241,9 @@ public abstract class PRNG extends Random {
 	 * (inclusive) and the specified value (exclusive), drawn from the given
 	 * random number generator's sequence.
 	 *
-	 * @param random the random engine used for creating the random number.
 	 * @param n the bound on the random number to be returned. Must be
 	 *        positive.
+	 * @param random the random engine used for creating the random number.
 	 * @return the next pseudo-random, uniformly distributed int value
 	 *         between 0 (inclusive) and n (exclusive) from the given random
 	 *         number generator's sequence
@@ -251,7 +251,7 @@ public abstract class PRNG extends Random {
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
-	public static long nextLong(final Random random, final long n) {
+	public static long nextLong(final long n, final Random random) {
 		if (n <= 0) {
 			throw new IllegalArgumentException(format(
 				"n is smaller than one: %d", n
@@ -272,17 +272,17 @@ public abstract class PRNG extends Random {
 	 * Returns a pseudo-random, uniformly distributed double value between
 	 * min (inclusively) and max (exclusively).
 	 *
-	 * @param random the random engine used for creating the random number.
 	 * @param min lower bound for generated float value (inclusively)
 	 * @param max upper bound for generated float value (exclusively)
+	 * @param random the random engine used for creating the random number.
 	 * @return a random float greater than or equal to {@code min} and less
 	 *         than to {@code max}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static float nextFloat(
-		final Random random,
-		final float min, final float max
+		final float min, final float max,
+		final Random random
 	) {
 		if (min >= max) {
 			throw new IllegalArgumentException(format(
@@ -305,17 +305,17 @@ public abstract class PRNG extends Random {
 	 * Returns a pseudo-random, uniformly distributed double value between
 	 * min (inclusively) and max (exclusively).
 	 *
-	 * @param random the random engine used for creating the random number.
 	 * @param min lower bound for generated double value (inclusively)
 	 * @param max upper bound for generated double value (exclusively)
+	 * @param random the random engine used for creating the random number.
 	 * @return a random double greater than or equal to {@code min} and less
 	 *         than to {@code max}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static double nextDouble(
-		final Random random,
-		final double min, final double max
+		final double min, final double max,
+		final Random random
 	) {
 		if (min >= max) {
 			throw new IllegalArgumentException(format(
