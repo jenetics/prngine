@@ -58,19 +58,19 @@ public abstract class PRNG extends Random {
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed int value between min and
-	 * max (end points included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
-	 * @param min lower bound for generated integer (inclusively)
-	 * @param max upper bound for generated integer (inclusively)
-	 * @return a random integer greater than or equal to {@code min} and less
-	 *         than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min >= max}
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
+	 * @return a random integer greater than or equal to {@code min} and
+	 *         less than or equal to {@code max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 *
 	 * @see PRNG#nextInt(int, int, Random)
 	 */
-	public int nextInt(final int min, final int max) {
-		return nextInt(min, max, this);
+	public int nextInt(final int origin, final int bound) {
+		return nextInt(origin, bound, this);
 	}
 
 	/**
@@ -159,41 +159,47 @@ public abstract class PRNG extends Random {
 	}
 
 	/**
-	 * Returns a pseudo-random, uniformly distributed int value between min and
-	 * max (min and max included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
-	 * @param min lower bound for generated integer
-	 * @param max upper bound for generated integer
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
 	 * @param random the random engine to use for calculating the random int
 	 *        value
 	 * @return a random integer greater than or equal to {@code min} and
 	 *         less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min > max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static int nextInt(
-		final int min, final int max,
+		final int origin, final int bound,
 		final Random random
 	) {
-		if (min > max) {
+		if (origin >= bound) {
 			throw new IllegalArgumentException(format(
-				"Min >= max: %d >= %d", min, max
+				"origin >= bound: %d >= %d", origin, bound
 			));
 		}
 
-		final int diff = max - min + 1;
-		int result = 0;
+		final int value;
 
-		if (diff <= 0) {
-			do {
-				result = random.nextInt();
-			} while (result < min || result > max);
+		if (origin < bound) {
+			int n = bound - origin;
+			if (n > 0) {
+				value = random.nextInt(n) + origin;
+			} else {
+				int r;
+				do {
+					r = random.nextInt();
+				} while (r < origin || r >= bound);
+				value = r;
+			}
 		} else {
-			result = random.nextInt(diff) + min;
+			value = random.nextInt();
 		}
 
-		return result;
+		return value;
 	}
 
 	/**

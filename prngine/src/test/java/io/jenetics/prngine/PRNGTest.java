@@ -20,6 +20,7 @@
 package io.jenetics.prngine;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -43,6 +44,19 @@ public class PRNGTest {
 			Assert.assertTrue(value < max - 1);
 			Assert.assertTrue(value >= min);
 		}
+	}
+
+	@Test
+	public void nextIntMinMaxCompatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
+
+		final int origin = 100;
+		final int bound = 100000;
+
+		random1.ints(origin, bound).limit(1000).forEach(i -> {
+			Assert.assertEquals(i, PRNG.nextInt(origin, bound, random2));
+		});
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
