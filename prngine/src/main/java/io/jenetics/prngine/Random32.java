@@ -27,8 +27,8 @@ import java.util.function.IntSupplier;
  * Base class for random generators which create 32 bit random values natively.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public abstract class Random32 extends PRNG {
 

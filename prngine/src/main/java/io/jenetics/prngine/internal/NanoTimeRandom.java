@@ -23,8 +23,8 @@ import io.jenetics.prngine.Random64;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @version 3.2
- * @since 3.2
+ * @version 1.0
+ * @since 1.0
  */
 public final class NanoTimeRandom extends Random64 {
 

@@ -66,8 +66,8 @@ import java.util.Random;
  * {@link KISS32Random.ThreadSafe} or {@link KISS32Random.ThreadLocal}.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public class KISS32Random extends Random32 {
 
@@ -78,8 +78,8 @@ public class KISS32Random extends Random32 {
 	 * {@code KISS32Random} PRNG.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class ThreadLocal
 		extends java.lang.ThreadLocal<KISS32Random>
@@ -120,8 +120,8 @@ public class KISS32Random extends Random32 {
 	 * synchronizing the random number generation.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class ThreadSafe extends KISS32Random {
 		private static final long serialVersionUID = 1L;
@@ -192,8 +192,8 @@ public class KISS32Random extends Random32 {
 	 * The internal state of random engine.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	private static final class State implements Serializable {
 		private static final long serialVersionUID = 1L;

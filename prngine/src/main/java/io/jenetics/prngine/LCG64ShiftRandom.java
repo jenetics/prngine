@@ -65,8 +65,8 @@ import java.util.Objects;
  * @see <a href="http://numbercrunch.de/trng/">TRNG</a>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 1.1
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public class LCG64ShiftRandom extends Random64 {
 

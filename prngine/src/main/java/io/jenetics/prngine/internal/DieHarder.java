@@ -48,8 +48,8 @@ import java.util.Random;
  * test application.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 1.5
- * @version 3.0
+ * @since 1.0
+ * @version 1.0
  */
 public final class DieHarder {
 

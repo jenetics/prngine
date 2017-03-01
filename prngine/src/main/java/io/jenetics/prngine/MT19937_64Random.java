@@ -44,8 +44,8 @@ import java.util.Random;
  * Bauke.</em>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public class MT19937_64Random extends Random64 {
 
@@ -65,8 +65,8 @@ public class MT19937_64Random extends Random64 {
 	 * {@code MT19937_32Random} PRNG.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static class ThreadLocal
 		extends java.lang.ThreadLocal<MT19937_64Random>
@@ -107,8 +107,8 @@ public class MT19937_64Random extends Random64 {
 	 * synchronizing the random number generation.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class ThreadSafe extends MT19937_64Random {
 		private static final long serialVersionUID = 1L;

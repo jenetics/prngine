@@ -24,8 +24,8 @@ import io.jenetics.prngine.Random64;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 1.5
- * @version 1.5
+ * @since 1.0
+ * @version 1.0
  */
 public final class SeedRandom extends Random64 {
 

@@ -33,8 +33,8 @@ import java.util.Random;
  * range.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public abstract class PRNG extends Random {
 

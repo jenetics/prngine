@@ -27,8 +27,8 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 final class utils {
 	private utils() {}
