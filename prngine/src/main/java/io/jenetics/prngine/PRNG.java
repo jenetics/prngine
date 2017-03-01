@@ -21,8 +21,9 @@ package io.jenetics.prngine;
 
 import static java.lang.Double.doubleToLongBits;
 import static java.lang.Double.longBitsToDouble;
+import static java.lang.Float.floatToIntBits;
+import static java.lang.Float.intBitsToFloat;
 import static java.lang.Math.min;
-import static java.lang.Math.nextDown;
 import static java.lang.String.format;
 import static io.jenetics.prngine.utils.toBytes;
 
@@ -111,17 +112,19 @@ public abstract class PRNG extends Random {
 
 	/**
 	 * Returns a pseudorandom, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
-	 * @param min lower bound for generated float value (inclusively)
-	 * @param max upper bound for generated float value (exclusively)
-	 * @return a random float greater than or equal to {@code min} and less
-	 *         than to {@code max}
+	 * @param origin lower bound for generated float value (inclusively)
+	 * @param bound upper bound for generated float value (exclusively)
+	 * @return a random float greater than or equal to {@code origin} and less
+	 *         than to {@code bound}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 *
 	 * @see PRNG#nextFloat(float, float, Random)
 	 */
-	public float nextFloat(final float min, final float max) {
-		return nextFloat(min, max, this);
+	public float nextFloat(final float origin, final float bound) {
+		return nextFloat(origin, bound, this);
 	}
 
 	/**
@@ -132,6 +135,8 @@ public abstract class PRNG extends Random {
 	 * @param bound upper bound for generated double value (exclusively)
 	 * @return a random double greater than or equal to {@code origin} and less
 	 *         than to {@code bound}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 *
 	 * @see PRNG#nextDouble(double, double, Random)
 	 */
@@ -285,31 +290,33 @@ public abstract class PRNG extends Random {
 
 	/**
 	 * Returns a pseudo-random, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
-	 * @param min lower bound for generated float value (inclusively)
-	 * @param max upper bound for generated float value (exclusively)
+	 * @param origin lower bound for generated float value (inclusively)
+	 * @param bound upper bound for generated float value (exclusively)
 	 * @param random the random engine used for creating the random number.
-	 * @return a random float greater than or equal to {@code min} and less
-	 *         than to {@code max}
+	 * @return a random float greater than or equal to {@code origin} and less
+	 *         than to {@code bound}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static float nextFloat(
-		final float min, final float max,
+		final float origin, final float bound,
 		final Random random
 	) {
-		if (min >= max) {
+		if (!(origin < bound)) {
 			throw new IllegalArgumentException(format(
-				"min >= max: %f >= %f.", min, max
+				"min >= max: %f >= %f.", origin, bound
 			));
 		}
 
 		float value = random.nextFloat();
-		if (min < max) {
-			value = value*(max - min) + min;
-			if (value >= max) {
-				value = nextDown(value);
+		if (origin < bound) {
+			value = value*(bound - origin) + origin;
+			if (value >= bound) {
+				value = intBitsToFloat(floatToIntBits(bound) - 1);
 			}
 		}
 
@@ -325,6 +332,8 @@ public abstract class PRNG extends Random {
 	 * @param random the random engine used for creating the random number.
 	 * @return a random double greater than or equal to {@code min} and less
 	 *         than to {@code max}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
