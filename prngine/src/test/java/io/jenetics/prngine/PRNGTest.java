@@ -144,8 +144,7 @@ public class PRNGTest {
 
 	@Test
 	public void seedBytes() {
-		final byte[] bytes = PRNG.seedBytes(1123412431234L, 20);
-		System.out.println(Arrays.toString(bytes));
+		final byte[] bytes = PRNG.seedBytes(-11234124332123234L, 20);
 	}
 
 }
