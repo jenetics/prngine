@@ -49,13 +49,22 @@ public class RandomEnginePerf {
 		public Random random;
 
 		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(1000);
+		public int nextInt() {
+			return random.nextInt();
 		}
 
 		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return PRNG.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
 		}
 
 		@Benchmark
@@ -64,8 +73,31 @@ public class RandomEnginePerf {
 		}
 
 		@Benchmark
+		public long nextLongRange() {
+			return PRNG.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return PRNG.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
 		public float nextFloat() {
 			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return PRNG.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
 		}
 
 		@Benchmark
@@ -73,41 +105,43 @@ public class RandomEnginePerf {
 			return random.nextDouble();
 		}
 
-		/*
 		@Benchmark
-		public double nextGaussian() {
-			return random.nextGaussian();
+		public double nextDoubleRange() {
+			return PRNG.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
 		}
-		*/
 	}
 
-	public static class KISS32RandomPerf extends Base {
-		{random = new KISS32Random();}
-	}
+	public static class KISS32RandomPerf extends Base {{
+		random = new KISS32Random();
+	}}
 
-	public static class KISS64RandomPerf extends Base {
-		{random = new KISS64Random();}
-	}
+	public static class KISS64RandomPerf extends Base {{
+		random = new KISS64Random();
+	}}
 
-	public static class LCG64ShiftRandomPerf extends Base {
-		{random = new LCG64ShiftRandom();}
-	}
+	public static class LCG64ShiftRandomPerf extends Base {{
+		random = new LCG64ShiftRandom();
+	}}
 
-	public static class MT19937_32RandomPerf extends Base {
-		{random = new MT19937_32Random();}
-	}
+	public static class MT19937_32RandomPerf extends Base {{
+		random = new MT19937_32Random();
+	}}
 
-	public static class MT19937_64RandomPerf extends Base {
-		{random = new MT19937_64Random();}
-	}
+	public static class MT19937_64RandomPerf extends Base {{
+		random = new MT19937_64Random();
+	}}
 
-	public static class XOR32ShiftRandomPerf extends Base {
-		{random = new XOR32ShiftRandom();}
-	}
+	public static class XOR32ShiftRandomPerf extends Base {{
+		random = new XOR32ShiftRandom();
+	}}
 
-	public static class XOR64ShiftRandomPerf extends Base {
-		{random = new XOR64ShiftRandom();}
-	}
+	public static class XOR64ShiftRandomPerf extends Base {{
+		random = new XOR64ShiftRandom();
+	}}
 
 	public static class SimpleRandom64Perf extends Base {{
 		random = new Random64() {
@@ -129,18 +163,18 @@ public class RandomEnginePerf {
 		};
 	}}
 
-	public static class RandomPerf extends Base {
-		{random = new Random();}
-	}
+	public static class RandomPerf extends Base {{
+		random = new Random();
+	}}
 
-	public static class ThreadLocalRandomPerf extends Base {
-		{random = ThreadLocalRandom.current();}
-	}
+	public static class ThreadLocalRandomPerf extends Base {{
+		random = ThreadLocalRandom.current();
+	}}
 
 	public static void main(String[] args) throws RunnerException {
 		final Options opt = new OptionsBuilder()
 			.include(".*" + RandomEnginePerf.class.getSimpleName() + ".*")
-			.warmupIterations(10)
+			.warmupIterations(15)
 			.measurementIterations(30)
 			.threads(1)
 			.forks(1)
@@ -211,5 +245,4 @@ RandomEnginePerf.XOR64ShiftRandomPerf.nextFloat      thrpt   30  154.839 ±  2.6
 RandomEnginePerf.XOR64ShiftRandomPerf.nextInt        thrpt   30  209.014 ±  1.249  ops/us
 RandomEnginePerf.XOR64ShiftRandomPerf.nextIntRange   thrpt   30  141.018 ±  1.132  ops/us
 RandomEnginePerf.XOR64ShiftRandomPerf.nextLong       thrpt   30  210.128 ±  1.786  ops/us
-
 */
