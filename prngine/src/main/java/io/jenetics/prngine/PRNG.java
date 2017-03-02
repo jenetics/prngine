@@ -161,10 +161,6 @@ public abstract class PRNG extends Random {
 		return (((long)(a >>> 6) << 26) | (b >>> 6))*0x1.0p-52d;
 	}
 
-	public static short nextShort(final Random random) {
-		return (short)nextInt(Short.MIN_VALUE, Short.MAX_VALUE, random);
-	}
-
 	/**
 	 * Returns a pseudo-random, uniformly distributed int value between origin
 	 * (included) and bound (excluded).

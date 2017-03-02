@@ -27,17 +27,16 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  */
-public abstract class Random32TestBase extends RandomTestBase {
+public class Random64Test {
 
-	@Test(dataProvider = "seededPRNGPair")
-	public void sameByteIntValueSequence(final Random rand1, final Random rand2) {
-		final byte[] bytes = new byte[4];
+	@Test
+	public void compatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
 
-		for (int i = 0; i < 1234; ++i) {
-			rand1.nextBytes(bytes);
-			RandomTestBase.reverse(bytes);
-
-			Assert.assertEquals(RandomTestBase.toInt(bytes), rand2.nextInt());
+		final Random64 random64  = Random64.of(random2::nextLong);
+		for (int i = 0; i < 1000; ++i) {
+			Assert.assertEquals(random64.nextLong(), random1.nextLong());
 		}
 	}
 

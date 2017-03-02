@@ -25,6 +25,21 @@ import java.util.function.IntSupplier;
 
 /**
  * Base class for random generators which create 32 bit random values natively.
+ * Subtypes of this class must only implement the {@link #nextInt()} method.
+ * <pre>{@code
+ * final class MyRandom extends Random32 {
+ *     public int nextInt() {
+ *         return ...;
+ *     }
+ * }
+ * }</pre>
+ *
+ * A quicker way for creating a {@code Random32} instance is using the static
+ * factory method {@link #of(IntSupplier)}.
+ * <pre>{@code
+ * final Random jrand = new Random();
+ * final Random32 random = Random32.of(jrand::nextInt);
+ * }</pre>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
@@ -101,6 +116,8 @@ public abstract class Random32 extends PRNG {
 		return new Random32() {
 			private static final long serialVersionUID = 1L;
 
+			private final Boolean _sentry = Boolean.TRUE;
+
 			@Override
 			public int nextInt() {
 				return supplier.getAsInt();
@@ -108,9 +125,11 @@ public abstract class Random32 extends PRNG {
 
 			@Override
 			public void setSeed(final long seed) {
-				throw new UnsupportedOperationException(
-					"The 'setSeed(long)' method is not supported."
-				);
+				if (_sentry != null) {
+					throw new UnsupportedOperationException(
+						"The 'setSeed(long)' method is not supported."
+					);
+				}
 			}
 		};
 	}
