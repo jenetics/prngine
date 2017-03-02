@@ -37,7 +37,7 @@ import java.util.Random;
  * </i>
  * <p>
  * <em>
- * This is an re-implementation of the
+ * This is a port of the
  * <a href="https://github.com/rabauke/trng4/blob/master/src/mt19937_64.hpp">
  * trng::mt19937_64</a> PRNG class of the
  * <a href="http://numbercrunch.de/trng/">TRNG</a> library created by Heiko

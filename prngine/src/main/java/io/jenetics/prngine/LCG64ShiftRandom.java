@@ -32,7 +32,7 @@ import java.util.Objects;
  * transition.
  *
  * <em>
- * This is an re-implementation of the
+ * This is a port of the
  * <a href="https://github.com/rabauke/trng4/blob/master/src/lcg64_shift.hpp">
  * trng::lcg64_shift</a> PRNG class of the
  * <a href="http://numbercrunch.de/trng/">TRNG</a> library created by Heiko

@@ -75,7 +75,7 @@ public class XOR32ShiftRandom extends Random32 {
 	public static enum Shift {
 
 		/**
-		 * Shift strategy one.
+		 * Shift strategy number one.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.a;
@@ -94,7 +94,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy two.
+		 * Shift strategy number two.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.c;
@@ -113,7 +113,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy three.
+		 * Shift strategy number three.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.a;
@@ -132,7 +132,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy four.
+		 * Shift strategy number four.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.c;
@@ -151,7 +151,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy five.
+		 * Shift strategy number five.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.a;
@@ -170,7 +170,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy six.
+		 * Shift strategy number six.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.c;
@@ -189,7 +189,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy seven.
+		 * Shift strategy number seven.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.a;
@@ -208,7 +208,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy eight.
+		 * Shift strategy number eight.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.c;
