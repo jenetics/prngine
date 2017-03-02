@@ -23,6 +23,9 @@ main() {
 	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.MT19937_64Random -a
 	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.XOR32ShiftRandom -a
 	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.XOR64ShiftRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.NanoTimeRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.ObjectHashRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.SeedRandom -a
 }
 
 main $*
