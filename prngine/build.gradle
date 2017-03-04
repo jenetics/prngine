@@ -26,7 +26,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
  */
 
 plugins {
-	id "me.champeau.gradle.jmh" version "0.3.1"
+	id "me.champeau.gradle.jmh" version "0.2.0"
 }
 
 description = 'PRNGine - Java PRNG Library'
@@ -44,9 +44,9 @@ repositories {
 dependencies {
 	testCompile 'org.testng:testng:6.10'
 
-	jmh 'org.openjdk.jmh:jmh-core:1.17.5'
-	jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.17.5'
-	jmh files('build/classes/main')
+	//jmh 'org.openjdk.jmh:jmh-core:1.17.5'
+	//jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.17.5'
+	//jmh files('build/classes/main')
 }
 
 javadoc {
