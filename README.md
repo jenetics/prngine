@@ -1,6 +1,6 @@
 # PRNGine
 
-This library contains Pseudo Random Number Generators suitable for simulation and Monte Carlo applications, respectively. It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
+*PRNGine* is a pseudo-random number generator library for sequential and parallel [Monte Carlo simulations](https://de.wikipedia.org/wiki/Monte-Carlo-Simulation). It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
 
 The following PRNGs are currently implemented:
 
@@ -20,13 +20,13 @@ The following PRNGs are currently implemented:
 ### Build time
 *  **JDK 8**: The Java [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) must be installed.
 *  **Gradle 3.x**: [Gradle](http://www.gradle.org/) is used for building the library. (Gradle is download automatically, if you are using the Gradle Wrapper script `./gradlew`, located in the base directory, for building the library.)
-*  **TestNG 6.10**: JPX uses [TestNG](http://testng.org/doc/index.html) framework for unit tests.
+*  **TestNG 6.10**: PRNGine uses [TestNG](http://testng.org/doc/index.html) framework for unit tests.
 
 ## Building PRNGine
 
 [![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/prngine)
 
-For  building the JPX library you have to check out the master branch from Github.
+For  building the PRNGine library you have to check out the master branch from Github.
 
     $ git clone https://github.com/jenetics/prngine.git
     
@@ -48,13 +48,13 @@ For  building the JPX library you have to check out the master branch from Githu
 
 Every PRNG of the library comes in three flavours, a un-synchronized *base* implementation, a synchronized implementation and in a *thread-local* implementation.
 
-**Un-synchronized base implementation** with the naming schema `XXXRandom`:
+**Un-synchronized base implementation** with the naming scheme `XXXRandom`:
 ```java
 final Random random = new LCG64ShiftRandom();
 random.doubles(10).forEach(System.out::println);
 ```
 
-**Synchronized implementation** with the naming schema `XXXRandom.ThreadSafe`:
+**Synchronized implementation** with the naming scheme `XXXRandom.ThreadSafe`:
 ```java
 final Random random = new LCG64ShiftRandom.ThreadSafe();
 final Runnable runnable = () -> random.doubles(10).forEach(System.out::println);
@@ -65,7 +65,7 @@ for (int i = 0; i < 10; ++i) {
 }
 ```
 
-**`ThreadLocal `implementation** with the naming schema `XXXRandom.ThreadLocal`:
+**`ThreadLocal `implementation** with the naming scheme `XXXRandom.ThreadLocal`:
 ```java
 static final ThreadLocal<? extends Random> random = 
     new LCG64ShiftRandom.ThreadLocal();
@@ -79,8 +79,9 @@ for (int i = 0; i < 10; ++i) {
 }
 ```
 
+## Test results
 
-## [Dieharder](https://www.phy.duke.edu/~rgb/General/dieharder.php) test results
+### Statistical tests ([dieharder](https://www.phy.duke.edu/~rgb/General/dieharder.php))
 
 All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.edu/~rgb/General/dieharder.php) test suite.
 
@@ -94,6 +95,8 @@ All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.
   XOR32ShiftRandom | 101 | 4 | 9
   XOR64ShiftRandom | 107 | 7 | 0
   java.util.Random | 106 | 4 | 4
+  
+### Performance tests  
   
 ## License
 
