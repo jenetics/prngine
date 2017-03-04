@@ -24,7 +24,7 @@ The following PRNGs are currently implemented:
 
 ## Building PRNGine
 
-[![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/jpx)
+[![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/prngine)
 
 For  building the JPX library you have to check out the master branch from Github.
 
