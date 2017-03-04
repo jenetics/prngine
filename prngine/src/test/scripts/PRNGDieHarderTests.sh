@@ -26,6 +26,7 @@ main() {
 	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.NanoTimeRandom -a
 	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.ObjectHashRandom -a
 	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.SeedRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder java.util.Random -a
 }
 
 main $*
