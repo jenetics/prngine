@@ -12,6 +12,41 @@ The following PRNGs are currently implemented:
 * `XOR32ShiftRandom`: This generator was discovered and characterized by George Marsaglia [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just three XORs and three shifts (generally fast operations) it produces a full period of 2<sup>32</sup> - 1 on 32 bits. (The missing value is zero, which perpetuates itself and must be avoided.) High and low bits pass Diehard.
 * `XOR64ShiftRandom`: This generator was discovered and characterized by George Marsaglia  [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just  three XORs and three shifts (generally fast operations) it produces a full  period of 2<sup>64</sup> - 1 on 64 bits. (The missing value is zero, which  perpetuates itself and must be avoided.) High and low bits pass Diehard.
 
+## Usage
+
+Every PRNG of the library comes in three flavours, a un-synchronized *base* implementation, a synchronized implementation and in a *thread-local* implementation.
+
+**Un-synchronized base implementation** with the naming schema `XXXRandom`:
+```java
+final Random random = new LCG64ShiftRandom();
+random.doubles(10).forEach(System.out::println);
+```
+
+**Synchronized implementation** with the naming schema `XXXRandom.ThreadSafe`:
+```java
+final Random random = new LCG64ShiftRandom.ThreadSafe();
+final Runnable runnable = () -> random.doubles(10).forEach(System.out::println);
+
+final ExecutionService executor = ...;
+for (int i = 0; i < 10; ++i) {
+	executor.submit(runnable);
+}
+```
+
+**`ThreadLocal `implementation** with the naming schema `XXXRandom.ThreadLocal`:
+```java
+static final ThreadLocal<? extends Random> random = 
+    new LCG64ShiftRandom.ThreadLocal();
+
+final Runnable runnable = () -> random.get()
+    .doubles(10).forEach(System.out::println);
+
+final ExecutionService executor = ...;
+for (int i = 0; i < 10; ++i) {
+	executor.submit(runnable);
+}
+```
+
 
 ## [Dieharder](https://www.phy.duke.edu/~rgb/General/dieharder.php) test results
 
