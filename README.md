@@ -1,6 +1,6 @@
 # PRNGine
 
-This library contains Pseudo Random Number Generators suitable for simulation and Monte Carlo applications, respectively. It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are **not** cryptographically strong RNGs.*
+This library contains Pseudo Random Number Generators suitable for simulation and Monte Carlo applications, respectively. It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
 
 The following PRNGs are currently implemented:
 
