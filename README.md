@@ -12,6 +12,38 @@ The following PRNGs are currently implemented:
 * `XOR32ShiftRandom`: This generator was discovered and characterized by George Marsaglia [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just three XORs and three shifts (generally fast operations) it produces a full period of 2<sup>32</sup> - 1 on 32 bits. (The missing value is zero, which perpetuates itself and must be avoided.) High and low bits pass Diehard.
 * `XOR64ShiftRandom`: This generator was discovered and characterized by George Marsaglia  [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just  three XORs and three shifts (generally fast operations) it produces a full  period of 2<sup>64</sup> - 1 on 64 bits. (The missing value is zero, which  perpetuates itself and must be avoided.) High and low bits pass Diehard.
 
+## Requirements
+
+### Runtime
+*  **JRE 8**: Java runtime version 8 is needed for using the library.
+
+### Build time
+*  **JDK 8**: The Java [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) must be installed.
+*  **Gradle 3.x**: [Gradle](http://www.gradle.org/) is used for building the library. (Gradle is download automatically, if you are using the Gradle Wrapper script `./gradlew`, located in the base directory, for building the library.)
+*  **TestNG 6.10**: JPX uses [TestNG](http://testng.org/doc/index.html) framework for unit tests.
+
+## Building PRNGine
+
+[![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/jpx)
+
+For  building the JPX library you have to check out the master branch from Github.
+
+    $ git clone https://github.com/jenetics/prngine.git
+    
+*Executing the tests:*
+    
+    $ cd prngine
+    $ ./gradle test
+
+*Building the library:*
+
+    $ ./gradle jar
+    
+## Download
+
+* **Github**: <https://github.com/jenetics/prngine/archive/v1.0.0.zip>
+*  **Maven**: `io.jenetics:prngine:1.0.0` on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22prgnine%22) 
+
 ## Usage
 
 Every PRNG of the library comes in three flavours, a un-synchronized *base* implementation, a synchronized implementation and in a *thread-local* implementation.
@@ -63,4 +95,21 @@ All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.
   XOR64ShiftRandom | 107 | 7 | 0
   java.util.Random | 106 | 4 | 4
   
+## License
+
+The library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
+
+    Copyright 2017 Franz Wilhelmstötter
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
