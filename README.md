@@ -113,7 +113,7 @@ All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.
   
 ### Runtime performance tests  
 
-The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.java.net/projects/code-tools/jmh/) testing framework on on a *Intel Core i7-6700HQ CPU @ 2.60GHz* with *Java(TM) SE Runtime Environment (build 1.8.0_102-b14)—Java HotSpot*. 
+The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.java.net/projects/code-tools/jmh/) testing framework on on a *Intel Core i7-6700HQ CPU @ 2.60GHz* with *Java SE Runtime Environment (build 1.8.0_112-b15)—Java HotSpot*. 
   
   PRNG | 10<sup>6</sup> ints/s | 10<sup>6</sup> floats/s | 10<sup>6</sup> longs/s | 10<sup>6</sup> doubles/s
   -----|-------|---------|--------|---------
