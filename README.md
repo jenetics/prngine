@@ -96,7 +96,21 @@ All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.
   XOR64ShiftRandom | 107 | 7 | 0
   java.util.Random | 106 | 4 | 4
   
-### Performance tests  
+### Runtime performance tests  
+
+The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.java.net/projects/code-tools/jmh/) testing framework on on a *Intel Core i7-6700HQ CPU @ 2.60GHz* with *Java(TM) SE Runtime Environment (build 1.8.0_102-b14)—Java HotSpot*. 
+  
+  PRNG | 10<sup>6</sup> ints/s | 10<sup>6</sup> floats/s | 10<sup>6</sup> longs/s | 10<sup>6</sup> doubles/s
+  -----|-------|---------|--------|---------
+  KISS32Random | 189 | 143 |129 | 108
+  KISS64Random | 128 | 124 |115 | 124
+  LCG64ShiftRandom | 258 | 185 |261 | 191
+  MT19937_32Random | 140 | 115 |92 | 82
+  MT19937_64Random | 148 | 120 |148 | 120
+  XOR32ShiftRandom | 227 | 161 |140 | 120
+  XOR64ShiftRandom | 225 | 166 |235 | 166
+  java.util.Random | 91 | 89 |46 | 46
+  
   
 ## License
 
