@@ -81,7 +81,7 @@ for (int i = 0; i < 10; ++i) {
 }
 ```
 
-### PRN seeding
+### PRNG seeding
 
 The library also contains methods for creating *random* seed values, which can be used for initializing the available PRNGs.
 
@@ -91,8 +91,16 @@ final long seed = PRNG.seed();
 final Random ranomd = new LCG64ShiftRandom(seed);
 ```
 
-A more detailed description of how the seeding is implemented can be found [here](random_seeding.adoc).
+A more detailed description of how the seeding is implemented can be found [here](random_seeding.adoc). Every random engine has a `seedBytes()` method, which return the seed `byte[]` array with the length required by the PRNG.
 
+```java
+// This random creation is equivalent to...
+final Random random1 = new LCG64ShiftRandom();
+
+// ...creating it with the seed bytes of the PRNG. 
+final byte[] seed = LCG64ShiftRandom.seedBytes();
+final Random random2 = new LCG53ShiftRandom(seed);
+```
 
 ## Test results
 
@@ -113,7 +121,7 @@ All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.
   
 ### Runtime performance tests  
 
-The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.java.net/projects/code-tools/jmh/) testing framework on on a *Intel Core i7-6700HQ CPU @ 2.60GHz* with *Java SE Runtime Environment (build 1.8.0_112-b15)—Java HotSpot*. 
+The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.java.net/projects/code-tools/jmh/) testing framework on an *Intel Core i7-6700HQ CPU @ 2.60GHz* with *Java SE Runtime Environment (build 1.8.0_112-b15)—Java HotSpot*. 
   
   PRNG | 10<sup>6</sup> ints/s | 10<sup>6</sup> floats/s | 10<sup>6</sup> longs/s | 10<sup>6</sup> doubles/s
   -----|-------|---------|--------|---------
