@@ -152,7 +152,7 @@ afterEvaluate { project ->
 					name 'PRNGine'
 					packaging 'pom'
 					description 'PRNGine - Java PRNG Library'
-					url 'https://jenetics.github.io/prngine'
+					url 'https://github.com/jenetics/prngine'
 					inceptionYear '2017'
 
 					scm {
