@@ -44,7 +44,9 @@ For  building the PRNGine library you have to check out the master branch from G
 * **Github**: <https://github.com/jenetics/prngine/archive/v1.0.0.zip>
 *  **Maven**: `io.jenetics:prngine:1.0.0` on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22prgnine%22) 
 
-## Usage
+## Examples
+
+### PRN creation
 
 Every PRNG of the library comes in three flavours, a un-synchronized *base* implementation, a synchronized implementation and in a *thread-local* implementation.
 
@@ -78,6 +80,19 @@ for (int i = 0; i < 10; ++i) {
 	executor.submit(runnable);
 }
 ```
+
+### PRN seeding
+
+The library also contains methods for creating *random* seed values, which can be used for initializing the available PRNGs.
+
+```java
+// Creating a new 64 bit seed value.
+final long seed = PRNG.seed();
+final Random ranomd = new LCG64ShiftRandom(seed);
+```
+
+A more detailed description of how the seeding is implemented can be found [here](random_seeding.adoc).
+
 
 ## Test results
 
