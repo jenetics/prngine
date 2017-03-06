@@ -30,8 +30,8 @@ import io.jenetics.prngine.Random64;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 3.0
- * @version 3.0
+ * @since 1.0
+ * @version 1.0
  */
 public class DevURandom extends Random64 implements Closeable {
 	private static final long serialVersionUID = 1L;

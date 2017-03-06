@@ -19,43 +19,25 @@
  */
 package io.jenetics.prngine;
 
+import java.util.Random;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @version 1.0
- * @since 1.0
  */
-final class IntMath {
-	private IntMath() {}
+public class Random32Test {
 
-	/**
-	 * Binary exponentiation algorithm.
-	 *
-	 * @param b the base number.
-	 * @param e the exponent.
-	 * @return {@code b^e}.
-	 */
-	static long pow(final long b, final long e) {
-		long base = b;
-		long exp = e;
-		long result = 1;
+	@Test
+	public void compatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
 
-		while (exp != 0) {
-			if ((exp & 1) != 0) {
-				result *= base;
-			}
-			exp >>>= 1;
-			base *= base;
+		final Random32 random32  = Random32.of(random2::nextInt);
+		for (int i = 0; i < 10; ++i) {
+			Assert.assertEquals(random32.nextInt(), random1.nextInt());
 		}
-
-		return result;
-	}
-
-	static long log2Floor(final long x) {
-		return Long.SIZE - 1 - Long.numberOfLeadingZeros(x);
-	}
-
-	static long log2Ceil(final long x) {
-		return Long.SIZE - Long.numberOfLeadingZeros(x - 1);
 	}
 
 }

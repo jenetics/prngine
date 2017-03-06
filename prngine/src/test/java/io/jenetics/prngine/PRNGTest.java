@@ -20,6 +20,7 @@
 package io.jenetics.prngine;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -45,6 +46,19 @@ public class PRNGTest {
 		}
 	}
 
+	@Test
+	public void nextIntMinMaxCompatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
+
+		final int origin = 100;
+		final int bound = 100000;
+
+		random1.ints(origin, bound).limit(1000).forEach(i -> {
+			Assert.assertEquals(i, PRNG.nextInt(origin, bound, random2));
+		});
+	}
+
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void nextIntIllegalArgumentException() {
 		prng.nextInt(1000, 10);
@@ -60,6 +74,19 @@ public class PRNGTest {
 			Assert.assertTrue(value < max - 1);
 			Assert.assertTrue(value >= min);
 		}
+	}
+
+	@Test
+	public void nextLongMinMaxCompatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
+
+		final int origin = 100;
+		final int bound = 100_000_000;
+
+		random1.longs(origin, bound).limit(1000).forEach(i -> {
+			Assert.assertEquals(i, PRNG.nextLong(origin, bound, random2));
+		});
 	}
 
 	@Test
@@ -103,9 +130,21 @@ public class PRNGTest {
 	}
 
 	@Test
+	public void nextDoubleMinMaxCompatibility() {
+		final Random random1 = new Random(123);
+		final Random random2 = new Random(123);
+
+		final int origin = 100;
+		final int bound = 100_000_000;
+
+		random1.doubles(origin, bound).limit(1000).forEach(i -> {
+			Assert.assertEquals(i, PRNG.nextDouble(origin, bound, random2));
+		});
+	}
+
+	@Test
 	public void seedBytes() {
-		final byte[] bytes = PRNG.seedBytes(1123412431234L, 20);
-		System.out.println(Arrays.toString(bytes));
+		final byte[] bytes = PRNG.seedBytes(-11234124332123234L, 20);
 	}
 
 }

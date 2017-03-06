@@ -32,7 +32,7 @@ import java.util.Objects;
  * transition.
  *
  * <em>
- * This is an re-implementation of the
+ * This is a port of the
  * <a href="https://github.com/rabauke/trng4/blob/master/src/lcg64_shift.hpp">
  * trng::lcg64_shift</a> PRNG class of the
  * <a href="http://numbercrunch.de/trng/">TRNG</a> library created by Heiko
@@ -65,8 +65,8 @@ import java.util.Objects;
  * @see <a href="http://numbercrunch.de/trng/">TRNG</a>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 1.1
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public class LCG64ShiftRandom extends Random64 {
 

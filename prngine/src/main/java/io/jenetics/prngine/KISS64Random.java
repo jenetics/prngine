@@ -71,8 +71,8 @@ import java.util.Random;
  * {@link KISS64Random.ThreadSafe} or {@link KISS64Random.ThreadLocal}.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public class KISS64Random extends Random64 {
 
@@ -83,8 +83,8 @@ public class KISS64Random extends Random64 {
 	 * {@code KISS64Random} PRNG.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class ThreadLocal
 		extends java.lang.ThreadLocal<KISS64Random>
@@ -125,8 +125,8 @@ public class KISS64Random extends Random64 {
 	 * synchronizing the random number generation.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class ThreadSafe extends KISS64Random {
 		private static final long serialVersionUID = 1L;

@@ -27,14 +27,14 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 final class utils {
 	private utils() {}
 
 	@SafeVarargs
-	public static <T> List<T> listOf(final T... elements) {
+	static <T> List<T> listOf(final T... elements) {
 		return Collections.unmodifiableList(Arrays.asList(elements));
 	}
 
@@ -48,13 +48,13 @@ final class utils {
 		}
 
 		return
-			((bytes[offset + 0] & 255) << 24) +
+			((bytes[offset    ] & 255) << 24) +
 			((bytes[offset + 1] & 255) << 16) +
 			((bytes[offset + 2] & 255) << 8) +
 			((bytes[offset + 3] & 255));
 	}
 
-	public static byte[] toBytes(final int value) {
+	static byte[] toBytes(final int value) {
 		final byte[] bytes = new byte[4];
 		bytes[0] = (byte)(value >>> 24);
 		bytes[1] = (byte)(value >>> 16);
@@ -73,7 +73,7 @@ final class utils {
 		}
 
 		return
-			((long)(bytes[offset + 0] & 255) << 56) +
+			((long)(bytes[offset    ] & 255) << 56) +
 			((long)(bytes[offset + 1] & 255) << 48) +
 			((long)(bytes[offset + 2] & 255) << 40) +
 			((long)(bytes[offset + 3] & 255) << 32) +
@@ -83,7 +83,7 @@ final class utils {
 			(bytes[offset + 7] & 255);
 	}
 
-	public static byte[] toBytes(final long value) {
+	static byte[] toBytes(final long value) {
 		final byte[] bytes = new byte[8];
 		bytes[0] = (byte)(value >>> 56);
 		bytes[1] = (byte)(value >>> 48);

@@ -40,4 +40,5 @@ public abstract class Random32TestBase extends RandomTestBase {
 			Assert.assertEquals(RandomTestBase.toInt(bytes), rand2.nextInt());
 		}
 	}
+
 }

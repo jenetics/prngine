@@ -16,13 +16,17 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 JRUN=`read_link "${SCRIPT_DIR}/../../../../jrun"`
 
 main() {
-	${JRUN} org.jenetics.random.internal.DieHarder org.jenetics.random.KISS32Random -a
-	${JRUN} org.jenetics.random.internal.DieHarder org.jenetics.random.KISS64Random -a
-	${JRUN} org.jenetics.random.internal.DieHarder org.jenetics.random.LCG64ShiftRandom -a
-	${JRUN} org.jenetics.random.internal.DieHarder org.jenetics.random.MT19937_32Random -a
-	${JRUN} org.jenetics.random.internal.DieHarder org.jenetics.random.MT19937_64Random -a
-	${JRUN} org.jenetics.random.internal.DieHarder org.jenetics.random.XOR32ShiftRandom -a
-	${JRUN} org.jenetics.random.internal.DieHarder org.jenetics.random.XOR64ShiftRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.KISS32Random -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.KISS64Random -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.LCG64ShiftRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.MT19937_32Random -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.MT19937_64Random -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.XOR32ShiftRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.XOR64ShiftRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.NanoTimeRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.ObjectHashRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder io.jenetics.prngine.internal.SeedRandom -a
+	${JRUN} io.jenetics.prngine.internal.DieHarder java.util.Random -a
 }
 
 main $*

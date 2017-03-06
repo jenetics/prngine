@@ -19,8 +19,11 @@
  */
 package io.jenetics.prngine;
 
+import static java.lang.Double.doubleToLongBits;
+import static java.lang.Double.longBitsToDouble;
+import static java.lang.Float.floatToIntBits;
+import static java.lang.Float.intBitsToFloat;
 import static java.lang.Math.min;
-import static java.lang.Math.nextDown;
 import static java.lang.String.format;
 import static io.jenetics.prngine.utils.toBytes;
 
@@ -33,8 +36,8 @@ import java.util.Random;
  * range.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public abstract class PRNG extends Random {
 
@@ -58,35 +61,35 @@ public abstract class PRNG extends Random {
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed int value between min and
-	 * max (end points included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
-	 * @param min lower bound for generated integer (inclusively)
-	 * @param max upper bound for generated integer (inclusively)
-	 * @return a random integer greater than or equal to {@code min} and less
-	 *         than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min >= max}
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
+	 * @return a random integer greater than or equal to {@code min} and
+	 *         less than or equal to {@code max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 *
-	 * @see PRNG#nextInt(java.util.Random, int, int)
+	 * @see PRNG#nextInt(int, int, Random)
 	 */
-	public int nextInt(final int min, final int max) {
-		return nextInt(this, min, max);
+	public int nextInt(final int origin, final int bound) {
+		return nextInt(origin, bound, this);
 	}
 
 	/**
-	 * Returns a pseudorandom, uniformly distributed int value between min
-	 * and max (end points included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
-	 * @param min lower bound for generated long integer (inclusively)
-	 * @param max upper bound for generated long integer (inclusively)
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
 	 * @return a random long integer greater than or equal to {@code min}
 	 *         and less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min >= max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 *
-	 * @see PRNG#nextLong(java.util.Random, long, long)
+	 * @see PRNG#nextLong(long, long, Random)
 	 */
-	public long nextLong(final long min, final long max) {
-		return nextLong(this, min, max);
+	public long nextLong(final long origin, final long bound) {
+		return nextLong(origin, bound, this);
 	}
 
 	/**
@@ -101,40 +104,44 @@ public abstract class PRNG extends Random {
 	 *         number generator's sequence
 	 * @throws IllegalArgumentException if n is smaller than 1.
 	 *
-	 * @see PRNG#nextLong(java.util.Random, long)
+	 * @see PRNG#nextLong(long, Random)
 	 */
 	public long nextLong(final long n) {
-		return nextLong(this, n);
+		return nextLong(n, this);
 	}
 
 	/**
 	 * Returns a pseudorandom, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
-	 * @param min lower bound for generated float value (inclusively)
-	 * @param max upper bound for generated float value (exclusively)
-	 * @return a random float greater than or equal to {@code min} and less
-	 *         than to {@code max}
+	 * @param origin lower bound for generated float value (inclusively)
+	 * @param bound upper bound for generated float value (exclusively)
+	 * @return a random float greater than or equal to {@code origin} and less
+	 *         than to {@code bound}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 *
-	 * @see PRNG#nextFloat(java.util.Random, float, float)
+	 * @see PRNG#nextFloat(float, float, Random)
 	 */
-	public float nextFloat(final float min, final float max) {
-		return nextFloat(this, min, max);
+	public float nextFloat(final float origin, final float bound) {
+		return nextFloat(origin, bound, this);
 	}
 
 	/**
 	 * Returns a pseudorandom, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
-	 * @param min lower bound for generated double value (inclusively)
-	 * @param max upper bound for generated double value (exclusively)
-	 * @return a random double greater than or equal to {@code min} and less
-	 *         than to {@code max}
+	 * @param origin lower bound for generated double value (inclusively)
+	 * @param bound upper bound for generated double value (exclusively)
+	 * @return a random double greater than or equal to {@code origin} and less
+	 *         than to {@code bound}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 *
-	 * @see PRNG#nextDouble(java.util.Random, double, double)
+	 * @see PRNG#nextDouble(double, double, Random)
 	 */
-	public double nextDouble(final double min, final double max) {
-		return nextDouble(this, min, max);
+	public double nextDouble(final double origin, final double bound) {
+		return nextDouble(origin, bound, this);
 	}
 
 
@@ -154,86 +161,95 @@ public abstract class PRNG extends Random {
 		return (((long)(a >>> 6) << 26) | (b >>> 6))*0x1.0p-52d;
 	}
 
-	public static short nextShort(final Random random) {
-		return (short)nextInt(random, Short.MIN_VALUE, Short.MAX_VALUE);
-	}
-
 	/**
-	 * Returns a pseudo-random, uniformly distributed int value between min and
-	 * max (min and max included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
 	 * @param random the random engine to use for calculating the random int
 	 *        value
-	 * @param min lower bound for generated integer
-	 * @param max upper bound for generated integer
 	 * @return a random integer greater than or equal to {@code min} and
 	 *         less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min > max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static int nextInt(
-		final Random random,
-		final int min, final int max
+		final int origin, final int bound,
+		final Random random
 	) {
-		if (min > max) {
+		if (origin >= bound) {
 			throw new IllegalArgumentException(format(
-				"Min >= max: %d >= %d", min, max
+				"origin >= bound: %d >= %d", origin, bound
 			));
 		}
 
-		final int diff = max - min + 1;
-		int result = 0;
+		final int value;
 
-		if (diff <= 0) {
-			do {
-				result = random.nextInt();
-			} while (result < min || result > max);
+		if (origin < bound) {
+			int n = bound - origin;
+			if (n > 0) {
+				value = random.nextInt(n) + origin;
+			} else {
+				int r;
+				do {
+					r = random.nextInt();
+				} while (r < origin || r >= bound);
+				value = r;
+			}
 		} else {
-			result = random.nextInt(diff) + min;
+			value = random.nextInt();
 		}
 
-		return result;
+		return value;
 	}
 
 	/**
-	 * Returns a pseudo-random, uniformly distributed int value between min
-	 * and max (min and max included).
+	 * Returns a pseudo-random, uniformly distributed int value between origin
+	 * (included) and bound (excluded).
 	 *
+	 * @param origin the origin (inclusive) of each random value
+	 * @param bound the bound (exclusive) of each random value
 	 * @param random the random engine to use for calculating the random
 	 *        long value
-	 * @param min lower bound for generated long integer
-	 * @param max upper bound for generated long integer
 	 * @return a random long integer greater than or equal to {@code min}
 	 *         and less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code min > max}
+	 * @throws IllegalArgumentException if {@code origin >= bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static long nextLong(
-		final Random random,
-		final long min, final long max
+		final long origin, final long bound,
+		final Random random
 	) {
-		if (min > max) {
+		if (origin >= bound) {
 			throw new IllegalArgumentException(format(
-				"min >= max: %d >= %d.", min, max
+				"origin >= bound: %d >= %d.", origin, bound
 			));
 		}
 
-		final long diff = (max - min) + 1;
-		long result = 0;
+		long value = random.nextLong();
+		if (origin < bound) {
+			long n = bound - origin, m = n - 1;
+			if ((n & m) == 0L) {
+				value = (value & m) + origin;
+			} else if (n > 0L) {
+				for (long u = value >>> 1;
+					 u + m - (value = u % n) < 0L;
+					 u = random.nextLong() >>> 1)
+				{
+				}
 
-		if (diff <= 0) {
-			do {
-				result = random.nextLong();
-			} while (result < min || result > max);
-		} else if (diff < Integer.MAX_VALUE) {
-			result = random.nextInt((int)diff) + min;
-		} else {
-			result = nextLong(random, diff) + min;
+				value += origin;
+			} else {
+				while (value < origin || value >= bound) {
+					value = random.nextLong();
+				}
+			}
 		}
 
-		return result;
+		return value;
 	}
 
 	/**
@@ -241,9 +257,9 @@ public abstract class PRNG extends Random {
 	 * (inclusive) and the specified value (exclusive), drawn from the given
 	 * random number generator's sequence.
 	 *
-	 * @param random the random engine used for creating the random number.
 	 * @param n the bound on the random number to be returned. Must be
 	 *        positive.
+	 * @param random the random engine used for creating the random number.
 	 * @return the next pseudo-random, uniformly distributed int value
 	 *         between 0 (inclusive) and n (exclusive) from the given random
 	 *         number generator's sequence
@@ -251,7 +267,7 @@ public abstract class PRNG extends Random {
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
-	public static long nextLong(final Random random, final long n) {
+	public static long nextLong(final long n, final Random random) {
 		if (n <= 0) {
 			throw new IllegalArgumentException(format(
 				"n is smaller than one: %d", n
@@ -270,31 +286,33 @@ public abstract class PRNG extends Random {
 
 	/**
 	 * Returns a pseudo-random, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
+	 * @param origin lower bound for generated float value (inclusively)
+	 * @param bound upper bound for generated float value (exclusively)
 	 * @param random the random engine used for creating the random number.
-	 * @param min lower bound for generated float value (inclusively)
-	 * @param max upper bound for generated float value (exclusively)
-	 * @return a random float greater than or equal to {@code min} and less
-	 *         than to {@code max}
+	 * @return a random float greater than or equal to {@code origin} and less
+	 *         than to {@code bound}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static float nextFloat(
-		final Random random,
-		final float min, final float max
+		final float origin, final float bound,
+		final Random random
 	) {
-		if (min >= max) {
+		if (!(origin < bound)) {
 			throw new IllegalArgumentException(format(
-				"min >= max: %f >= %f.", min, max
+				"min >= max: %f >= %f.", origin, bound
 			));
 		}
 
 		float value = random.nextFloat();
-		if (min < max) {
-			value = value*(max - min) + min;
-			if (value >= max) {
-				value = nextDown(value);
+		if (origin < bound) {
+			value = value*(bound - origin) + origin;
+			if (value >= bound) {
+				value = intBitsToFloat(floatToIntBits(bound) - 1);
 			}
 		}
 
@@ -303,31 +321,33 @@ public abstract class PRNG extends Random {
 
 	/**
 	 * Returns a pseudo-random, uniformly distributed double value between
-	 * min (inclusively) and max (exclusively).
+	 * origin (inclusively) and bound (exclusively).
 	 *
+	 * @param origin lower bound for generated double value (inclusively)
+	 * @param bound upper bound for generated double value (exclusively)
 	 * @param random the random engine used for creating the random number.
-	 * @param min lower bound for generated double value (inclusively)
-	 * @param max upper bound for generated double value (exclusively)
 	 * @return a random double greater than or equal to {@code min} and less
 	 *         than to {@code max}
+	 * @throws IllegalArgumentException if {@code origin} is greater than or
+	 *         equal to {@code bound}
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
 	public static double nextDouble(
-		final Random random,
-		final double min, final double max
+		final double origin, final double bound,
+		final Random random
 	) {
-		if (min >= max) {
+		if (!(origin < bound)) {
 			throw new IllegalArgumentException(format(
-				"min >= max: %f >= %f.", min, max
+				"min >= max: %f >= %f.", origin, bound
 			));
 		}
 
 		double value = random.nextDouble();
-		if (min < max) {
-			value = value*(max - min) + min;
-			if (value >= max) {
-				value = nextDown(value);
+		if (origin < bound) {
+			value = value*(bound - origin) + origin;
+			if (value >= bound) {
+				value = longBitsToDouble(doubleToLongBits(bound) - 1);
 			}
 		}
 

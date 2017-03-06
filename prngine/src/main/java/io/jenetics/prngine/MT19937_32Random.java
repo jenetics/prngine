@@ -37,15 +37,15 @@ import java.util.Random;
  * </i>
  * <p>
  * <em>
- * This is an re-implementation of the
+ * This is a port of the
  * <a href="https://github.com/rabauke/trng4/blob/master/src/mt19937.hpp">
  * trng::mt19937</a> PRNG class of the
  * <a href="http://numbercrunch.de/trng/">TRNG</a> library created by Heiko
  * Bauke.</em>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public class MT19937_32Random extends Random32 {
 
@@ -64,8 +64,8 @@ public class MT19937_32Random extends Random32 {
 	 * {@code MT19937_32Random} PRNG.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static class ThreadLocal
 		extends java.lang.ThreadLocal<MT19937_32Random>
@@ -106,8 +106,8 @@ public class MT19937_32Random extends Random32 {
 	 * synchronizing the random number generation.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class ThreadSafe extends MT19937_32Random {
 		private static final long serialVersionUID = 1L;

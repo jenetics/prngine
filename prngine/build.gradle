@@ -21,15 +21,20 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
+
+plugins {
+	id "me.champeau.gradle.jmh" version "0.2.0"
+}
 
 description = 'PRNGine - Java PRNG Library'
 
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'idea'
 
 repositories {
 	mavenCentral()
@@ -38,6 +43,10 @@ repositories {
 
 dependencies {
 	testCompile 'org.testng:testng:6.10'
+
+	//jmh 'org.openjdk.jmh:jmh-core:1.17.5'
+	//jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.17.5'
+	//jmh files('build/classes/main')
 }
 
 javadoc {
@@ -95,6 +104,12 @@ jar {
 	}
 }
 
+idea {
+	module{
+		scopes.COMPILE.plus += [configurations.jmh]
+	}
+}
+
 
 / ******************************************************************************
  * Artifact publishing code.
@@ -137,7 +152,7 @@ afterEvaluate { project ->
 					name 'PRNGine'
 					packaging 'pom'
 					description 'PRNGine - Java PRNG Library'
-					url 'https://jenetics.github.io/prngine'
+					url 'https://github.com/jenetics/prngine'
 					inceptionYear '2017'
 
 					scm {

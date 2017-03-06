@@ -29,20 +29,25 @@ import java.util.function.LongSupplier;
  * An abstract base class which eases the implementation of {@code Random}
  * objects which natively creates random {@code long} values. All other
  * {@code Random} functions are optimized using this {@code long} values.
- *
+ * Subtypes of this class must only implement the {@link #nextLong()} method.
  * <pre>{@code
- * public class MyRandom64 extends Random64 {
- *     \@Override
- *     public long nextLong() {
- *         // Only this method must be implemented.
- *         ...
+ * final class MyRandom extends Random54 {
+ *     public int nextLong() {
+ *         return ...;
  *     }
  * }
  * }</pre>
  *
+ * A quicker way for creating a {@code Random64} instance is using the static
+ * factory method {@link #of(LongSupplier)}.
+ * <pre>{@code
+ * final Random jrand = new Random();
+ * final Random64 random = Random64.of(jrand::nextLong);
+ * }</pre>
+ *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public abstract class Random64 extends PRNG {
 
@@ -124,6 +129,8 @@ public abstract class Random64 extends PRNG {
 		return new Random64() {
 			private static final long serialVersionUID = 1L;
 
+			private final Boolean _sentry = Boolean.TRUE;
+
 			@Override
 			public long nextLong() {
 				return supplier.getAsLong();
@@ -131,9 +138,11 @@ public abstract class Random64 extends PRNG {
 
 			@Override
 			public void setSeed(final long seed) {
-				throw new UnsupportedOperationException(
-					"The 'setSeed(long)' method is not supported."
-				);
+				if (_sentry != null) {
+					throw new UnsupportedOperationException(
+						"The 'setSeed(long)' method is not supported."
+					);
+				}
 			}
 		};
 	}

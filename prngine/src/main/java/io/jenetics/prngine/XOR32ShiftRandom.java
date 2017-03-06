@@ -54,8 +54,8 @@ import java.util.Objects;
  *      Xorshift RNGs, George Marsaglia</a>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 1.0
+ * @version 1.0
  */
 public class XOR32ShiftRandom extends Random32 {
 
@@ -69,13 +69,13 @@ public class XOR32ShiftRandom extends Random32 {
 	 * Enumeration of the different <em>shift</em> strategies.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static enum Shift {
 
 		/**
-		 * Shift strategy one.
+		 * Shift strategy number one.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.a;
@@ -94,7 +94,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy two.
+		 * Shift strategy number two.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.c;
@@ -113,7 +113,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy three.
+		 * Shift strategy number three.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.a;
@@ -132,7 +132,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy four.
+		 * Shift strategy number four.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.c;
@@ -151,7 +151,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy five.
+		 * Shift strategy number five.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.a;
@@ -170,7 +170,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy six.
+		 * Shift strategy number six.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x << param.c;
@@ -189,7 +189,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy seven.
+		 * Shift strategy number seven.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.a;
@@ -208,7 +208,7 @@ public class XOR32ShiftRandom extends Random32 {
 		},
 
 		/**
-		 * Shift strategy eight.
+		 * Shift strategy number eight.
 		 * <pre>{@code
 		 * int shift(int x, final Param param) {
 		 *     x ^= x >>> param.c;
@@ -246,8 +246,8 @@ public class XOR32ShiftRandom extends Random32 {
 	 * Parameter class for the {@code XOR32ShiftRandom} generator.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @version !__version__!
-	 * @since !__version__!
+	 * @version 1.0
+	 * @since 1.0
 	 */
 	public static final class Param implements Serializable {
 		private static final long serialVersionUID = 1L;
@@ -334,8 +334,8 @@ public class XOR32ShiftRandom extends Random32 {
 	 * {@code XOR32ShiftRandom} PRNG.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class ThreadLocal
 		extends java.lang.ThreadLocal<XOR32ShiftRandom>
@@ -474,8 +474,8 @@ public class XOR32ShiftRandom extends Random32 {
 	 * synchronizing the random number generation.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since !__version__!
-	 * @version !__version__!
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static class ThreadSafe extends XOR32ShiftRandom {
 		private static final long serialVersionUID = 1L;

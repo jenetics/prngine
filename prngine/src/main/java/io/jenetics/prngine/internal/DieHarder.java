@@ -48,8 +48,8 @@ import java.util.Random;
  * test application.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 1.5
- * @version 3.0
+ * @since 1.0
+ * @version 1.0
  */
 public final class DieHarder {
 
@@ -57,8 +57,8 @@ public final class DieHarder {
 	 * Writes random numbers to an given data output stream.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since 1.5
-	 * @version 3.0
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	private static final class Randomizer implements Runnable {
 		private final Random _random;
@@ -243,8 +243,8 @@ public final class DieHarder {
 	 * Represents one DieHarder test result.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since 3.0
-	 * @version 3.0
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	public static final class Result {
 		public final String testName;
@@ -345,8 +345,8 @@ public final class DieHarder {
 	 * Counts the written bytes.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since 3.0
-	 * @version 3.0
+	 * @since 1.0
+	 * @version 1.0
 	 */
 	private static final class CountingOutputStream extends OutputStream {
 		private final OutputStream _delegate;
