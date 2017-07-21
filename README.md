@@ -1,4 +1,4 @@
-# PRNGine (1.0.0)
+# PRNGine (1.0.1)
 
 *PRNGine* is a pseudo-random number generator library for sequential and parallel [Monte Carlo simulations](https://de.wikipedia.org/wiki/Monte-Carlo-Simulation). It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
 
@@ -43,8 +43,8 @@ For  building the PRNGine library you have to check out the master branch from G
     
 ## Download
 
-* **Github**: <https://github.com/jenetics/prngine/archive/v1.0.0.zip>
-*  **Maven**: `io.jenetics:prngine:1.0.0` on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22prngine%22) 
+* **Github**: <https://github.com/jenetics/prngine/archive/v1.0.1.zip>
+*  **Maven**: `io.jenetics:prngine:1.0.1` on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22prngine%22) 
 
 ## Examples
 
@@ -155,3 +155,10 @@ The library is licensed under the [Apache License, Version 2.0](http://www.apach
     See the License for the specific language governing permissions and
     limitations under the License.
 
+## Release notes
+
+### [1.0.1](https://github.com/jenetics/prngine/releases/tag/v1.0.1)
+
+#### Improvements
+
+* [#3](https://github.com/jenetics/prngine/issues/3): Define stable module name. Set the `Automatic-Module-Name` to `io.jenetics.prngine`.
