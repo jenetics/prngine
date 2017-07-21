@@ -62,7 +62,7 @@ javadoc {
 		]
 		windowTitle = "PRNGine ${project.version}"
 		docTitle = "<h1>PRNGine ${project.version}</h1>"
-		bottom = "&copy; ${copyrightYear} Franz Wilhelmst&ouml;tter  &nbsp;<i>(${dateformat.format(now.time)})</i>"
+		bottom = "&copy; ${copyrightYear} Franz Wilhelmst&ouml;tter  &nbsp;<i>(${dateformat.format(now)})</i>"
 
 		exclude '**/internal/**'
 	}
@@ -99,7 +99,8 @@ jar {
 			'Implementation-Vendor': 'jenetics',
 			'ProjectName': project.name,
 			'Version': project.version,
-			'Maintainer': 'Franz Wilhelmstötter'
+			'Maintainer': 'Franz Wilhelmstötter',
+			'Automatic-Module-Name': 'io.jenetics.prngine'
 		)
 	}
 }
