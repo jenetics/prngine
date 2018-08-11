@@ -1,4 +1,8 @@
-# PRNGine (1.0.1)
+# PRNGine
+
+[![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/prngine)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.jenetics/prngine/badge.svg)](http://search.maven.org/#search|ga|1|a%3A%22prngine%22)
+[![Javadoc](https://www.javadoc.io/badge/io.jenetics/prngine.svg)](http://www.javadoc.io/doc/io.jenetics/prngine)
 
 *PRNGine* is a pseudo-random number generator library for sequential and parallel [Monte Carlo simulations](https://de.wikipedia.org/wiki/Monte-Carlo-Simulation). It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
 
@@ -12,8 +16,6 @@ The following PRNGs are currently implemented:
 * `XOR32ShiftRandom`: This generator was discovered and characterized by George Marsaglia [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just three XORs and three shifts (generally fast operations) it produces a full period of 2<sup>32</sup> - 1 on 32 bits. (The missing value is zero, which perpetuates itself and must be avoided.) High and low bits pass Diehard.
 * `XOR64ShiftRandom`: This generator was discovered and characterized by George Marsaglia  [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just  three XORs and three shifts (generally fast operations) it produces a full  period of 2<sup>64</sup> - 1 on 64 bits. (The missing value is zero, which  perpetuates itself and must be avoided.) High and low bits pass Diehard.
 
-The full Javadoc can be found [here](http://jenetics.io/javadoc/prngine/1.0/index.html).
-
 ## Requirements
 
 ### Runtime
@@ -21,12 +23,10 @@ The full Javadoc can be found [here](http://jenetics.io/javadoc/prngine/1.0/inde
 
 ### Build time
 *  **JDK 8**: The Java [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) must be installed.
-*  **Gradle 3.x**: [Gradle](http://www.gradle.org/) is used for building the library. (Gradle is download automatically, if you are using the Gradle Wrapper script `./gradlew`, located in the base directory, for building the library.)
+*  **Gradle 4.x**: [Gradle](http://www.gradle.org/) is used for building the library. (Gradle is download automatically, if you are using the Gradle Wrapper script `./gradlew`, located in the base directory, for building the library.)
 *  **TestNG 6.10**: PRNGine uses [TestNG](http://testng.org/doc/index.html) framework for unit tests.
 
 ## Building PRNGine
-
-[![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/prngine)
 
 For  building the PRNGine library you have to check out the master branch from Github.
 
@@ -40,11 +40,7 @@ For  building the PRNGine library you have to check out the master branch from G
 *Building the library:*
 
     $ ./gradle jar
-    
-## Download
 
-* **Github**: <https://github.com/jenetics/prngine/archive/v1.0.1.zip>
-*  **Maven**: `io.jenetics:prngine:1.0.1` on [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22prngine%22) 
 
 ## Examples
 
