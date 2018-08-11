@@ -24,5 +24,9 @@ package io.jenetics.prngine;
  * @version !__version__!
  * @since !__version__!
  */
-public class PCGRandom {
+public class PCG64Random extends Random64 {
+	@Override
+	public long nextLong() {
+		return 0;
+	}
 }
