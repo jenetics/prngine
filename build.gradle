@@ -43,7 +43,6 @@ allprojects {
 	version = '1.0.2'
 
 	repositories {
-		flatDir(dir: "${rootDir}/buildSrc/lib")
 		mavenCentral()
 	}
 }
@@ -64,6 +63,24 @@ allprojects { Project prj ->
 	if (prj.plugins.hasPlugin('java')) {
 		sourceCompatibility = javaVersion
 		targetCompatibility = javaVersion
+	}
+
+	def XLINT_OPTIONS = [
+		'cast',
+		'classfile',
+		'deprecation',
+		'dep-ann',
+		'divzero',
+		'finally',
+		'overrides',
+		'rawtypes',
+		'serial',
+		'try',
+		'unchecked'
+	]
+
+	prj.tasks.withType(JavaCompile) { JavaCompile compile ->
+		compile.options.compilerArgs = ["-Xlint:${XLINT_OPTIONS.join(',')}"]
 	}
 }
 
