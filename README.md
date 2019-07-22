@@ -1,7 +1,7 @@
 # PRNGine
 
 [![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/jpx)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.jenetics/prngine/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22jpx%22)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.jenetics/prngine/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22prngine%22)
 [![Javadoc](https://www.javadoc.io/badge/io.jenetics/prngine.svg)](http://www.javadoc.io/doc/io.jenetics/prngine)
 [![Code Quality: Java](https://img.shields.io/lgtm/grade/java/g/jenetics/prngine.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jenetics/prngine/context:java)
 [![Total Alerts](https://img.shields.io/lgtm/alerts/g/jenetics/prngine.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jenetics/prngine/alerts)
