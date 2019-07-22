@@ -340,7 +340,7 @@ public class KISS32Random extends Random32 {
 	}
 
 	@Override
-	public void setSeed(final long seed) {
+	public synchronized void setSeed(final long seed) {
 		setSeed(PRNG.seedBytes(seed, SEED_BYTES));
 	}
 
