@@ -345,12 +345,12 @@ public class KISS64Random extends Random64 {
 	 * @throws IllegalArgumentException if the given seed is shorter than
 	 *         {@link #SEED_BYTES}
 	 */
-	public synchronized void setSeed(final byte[] seed) {
+	public void setSeed(final byte[] seed) {
 		if (_state != null) _state.setSeed(seed);
 	}
 
 	@Override
-	public void setSeed(final long seed) {
+	public synchronized void setSeed(final long seed) {
 		setSeed(PRNG.seedBytes(seed, SEED_BYTES));
 	}
 
