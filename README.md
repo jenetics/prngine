@@ -148,6 +148,16 @@ The library is licensed under the [Apache License, Version 2.0](http://www.apach
 
 ## Release notes
 
+### [1.0.2](https://github.com/jenetics/prngine/releases/tag/v1.0.2)
+
+#### Improvements
+
+* [#21](https://github.com/jenetics/prngine/issues/21): Update Gradle version and add CI build for Java 11.
+
+#### Bugs
+
+* [#20](https://github.com/jenetics/prngine/issues/20): Fix alerts found by [LGTM](https://lgtm.com/projects/g/jenetics/prngine/alerts?mode=list).
+
 ### [1.0.1](https://github.com/jenetics/prngine/releases/tag/v1.0.1)
 
 #### Improvements
