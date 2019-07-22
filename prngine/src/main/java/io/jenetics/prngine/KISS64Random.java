@@ -226,8 +226,8 @@ public class KISS64Random extends Random64 {
 		@Override
 		public int hashCode() {
 			int hash = 31;
-			hash += 37*_x + 17;
-			hash += 37*_y + 17;
+			hash += 37*Long.hashCode(_x) + 17;
+			hash += 37*Long.hashCode(_y) + 17;
 			hash += 37*_z1 + 17;
 			hash += 37*_c1 + 17;
 			hash += 37*_z2 + 17;
