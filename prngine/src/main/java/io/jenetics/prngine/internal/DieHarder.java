@@ -27,6 +27,7 @@ import static java.util.stream.Collectors.groupingBy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -124,14 +125,15 @@ public final class DieHarder {
 		randomizerThread.start();
 
 		// The dieharder console output.
-		final BufferedReader stdout = new BufferedReader (
-			new InputStreamReader(dieharder.getInputStream())
-		);
-
 		final List<Result> results = new ArrayList<>();
-		for (String l = stdout.readLine(); l != null; l = stdout.readLine()) {
-			Result.parse(l).ifPresent(results::add);
-			System.out.println(l);
+		try (InputStream is = dieharder.getInputStream();
+			InputStreamReader ir = new InputStreamReader(is);
+			BufferedReader stdout = new BufferedReader(ir))
+		{
+			for (String l = stdout.readLine(); l != null; l = stdout.readLine()) {
+				Result.parse(l).ifPresent(results::add);
+				System.out.println(l);
+			}
 		}
 
 		dieharder.waitFor();

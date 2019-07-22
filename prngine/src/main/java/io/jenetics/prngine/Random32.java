@@ -124,7 +124,7 @@ public abstract class Random32 extends PRNG {
 			}
 
 			@Override
-			public void setSeed(final long seed) {
+			public synchronized void setSeed(final long seed) {
 				if (_sentry != null) {
 					throw new UnsupportedOperationException(
 						"The 'setSeed(long)' method is not supported."

@@ -89,7 +89,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x << param.a;
 				x ^= x >>> param.b;
-				return x^x << param.c;
+				x ^= x << param.c;
+				return x;
 			}
 		},
 
@@ -108,7 +109,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x << param.c;
 				x ^= x >>> param.b;
-				return x^x << param.a;
+				x ^= x << param.a;
+				return x;
 			}
 		},
 
@@ -127,7 +129,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x >>> param.a;
 				x ^= x << param.b;
-				return x^x >>> param.c;
+				x ^= x >>> param.c;
+				return x;
 			}
 		},
 
@@ -146,7 +149,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x >>> param.c;
 				x ^= x << param.b;
-				return x^x >>> param.a;
+				x ^= x >>> param.a;
+				return x;
 			}
 		},
 
@@ -165,7 +169,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x << param.a;
 				x ^= x << param.c;
-				return x^x >>> param.b;
+				x ^= x >>> param.b;
+				return x;
 			}
 		},
 
@@ -184,7 +189,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x << param.c;
 				x ^= x << param.a;
-				return x^x >>> param.b;
+				x ^= x >>> param.b;
+				return x;
 			}
 		},
 
@@ -203,7 +209,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x >>> param.a;
 				x ^= x >>> param.c;
-				return x^x << param.b;
+				x ^= x << param.b;
+				return x;
 			}
 		},
 
@@ -222,7 +229,8 @@ public class XOR64ShiftRandom extends Random64 {
 			public long shift(long x, final Param param) {
 				x ^= x >>> param.c;
 				x ^= x >>> param.a;
-				return x^x << param.b;
+				x ^= x << param.b;
+				return x;
 			}
 		};
 
@@ -830,7 +838,7 @@ public class XOR64ShiftRandom extends Random64 {
 	}
 
 	@Override
-	public void setSeed(final long seed) {
+	public synchronized void setSeed(final long seed) {
 		_x = toSafeSeed((int)seed);
 	}
 
@@ -847,7 +855,7 @@ public class XOR64ShiftRandom extends Random64 {
 	@Override
 	public int hashCode() {
 		int hash = 31;
-		hash += 17*_x + 37;
+		hash += 17*Long.hashCode(_x) + 37;
 		hash += 17*_param.hashCode() + 37;
 
 		return hash;

@@ -186,20 +186,15 @@ public abstract class PRNG extends Random {
 		}
 
 		final int value;
-
-		if (origin < bound) {
-			int n = bound - origin;
-			if (n > 0) {
-				value = random.nextInt(n) + origin;
-			} else {
-				int r;
-				do {
-					r = random.nextInt();
-				} while (r < origin || r >= bound);
-				value = r;
-			}
+		int n = bound - origin;
+		if (n > 0) {
+			value = random.nextInt(n) + origin;
 		} else {
-			value = random.nextInt();
+			int r;
+			do {
+				r = random.nextInt();
+			} while (r < origin || r >= bound);
+			value = r;
 		}
 
 		return value;
@@ -230,22 +225,20 @@ public abstract class PRNG extends Random {
 		}
 
 		long value = random.nextLong();
-		if (origin < bound) {
-			long n = bound - origin, m = n - 1;
-			if ((n & m) == 0L) {
-				value = (value & m) + origin;
-			} else if (n > 0L) {
-				for (long u = value >>> 1;
-					 u + m - (value = u % n) < 0L;
-					 u = random.nextLong() >>> 1)
-				{
-				}
+		long n = bound - origin, m = n - 1;
+		if ((n & m) == 0L) {
+			value = (value & m) + origin;
+		} else if (n > 0L) {
+			for (long u = value >>> 1;
+				 u + m - (value = u % n) < 0L;
+				 u = random.nextLong() >>> 1)
+			{
+			}
 
-				value += origin;
-			} else {
-				while (value < origin || value >= bound) {
-					value = random.nextLong();
-				}
+			value += origin;
+		} else {
+			while (value < origin || value >= bound) {
+				value = random.nextLong();
 			}
 		}
 

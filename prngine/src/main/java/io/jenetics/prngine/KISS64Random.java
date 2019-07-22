@@ -345,7 +345,7 @@ public class KISS64Random extends Random64 {
 	 * @throws IllegalArgumentException if the given seed is shorter than
 	 *         {@link #SEED_BYTES}
 	 */
-	public void setSeed(final byte[] seed) {
+	public synchronized void setSeed(final byte[] seed) {
 		if (_state != null) _state.setSeed(seed);
 	}
 
