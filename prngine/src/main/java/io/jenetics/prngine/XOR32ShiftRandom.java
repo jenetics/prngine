@@ -89,7 +89,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x << param.a;
 				x ^= x >>> param.b;
-				return x^x << param.c;
+				x ^= x << param.c;
+				return x ;
 			}
 		},
 
@@ -108,7 +109,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x << param.c;
 				x ^= x >>> param.b;
-				return x^x << param.a;
+				x ^= x << param.a;
+				return x;
 			}
 		},
 
@@ -127,7 +129,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x >>> param.a;
 				x ^= x << param.b;
-				return x^x >>> param.c;
+				x ^= x >>> param.c;
+				return x;
 			}
 		},
 
@@ -146,7 +149,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x >>> param.c;
 				x ^= x << param.b;
-				return x^x >>> param.a;
+				x ^= x >>> param.a;
+				return x;
 			}
 		},
 
@@ -165,7 +169,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x << param.a;
 				x ^= x << param.c;
-				return x^x >>> param.b;
+				x ^= x >>> param.b;
+				return x;
 			}
 		},
 
@@ -184,7 +189,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x << param.c;
 				x ^= x << param.a;
-				return x^x >>> param.b;
+				x ^= x >>> param.b;
+				return x;
 			}
 		},
 
@@ -203,7 +209,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x >>> param.a;
 				x ^= x >>> param.c;
-				return x^x << param.b;
+				x ^= x << param.b;
+				return x;
 			}
 		},
 
@@ -222,7 +229,8 @@ public class XOR32ShiftRandom extends Random32 {
 			public int shift(int x, final Param param) {
 				x ^= x >>> param.c;
 				x ^= x >>> param.a;
-				return x^x << param.b;
+				x ^= x << param.b;
+				return x;
 			}
 		};
 
@@ -710,7 +718,7 @@ public class XOR32ShiftRandom extends Random32 {
 	}
 
 	@Override
-	public void setSeed(final long seed) {
+	public synchronized void setSeed(final long seed) {
 		_x = toSafeSeed((int)seed);
 	}
 
