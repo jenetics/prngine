@@ -1,12 +1,10 @@
 # PRNGine
 
-[![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/jpx)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.jenetics/prngine/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22prngine%22)
+[![Build Status](https://travis-ci.org/jenetics/prngine.svg?branch=master)](https://travis-ci.org/jenetics/prngine)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.jenetics/prngine/badge.svg)](http://search.maven.org/#search|ga|1|a%3A%22prngine%22)
 [![Javadoc](https://www.javadoc.io/badge/io.jenetics/prngine.svg)](http://www.javadoc.io/doc/io.jenetics/prngine)
-[![Code Quality: Java](https://img.shields.io/lgtm/grade/java/g/jenetics/prngine.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jenetics/prngine/context:java)
-[![Total Alerts](https://img.shields.io/lgtm/alerts/g/jenetics/prngine.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jenetics/prngine/alerts)
 
-**PRNGine** is a pseudo-random number generator library for sequential and parallel [Monte Carlo simulations](https://de.wikipedia.org/wiki/Monte-Carlo-Simulation). It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
+*PRNGine* is a pseudo-random number generator library for sequential and parallel [Monte Carlo simulations](https://de.wikipedia.org/wiki/Monte-Carlo-Simulation). It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
 
 The following PRNGs are currently implemented:
 
@@ -20,7 +18,11 @@ The following PRNGs are currently implemented:
 
 ## Requirements
 
-* **JRE 8**: Java runtime version 8 is needed for using the library.
+### Runtime
+*  **JRE 8**: Java runtime version 8 is needed for using the library.
+
+### Build time
+*  **JDK 11**: You need Java 11 for building the library.
 
 ## Building PRNGine
 
@@ -36,7 +38,8 @@ For  building the PRNGine library you have to check out the master branch from G
 *Building the library:*
 
     $ ./gradle jar
-    
+
+
 ## Examples
 
 ### PRN creation
@@ -132,7 +135,7 @@ The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.ja
 
 The library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-    Copyright 2017-2019 Franz Wilhelmstötter
+    Copyright 2017-2020 Franz Wilhelmstötter
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -147,6 +150,12 @@ The library is licensed under the [Apache License, Version 2.0](http://www.apach
     limitations under the License.
 
 ## Release notes
+
+### [1.1.0](https://github.com/jenetics/prngine/releases/tag/v1.1.0)
+
+#### Improvements
+
+* [#26](https://github.com/jenetics/prngine/issues/26): Convert Gradle build scripts from Groovy to Kotlin and prepare for Java 11.
 
 ### [1.0.2](https://github.com/jenetics/prngine/releases/tag/v1.0.2)
 

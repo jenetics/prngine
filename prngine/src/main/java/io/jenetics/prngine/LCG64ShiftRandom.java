@@ -62,7 +62,7 @@ import java.util.Objects;
  * Alternatively you can use the thread-safe implementations
  * {@link LCG64ShiftRandom.ThreadSafe} or {@link LCG64ShiftRandom.ThreadLocal}.
  *
- * @see <a href="http://numbercrunch.de/trng/">TRNG</a>
+ * @see <a href="https://github.com/rabauke/trng4/blob/master/doc/trng.pdf">TRNG</a>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
@@ -229,8 +229,8 @@ public class LCG64ShiftRandom extends Random64 {
 		 * <br>
 		 * <small>Heiko Bauke</small>
 		 * <br>
-		 * [<a href="http://numbercrunch.de/trng/trng.pdf">
-		 *  http://numbercrunch.de/trng/trng.pdf
+		 * [<a href="https://github.com/rabauke/trng4/blob/master/doc/trng.pdf">
+		 *  https://github.com/rabauke/trng4/blob/master/doc/trng.pdf
 		 *  </a>].
 		 */
 		@Override

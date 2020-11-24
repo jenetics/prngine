@@ -127,7 +127,7 @@ public class XOR32ShiftRandomParamTest {
 	// ./jrun org.jenetics.random.XOR32ShiftRandomParamTest 2>> XOR32ShiftRandom.results
 	public static void main(final String[] args) throws Exception {
 		final int start = Stream.of(args).findFirst()
-			.map(Integer::new)
+			.map(Integer::valueOf)
 			.orElse(0);
 
 		for (Shift shift : Shift.values()) {

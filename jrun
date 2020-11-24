@@ -9,10 +9,10 @@ MODULES=(
 CLASSPATH="."
 for module in ${MODULES[@]}
 do
-	CLASSPATH="${CLASSPATH}:${module}/build/classes/main"
-	CLASSPATH="${CLASSPATH}:${module}/build/resources/main"
-	CLASSPATH="${CLASSPATH}:${module}/build/classes/test"
-	CLASSPATH="${CLASSPATH}:${module}/build/resources/test"
+	CLASSPATH="${CLASSPATH}:${module}/build/classes/java/main"
+	CLASSPATH="${CLASSPATH}:${module}/build/resources/java/main"
+	CLASSPATH="${CLASSPATH}:${module}/build/classes/java/test"
+	CLASSPATH="${CLASSPATH}:${module}/build/resources/java/test"
 done
 
 CMD="java -cp ${CLASSPATH} $1"

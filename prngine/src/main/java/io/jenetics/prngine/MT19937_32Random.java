@@ -40,7 +40,7 @@ import java.util.Random;
  * This is a port of the
  * <a href="https://github.com/rabauke/trng4/blob/master/src/mt19937.hpp">
  * trng::mt19937</a> PRNG class of the
- * <a href="http://numbercrunch.de/trng/">TRNG</a> library created by Heiko
+ * <a href="https://github.com/rabauke/trng4/blob/master/doc/trng.pdf">TRNG</a> library created by Heiko
  * Bauke.</em>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
