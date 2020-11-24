@@ -90,7 +90,7 @@ public class MT19937_32Random extends Random32 {
 		}
 
 		@Override
-		public void setSeed(final long seed) {
+		public synchronized void setSeed(final long seed) {
 			if (_sentry != null) {
 				throw new UnsupportedOperationException(
 					"The 'setSeed(long)' method is not supported " +
@@ -328,7 +328,7 @@ public class MT19937_32Random extends Random32 {
 	}
 
 	@Override
-	public void setSeed(final long seed) {
+	public synchronized void setSeed(final long seed) {
 		if (_state != null) _state.setSeed(seed);
 	}
 

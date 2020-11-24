@@ -137,7 +137,7 @@ The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.ja
 
 The library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-    Copyright 2017-2018 Franz Wilhelmstötter
+    Copyright 2017-2019 Franz Wilhelmstötter
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -152,6 +152,16 @@ The library is licensed under the [Apache License, Version 2.0](http://www.apach
     limitations under the License.
 
 ## Release notes
+
+### [1.0.2](https://github.com/jenetics/prngine/releases/tag/v1.0.2)
+
+#### Improvements
+
+* [#21](https://github.com/jenetics/prngine/issues/21): Update Gradle version and add CI build for Java 11.
+
+#### Bugs
+
+* [#20](https://github.com/jenetics/prngine/issues/20): Fix alerts found by [LGTM](https://lgtm.com/projects/g/jenetics/prngine/alerts?mode=list).
 
 ### [1.0.1](https://github.com/jenetics/prngine/releases/tag/v1.0.1)
 
