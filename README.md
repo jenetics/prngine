@@ -22,9 +22,7 @@ The following PRNGs are currently implemented:
 *  **JRE 8**: Java runtime version 8 is needed for using the library.
 
 ### Build time
-*  **JDK 8**: The Java [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) must be installed.
-*  **Gradle 4.x**: [Gradle](http://www.gradle.org/) is used for building the library. (Gradle is download automatically, if you are using the Gradle Wrapper script `./gradlew`, located in the base directory, for building the library.)
-*  **TestNG 6.10**: PRNGine uses [TestNG](http://testng.org/doc/index.html) framework for unit tests.
+*  **JDK 11**: You need Java 11 for building the library.
 
 ## Building PRNGine
 

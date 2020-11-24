@@ -1,7 +1,4 @@
 /*
- * PRNGine - Java PRNG Library (@__identifier__@).
- * Copyright (c) @__year__@ Franz Wilhelmstötter
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,11 +17,7 @@
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 1.0
- * @version 1.0
+ * @since 1.4
+ * @version 1.4
  */
-
-// The PRNGine projects.
-include 'prngine'
-
-rootProject.name = 'prngine'
+package io.jenetics.gradle;
