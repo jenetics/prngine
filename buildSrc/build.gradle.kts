@@ -20,8 +20,8 @@
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 2.1
- * @version 2.1
+ * @since !__version__!
+ * @version !__version__!
  */
 plugins {
 	`java-gradle-plugin`

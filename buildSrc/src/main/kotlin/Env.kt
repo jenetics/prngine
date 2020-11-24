@@ -48,7 +48,7 @@ object Env {
 /**
  * Information about the library and author.
  */
-object JPX {
+object PRNGine {
 	const val VERSION = "1.1.0-SNAPSHOT"
 	const val ID = "prngine"
 	const val NAME = "prngine"

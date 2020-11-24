@@ -17,6 +17,7 @@ import io.jenetics.prngine.PRNG;
 import io.jenetics.prngine.Random64;
 
 public class FileRandom extends Random64 implements Closeable {
+	private static final long serialVersionUID = 1L;
 
 	private long _seed;
 

@@ -29,7 +29,7 @@ plugins {
 	id("me.champeau.gradle.jmh") version "0.5.0" apply false
 }
 
-rootProject.version = JPX.VERSION
+rootProject.version = PRNGine.VERSION
 
 tasks.named<Wrapper>("wrapper") {
 	version = "6.7.1"
@@ -40,8 +40,8 @@ tasks.named<Wrapper>("wrapper") {
  * Project configuration *before* the projects has been evaluated.
  */
 allprojects {
-	group =  JPX.GROUP
-	version = JPX.VERSION
+	group =  PRNGine.GROUP
+	version = PRNGine.VERSION
 
 	repositories {
 		flatDir {
@@ -75,10 +75,6 @@ gradle.projectsEvaluated {
 				targetCompatibility = JavaVersion.VERSION_1_8
 			}
 
-			configure<JavaPluginExtension> {
-				modularity.inferModulePath.set(true)
-			}
-
 			setupJava(project)
 			setupTestReporting(project)
 			setupJavadoc(project)
@@ -97,12 +93,12 @@ gradle.projectsEvaluated {
 fun setupJava(project: Project) {
 	val attr = mutableMapOf(
 			"Implementation-Title" to project.name,
-			"Implementation-Version" to JPX.VERSION,
-			"Implementation-URL" to JPX.URL,
-			"Implementation-Vendor" to JPX.NAME,
-			"ProjectName" to JPX.NAME,
-			"Version" to JPX.VERSION,
-			"Maintainer" to JPX.AUTHOR,
+			"Implementation-Version" to PRNGine.VERSION,
+			"Implementation-URL" to PRNGine.URL,
+			"Implementation-Vendor" to PRNGine.NAME,
+			"ProjectName" to PRNGine.NAME,
+			"Version" to PRNGine.VERSION,
+			"Maintainer" to PRNGine.AUTHOR,
 			"Project" to project.name,
 			"Project-Version" to project.version,
 
@@ -205,7 +201,7 @@ fun setupJavadoc(project: Project) {
 					main = "de.java2html.Java2Html"
 					args = listOf(
 							"-srcdir", "src/main/java",
-							"-targetdir", "${javadoc.destinationDir}/src-html/${project.extra["moduleName"]}"
+							"-targetdir", "${javadoc.destinationDir}/src-html"
 					)
 					classpath = files("${project.rootDir}/buildSrc/lib/java2html.jar")
 				}
@@ -248,7 +244,7 @@ fun xlint(): String {
 	).joinToString(separator = ",")
 }
 
-val identifier = "${JPX.ID}-${JPX.VERSION}"
+val identifier = "${PRNGine.ID}-${PRNGine.VERSION}"
 
 /**
  * Setup of the Maven publishing.
@@ -280,7 +276,7 @@ fun setupPublishing(project: Project) {
 	project.configure<PublishingExtension> {
 		publications {
 			create<MavenPublication>("mavenJava") {
-				artifactId = JPX.ID
+				artifactId = PRNGine.ID
 				from(project.components["java"])
 				versionMapping {
 					usage("java-api") {
@@ -291,9 +287,9 @@ fun setupPublishing(project: Project) {
 					}
 				}
 				pom {
-					name.set(JPX.ID)
+					name.set(PRNGine.ID)
 					description.set(project.description)
-					url.set(JPX.URL)
+					url.set(PRNGine.URL)
 					inceptionYear.set("2019")
 
 					licenses {
@@ -305,9 +301,9 @@ fun setupPublishing(project: Project) {
 					}
 					developers {
 						developer {
-							id.set(JPX.ID)
-							name.set(JPX.AUTHOR)
-							email.set(JPX.EMAIL)
+							id.set(PRNGine.ID)
+							name.set(PRNGine.AUTHOR)
+							email.set(PRNGine.EMAIL)
 						}
 					}
 					scm {
