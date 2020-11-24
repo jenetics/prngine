@@ -1,7 +1,4 @@
 /*
- * Java GPX Library (@__identifier__@).
- * Copyright (c) @__year__@ Franz Wilhelmstötter
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,7 +27,7 @@ object Env {
 
 	val YEAR = Year.now();
 
-	val COPYRIGHT_YEAR = "2016-${YEAR}"
+	val COPYRIGHT_YEAR = "2017-${YEAR}"
 
 	val DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
@@ -52,13 +49,13 @@ object Env {
  * Information about the library and author.
  */
 object JPX {
-	const val VERSION = "2.1.0"
-	const val ID = "jpx"
-	const val NAME = "jpx"
+	const val VERSION = "1.1.0-SNAPSHOT"
+	const val ID = "prngine"
+	const val NAME = "prngine"
 	const val GROUP = "io.jenetics"
 	const val AUTHOR = "Franz Wilhelmstötter"
 	const val EMAIL = "franz.wilhelmstoetter@gmail.com"
-	const val URL = "https://github.com/jenetics/jpx"
+	const val URL = "https://github.com/jenetics/prngine"
 }
 
 /**
@@ -68,7 +65,7 @@ object Maven {
 	const val SNAPSHOT_URL = "https://oss.sonatype.org/content/repositories/snapshots/"
 	const val RELEASE_URL = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 
-	const val SCM_URL = "https://github.com/jenetics/jpx"
-	const val SCM_CONNECTION = "scm:git:https://github.com/jenetics/jpx.git"
-	const val DEVELOPER_CONNECTION = "scm:git:https://github.com/jenetics/jpx.git"
+	const val SCM_URL = "https://github.com/jenetics/prngine"
+	const val SCM_CONNECTION = "scm:git:https://github.com/jenetics/prngine.git"
+	const val DEVELOPER_CONNECTION = "scm:git:https://github.com/jenetics/prngine.git"
 }
