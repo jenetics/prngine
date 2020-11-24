@@ -135,7 +135,7 @@ The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.ja
 
 The library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-    Copyright 2017-2019 Franz Wilhelmstötter
+    Copyright 2017-2020 Franz Wilhelmstötter
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -150,6 +150,12 @@ The library is licensed under the [Apache License, Version 2.0](http://www.apach
     limitations under the License.
 
 ## Release notes
+
+### [1.1.0](https://github.com/jenetics/prngine/releases/tag/v1.1.0)
+
+#### Improvements
+
+* [#26](https://github.com/jenetics/prngine/issues/26): Convert Gradle build scripts from Groovy to Kotlin and prepare for Java 11.
 
 ### [1.0.2](https://github.com/jenetics/prngine/releases/tag/v1.0.2)
 
