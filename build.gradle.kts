@@ -71,8 +71,8 @@ gradle.projectsEvaluated {
 
 		plugins.withType<JavaPlugin> {
 			configure<JavaPluginConvention> {
-				sourceCompatibility = JavaVersion.VERSION_8
-				targetCompatibility = JavaVersion.VERSION_8
+				sourceCompatibility = JavaVersion.VERSION_11
+				targetCompatibility = JavaVersion.VERSION_11
 			}
 
 			configure<JavaPluginExtension> {
@@ -224,5 +224,129 @@ fun setupJavadoc(project: Project) {
 			}
 		}
 	}
+}
+
+/**
+ * The Java compiler XLint flags.
+ */
+fun xlint(): String {
+	// See https://docs.oracle.com/javase/9/tools/javac.htm#JSWOR627
+	return listOf(
+			"cast",
+			"classfile",
+			"deprecation",
+			"dep-ann",
+			"divzero",
+			"empty",
+			"finally",
+			"overrides",
+			"rawtypes",
+			"serial",
+			"static",
+			"try",
+			"unchecked"
+	).joinToString(separator = ",")
+}
+
+val identifier = "${JPX.ID}-${JPX.VERSION}"
+
+/**
+ * Setup of the Maven publishing.
+ */
+fun setupPublishing(project: Project) {
+	project.configure<JavaPluginExtension> {
+		withJavadocJar()
+		withSourcesJar()
+	}
+
+	project.tasks.named<Jar>("sourcesJar") {
+		filter(
+				org.apache.tools.ant.filters.ReplaceTokens::class, "tokens" to mapOf(
+				"__identifier__" to identifier,
+				"__year__" to Env.COPYRIGHT_YEAR
+		)
+		)
+	}
+
+	project.tasks.named<Jar>("javadocJar") {
+		filter(
+				org.apache.tools.ant.filters.ReplaceTokens::class, "tokens" to mapOf(
+				"__identifier__" to identifier,
+				"__year__" to Env.COPYRIGHT_YEAR
+		)
+		)
+	}
+
+	project.configure<PublishingExtension> {
+		publications {
+			create<MavenPublication>("mavenJava") {
+				artifactId = JPX.ID
+				from(project.components["java"])
+				versionMapping {
+					usage("java-api") {
+						fromResolutionOf("runtimeClasspath")
+					}
+					usage("java-runtime") {
+						fromResolutionResult()
+					}
+				}
+				pom {
+					name.set(JPX.ID)
+					description.set(project.description)
+					url.set(JPX.URL)
+					inceptionYear.set("2019")
+
+					licenses {
+						license {
+							name.set("The Apache License, Version 2.0")
+							url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+							distribution.set("repo")
+						}
+					}
+					developers {
+						developer {
+							id.set(JPX.ID)
+							name.set(JPX.AUTHOR)
+							email.set(JPX.EMAIL)
+						}
+					}
+					scm {
+						connection.set(Maven.SCM_CONNECTION)
+						developerConnection.set(Maven.DEVELOPER_CONNECTION)
+						url.set(Maven.SCM_URL)
+					}
+				}
+			}
+		}
+		repositories {
+			maven {
+				url = if (version.toString().endsWith("SNAPSHOT")) {
+					uri(Maven.SNAPSHOT_URL)
+				} else {
+					uri(Maven.RELEASE_URL)
+				}
+
+				credentials {
+					username = if (extra.properties["nexus_username"] != null) {
+						extra.properties["nexus_username"] as String
+					} else {
+						"nexus_username"
+					}
+					password = if (extra.properties["nexus_password"] != null) {
+						extra.properties["nexus_password"] as String
+					} else {
+						"nexus_password"
+					}
+				}
+			}
+		}
+	}
+
+	project.apply(plugin = "signing")
+
+	project.configure<SigningExtension> {
+		sign(project.the<PublishingExtension>().publications["mavenJava"])
+	}
+
 }
 
