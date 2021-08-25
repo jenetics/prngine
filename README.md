@@ -18,10 +18,6 @@ The following PRNGs are currently implemented:
 
 ## Requirements
 
-### Runtime
-*  **JRE 8**: Java runtime version 8 is needed for using the library.
-
-### Build time
 *  **JDK 11**: You need Java 11 for building the library.
 
 ## Building PRNGine
