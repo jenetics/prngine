@@ -26,13 +26,13 @@
  */
 plugins {
 	base
-	id("me.champeau.gradle.jmh") version "0.5.0" apply false
+	id("me.champeau.jmh") version "0.6.5" apply false
 }
 
 rootProject.version = PRNGine.VERSION
 
 tasks.named<Wrapper>("wrapper") {
-	version = "6.7.1"
+	gradleVersion = "7.2"
 	distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -71,8 +71,8 @@ gradle.projectsEvaluated {
 
 		plugins.withType<JavaPlugin> {
 			configure<JavaPluginConvention> {
-				sourceCompatibility = JavaVersion.VERSION_1_8
-				targetCompatibility = JavaVersion.VERSION_1_8
+				sourceCompatibility = JavaVersion.VERSION_17
+				targetCompatibility = JavaVersion.current()
 			}
 
 			setupJava(project)
@@ -128,7 +128,7 @@ fun setupTestReporting(project: Project) {
 	project.apply(plugin = "jacoco")
 
 	project.configure<JacocoPluginExtension> {
-		toolVersion = "0.8.6"
+		toolVersion = "0.8.7"
 	}
 
 	project.tasks {
@@ -136,9 +136,9 @@ fun setupTestReporting(project: Project) {
 			dependsOn("test")
 
 			reports {
-				html.isEnabled = true
-				xml.isEnabled = true
-				csv.isEnabled = true
+				html.required.set(true)
+				xml.required.set(true)
+				csv.required.set(true)
 			}
 		}
 
