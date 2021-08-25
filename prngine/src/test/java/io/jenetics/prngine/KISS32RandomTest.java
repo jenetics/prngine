@@ -43,9 +43,9 @@ public class KISS32RandomTest extends Random32TestBase {
 		new KISS32Random.ThreadLocal().get();
 	}
 
-	@Override
+	//@Override
 	@DataProvider(name = "seededPRNGPair")
-	protected Object[][] getSeededPRNGPair() {
+	protected Object[][] seededPRNGPair() {
 		final byte[] seed = KISS32Random.seedBytes();
 
 		return new Object[][] {

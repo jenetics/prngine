@@ -180,7 +180,7 @@ public abstract class PRNG implements RandomGenerator {
 	 */
 	public static int nextInt(
 		final int origin, final int bound,
-		final Random random
+		final RandomGenerator random
 	) {
 		if (origin >= bound) {
 			throw new IllegalArgumentException(format(
@@ -219,7 +219,7 @@ public abstract class PRNG implements RandomGenerator {
 	 */
 	public static long nextLong(
 		final long origin, final long bound,
-		final Random random
+		final RandomGenerator random
 	) {
 		if (origin >= bound) {
 			throw new IllegalArgumentException(format(
@@ -263,7 +263,7 @@ public abstract class PRNG implements RandomGenerator {
 	 * @throws NullPointerException if the given {@code random}
 	 *         engine is {@code null}.
 	 */
-	public static long nextLong(final long n, final Random random) {
+	public static long nextLong(final long n, final RandomGenerator random) {
 		if (n <= 0) {
 			throw new IllegalArgumentException(format(
 				"n is smaller than one: %d", n
@@ -296,7 +296,7 @@ public abstract class PRNG implements RandomGenerator {
 	 */
 	public static float nextFloat(
 		final float origin, final float bound,
-		final Random random
+		final RandomGenerator random
 	) {
 		if (!(origin < bound)) {
 			throw new IllegalArgumentException(format(
@@ -331,7 +331,7 @@ public abstract class PRNG implements RandomGenerator {
 	 */
 	public static double nextDouble(
 		final double origin, final double bound,
-		final Random random
+		final RandomGenerator random
 	) {
 		if (!(origin < bound)) {
 			throw new IllegalArgumentException(format(

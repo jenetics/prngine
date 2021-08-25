@@ -53,9 +53,9 @@ public class XOR32ShiftRandomTest extends Random32TestBase {
 		new XOR32ShiftRandom.ThreadLocal().get();
 	}
 
-	@Override
+	//@Override
 	@DataProvider(name = "seededPRNGPair")
-	protected Object[][] getSeededPRNGPair() {
+	protected Object[][] seededPRNGPair() {
 		final byte[] seed = XOR32ShiftRandom.seedBytes();
 
 		return new Object[][] {

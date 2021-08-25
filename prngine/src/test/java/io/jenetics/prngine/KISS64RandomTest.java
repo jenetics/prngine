@@ -42,9 +42,9 @@ public class KISS64RandomTest extends Random64TestBase {
 		new KISS64Random.ThreadLocal().get();
 	}
 
-	@Override
+	//@Override
 	@DataProvider(name = "seededPRNGPair")
-	protected Object[][] getSeededPRNGPair() {
+	protected Object[][] seededPRNGPair() {
 		final byte[] seed = KISS64Random.seedBytes();
 
 		return new Object[][] {

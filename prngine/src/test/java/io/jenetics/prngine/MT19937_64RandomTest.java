@@ -42,9 +42,9 @@ public class MT19937_64RandomTest extends Random64TestBase {
 		new MT19937_64Random.ThreadLocal().get();
 	}
 
-	@Override
+	//@Override
 	@DataProvider(name = "seededPRNGPair")
-	protected Object[][] getSeededPRNGPair() {
+	protected Object[][] seededPRNGPair() {
 		final byte[] seed = MT19937_64Random.seedBytes();
 
 		return new Object[][] {

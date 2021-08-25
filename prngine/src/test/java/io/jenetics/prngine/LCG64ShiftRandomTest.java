@@ -43,9 +43,9 @@ public class LCG64ShiftRandomTest extends Random64TestBase {
 		new LCG64ShiftRandom.ThreadLocal().get();
 	}
 
-	@Override
+	//@Override
 	@DataProvider(name = "seededPRNGPair")
-	protected Object[][] getSeededPRNGPair() {
+	protected Object[][] seededPRNGPair() {
 		final long seed = PRNG.seed();
 		return new Object[][] {
 			{new LCG64ShiftRandom(seed), new LCG64ShiftRandom(seed)},

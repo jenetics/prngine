@@ -154,7 +154,7 @@ public abstract class RandomTestBase {
 	}
 
 	@DataProvider(name = "seededPRNGPair")
-	protected abstract Object[][] getSeededPRNGPair();
+	protected abstract Object[][] seededPRNGPair();
 
 	@Test(dataProvider = "PRNG")
 	public void serialize(final Random rand1)

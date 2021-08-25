@@ -354,10 +354,10 @@ public class XOR64ShiftRandomParamTest {
 			final long failed = grouped.getOrDefault(Assessment.FAILED, 0L);
 
 			synchronized (System.err) {
-				System.err.println(format(
-					"%d; %d; %d; %d; %s",
+				System.err.printf(
+					"%d; %d; %d; %d; %s%n",
 					(passed - failed), passed, weak, failed, param
-				));
+				);
 			}
 
 		} catch (Exception e) {

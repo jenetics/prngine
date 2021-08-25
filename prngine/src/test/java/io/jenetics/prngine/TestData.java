@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -152,9 +153,12 @@ public class TestData implements Iterable<String[]> {
 
 			final URL url = TestData.class.getClassLoader().getResource(classPath);
 			final String absoluteClassPath = new File(url.toURI()).getAbsolutePath();
-			final String basePath = absoluteClassPath
+			String basePath = absoluteClassPath
 				.substring(0, absoluteClassPath.length() - classPath.length())
 				.replace("/build/classes/test", "/build/resources/test");
+
+			basePath = Path.of(basePath).getParent().getParent().getParent().toString() +
+				"/src/test/resources";
 
 			return ofNullable(new File(basePath, path).list())
 				.map(Arrays::stream)

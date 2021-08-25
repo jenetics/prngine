@@ -42,9 +42,9 @@ public class XOR64ShiftRandomTest extends Random64TestBase {
 		new XOR64ShiftRandom.ThreadLocal().get();
 	}
 
-	@Override
+	//@Override
 	@DataProvider(name = "seededPRNGPair")
-	protected Object[][] getSeededPRNGPair() {
+	protected Object[][] seededPRNGPair() {
 		final byte[] seed = XOR64ShiftRandom.seedBytes();
 
 		return new Object[][] {

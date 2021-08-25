@@ -42,9 +42,9 @@ public class MT19937_32RandomTest extends Random32TestBase {
 		new MT19937_32Random.ThreadLocal().get();
 	}
 
-	@Override
+	//@Override
 	@DataProvider(name = "seededPRNGPair")
-	protected Object[][] getSeededPRNGPair() {
+	protected Object[][] seededPRNGPair() {
 		final byte[] seed = MT19937_32Random.seedBytes();
 
 		return new Object[][] {

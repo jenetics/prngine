@@ -22,6 +22,7 @@ package io.jenetics.prngine;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.random.RandomGenerator;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -44,9 +45,9 @@ public class RandomEnginePerf {
 	@State(Scope.Benchmark)
 	@BenchmarkMode(Mode.Throughput)
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static abstract class Base {
+	public static class Base {
 
-		public Random random;
+		public RandomGenerator random;
 
 		@Benchmark
 		public int nextInt() {
