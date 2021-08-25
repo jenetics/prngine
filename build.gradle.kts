@@ -49,7 +49,6 @@ allprojects {
 		}
 		mavenLocal()
 		mavenCentral()
-		jcenter()
 	}
 
 	configurations.all {
@@ -70,8 +69,8 @@ gradle.projectsEvaluated {
 		}
 
 		plugins.withType<JavaPlugin> {
-			configure<JavaPluginConvention> {
-				sourceCompatibility = JavaVersion.VERSION_11
+			configure<JavaPluginExtension> {
+				sourceCompatibility = JavaVersion.VERSION_17
 				targetCompatibility = JavaVersion.current()
 			}
 
