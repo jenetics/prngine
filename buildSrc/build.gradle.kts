@@ -36,6 +36,6 @@ repositories {
 }
 
 configure<JavaPluginExtension> {
-	sourceCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_11
 	targetCompatibility = JavaVersion.current()
 }

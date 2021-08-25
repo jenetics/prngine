@@ -71,7 +71,7 @@ gradle.projectsEvaluated {
 
 		plugins.withType<JavaPlugin> {
 			configure<JavaPluginConvention> {
-				sourceCompatibility = JavaVersion.VERSION_17
+				sourceCompatibility = JavaVersion.VERSION_16
 				targetCompatibility = JavaVersion.current()
 			}
 
