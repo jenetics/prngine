@@ -39,12 +39,9 @@ import java.util.random.RandomGenerator;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version !__version__!
  */
 public abstract class PRNG implements RandomGenerator {
-
-	@Serial
-	private static final long serialVersionUID = 2L;
 
 	/**
 	 * Create a new {@code PRNG} instance with the given {@code seed}.
@@ -305,11 +302,9 @@ public abstract class PRNG implements RandomGenerator {
 		}
 
 		float value = random.nextFloat();
-		if (origin < bound) {
-			value = value*(bound - origin) + origin;
-			if (value >= bound) {
-				value = intBitsToFloat(floatToIntBits(bound) - 1);
-			}
+		value = value*(bound - origin) + origin;
+		if (value >= bound) {
+			value = intBitsToFloat(floatToIntBits(bound) - 1);
 		}
 
 		return value;
@@ -340,11 +335,9 @@ public abstract class PRNG implements RandomGenerator {
 		}
 
 		double value = random.nextDouble();
-		if (origin < bound) {
-			value = value*(bound - origin) + origin;
-			if (value >= bound) {
-				value = longBitsToDouble(doubleToLongBits(bound) - 1);
-			}
+		value = value*(bound - origin) + origin;
+		if (value >= bound) {
+			value = longBitsToDouble(doubleToLongBits(bound) - 1);
 		}
 
 		return value;

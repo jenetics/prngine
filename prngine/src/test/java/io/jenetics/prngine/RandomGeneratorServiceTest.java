@@ -17,7 +17,7 @@ public class RandomGeneratorServiceTest {
 
 		final var rf = RandomGeneratorFactory.of("KISS64Random");
 		System.out.println();
-		System.out.println(rf);
+		//System.out.println(rf + ":" + rf.stateBits());
 		System.out.println(rf.create(12));
 		System.out.println(rf.create(new byte[]{1, 2}));
 	}

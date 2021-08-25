@@ -47,19 +47,6 @@ public class KISS32RandomCompatibilityTest {
 		}
 	}
 
-	@Test(dataProvider = "data")
-	public void threadSafeRandom(final TestData data) {
-		final String[] parameters = data.getParameters();
-		final long seed = Long.parseLong(parameters[0]);
-
-		final KISS32Random random = new KISS32Random.ThreadSafe(seed);
-
-		for (final String[] value : data) {
-			final int expected = Integer.parseInt(value[0]);
-			Assert.assertEquals(random.nextInt(), expected);
-		}
-	}
-
 	@DataProvider(name = "data")
 	public Object[][] data() {
 		return TestData.list("/io/jenetics/prngine/KISS32Random")
