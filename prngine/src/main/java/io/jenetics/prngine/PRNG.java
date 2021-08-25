@@ -27,7 +27,9 @@ import static java.lang.Math.min;
 import static java.lang.String.format;
 import static io.jenetics.prngine.utils.toBytes;
 
+import java.io.Serial;
 import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * Abstract {@code Random} class with additional <i>next</i> random number
@@ -39,9 +41,10 @@ import java.util.Random;
  * @since 1.0
  * @version 1.0
  */
-public abstract class PRNG extends Random {
+public abstract class PRNG implements RandomGenerator {
 
-	private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 2L;
 
 	/**
 	 * Create a new {@code PRNG} instance with the given {@code seed}.
@@ -49,7 +52,7 @@ public abstract class PRNG extends Random {
 	 * @param seed the seed of the new {@code PRNG} instance.
 	 */
 	protected PRNG(final long seed) {
-		super(seed);
+		//super(seed);
 	}
 
 	/**
@@ -60,89 +63,89 @@ public abstract class PRNG extends Random {
 		this(seed());
 	}
 
-	/**
-	 * Returns a pseudo-random, uniformly distributed int value between origin
-	 * (included) and bound (excluded).
-	 *
-	 * @param origin the origin (inclusive) of each random value
-	 * @param bound the bound (exclusive) of each random value
-	 * @return a random integer greater than or equal to {@code min} and
-	 *         less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code origin >= bound}
-	 *
-	 * @see PRNG#nextInt(int, int, Random)
-	 */
-	public int nextInt(final int origin, final int bound) {
-		return nextInt(origin, bound, this);
-	}
+//	/**
+//	 * Returns a pseudo-random, uniformly distributed int value between origin
+//	 * (included) and bound (excluded).
+//	 *
+//	 * @param origin the origin (inclusive) of each random value
+//	 * @param bound the bound (exclusive) of each random value
+//	 * @return a random integer greater than or equal to {@code min} and
+//	 *         less than or equal to {@code max}
+//	 * @throws IllegalArgumentException if {@code origin >= bound}
+//	 *
+//	 * @see PRNG#nextInt(int, int, Random)
+//	 */
+//	public int nextInt(final int origin, final int bound) {
+//		return nextInt(origin, bound, this);
+//	}
 
-	/**
-	 * Returns a pseudo-random, uniformly distributed int value between origin
-	 * (included) and bound (excluded).
-	 *
-	 * @param origin the origin (inclusive) of each random value
-	 * @param bound the bound (exclusive) of each random value
-	 * @return a random long integer greater than or equal to {@code min}
-	 *         and less than or equal to {@code max}
-	 * @throws IllegalArgumentException if {@code origin >= bound}
-	 *
-	 * @see PRNG#nextLong(long, long, Random)
-	 */
-	public long nextLong(final long origin, final long bound) {
-		return nextLong(origin, bound, this);
-	}
+//	/**
+//	 * Returns a pseudo-random, uniformly distributed int value between origin
+//	 * (included) and bound (excluded).
+//	 *
+//	 * @param origin the origin (inclusive) of each random value
+//	 * @param bound the bound (exclusive) of each random value
+//	 * @return a random long integer greater than or equal to {@code min}
+//	 *         and less than or equal to {@code max}
+//	 * @throws IllegalArgumentException if {@code origin >= bound}
+//	 *
+//	 * @see PRNG#nextLong(long, long, Random)
+//	 */
+//	public long nextLong(final long origin, final long bound) {
+//		return nextLong(origin, bound, this);
+//	}
 
-	/**
-	 * Returns a pseudorandom, uniformly distributed int value between 0
-	 * (inclusive) and the specified value (exclusive), drawn from the given
-	 * random number generator's sequence.
-	 *
-	 * @param n the bound on the random number to be returned. Must be
-	 *        positive.
-	 * @return the next pseudorandom, uniformly distributed int value
-	 *         between 0 (inclusive) and n (exclusive) from the given random
-	 *         number generator's sequence
-	 * @throws IllegalArgumentException if n is smaller than 1.
-	 *
-	 * @see PRNG#nextLong(long, Random)
-	 */
-	public long nextLong(final long n) {
-		return nextLong(n, this);
-	}
+//	/**
+//	 * Returns a pseudorandom, uniformly distributed int value between 0
+//	 * (inclusive) and the specified value (exclusive), drawn from the given
+//	 * random number generator's sequence.
+//	 *
+//	 * @param n the bound on the random number to be returned. Must be
+//	 *        positive.
+//	 * @return the next pseudorandom, uniformly distributed int value
+//	 *         between 0 (inclusive) and n (exclusive) from the given random
+//	 *         number generator's sequence
+//	 * @throws IllegalArgumentException if n is smaller than 1.
+//	 *
+//	 * @see PRNG#nextLong(long, Random)
+//	 */
+//	public long nextLong(final long n) {
+//		return nextLong(n, this);
+//	}
 
-	/**
-	 * Returns a pseudorandom, uniformly distributed double value between
-	 * origin (inclusively) and bound (exclusively).
-	 *
-	 * @param origin lower bound for generated float value (inclusively)
-	 * @param bound upper bound for generated float value (exclusively)
-	 * @return a random float greater than or equal to {@code origin} and less
-	 *         than to {@code bound}
-	 * @throws IllegalArgumentException if {@code origin} is greater than or
-	 *         equal to {@code bound}
-	 *
-	 * @see PRNG#nextFloat(float, float, Random)
-	 */
-	public float nextFloat(final float origin, final float bound) {
-		return nextFloat(origin, bound, this);
-	}
+//	/**
+//	 * Returns a pseudorandom, uniformly distributed double value between
+//	 * origin (inclusively) and bound (exclusively).
+//	 *
+//	 * @param origin lower bound for generated float value (inclusively)
+//	 * @param bound upper bound for generated float value (exclusively)
+//	 * @return a random float greater than or equal to {@code origin} and less
+//	 *         than to {@code bound}
+//	 * @throws IllegalArgumentException if {@code origin} is greater than or
+//	 *         equal to {@code bound}
+//	 *
+//	 * @see PRNG#nextFloat(float, float, Random)
+//	 */
+//	public float nextFloat(final float origin, final float bound) {
+//		return nextFloat(origin, bound, this);
+//	}
 
-	/**
-	 * Returns a pseudorandom, uniformly distributed double value between
-	 * origin (inclusively) and bound (exclusively).
-	 *
-	 * @param origin lower bound for generated double value (inclusively)
-	 * @param bound upper bound for generated double value (exclusively)
-	 * @return a random double greater than or equal to {@code origin} and less
-	 *         than to {@code bound}
-	 * @throws IllegalArgumentException if {@code origin} is greater than or
-	 *         equal to {@code bound}
-	 *
-	 * @see PRNG#nextDouble(double, double, Random)
-	 */
-	public double nextDouble(final double origin, final double bound) {
-		return nextDouble(origin, bound, this);
-	}
+//	/**
+//	 * Returns a pseudorandom, uniformly distributed double value between
+//	 * origin (inclusively) and bound (exclusively).
+//	 *
+//	 * @param origin lower bound for generated double value (inclusively)
+//	 * @param bound upper bound for generated double value (exclusively)
+//	 * @return a random double greater than or equal to {@code origin} and less
+//	 *         than to {@code bound}
+//	 * @throws IllegalArgumentException if {@code origin} is greater than or
+//	 *         equal to {@code bound}
+//	 *
+//	 * @see PRNG#nextDouble(double, double, Random)
+//	 */
+//	public double nextDouble(final double origin, final double bound) {
+//		return nextDouble(origin, bound, this);
+//	}
 
 
 	/* *************************************************************************

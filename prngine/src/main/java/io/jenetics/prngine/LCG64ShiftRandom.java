@@ -520,7 +520,7 @@ public class LCG64ShiftRandom extends Random64 {
 		if (_state != null) _state.setSeed(seed);
 	}
 
-	@Override
+	//@Override
 	public synchronized void setSeed(final long seed) {
 		setSeed(PRNG.seedBytes(seed, SEED_BYTES));
 	}

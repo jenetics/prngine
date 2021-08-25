@@ -717,7 +717,7 @@ public class XOR32ShiftRandom extends Random32 {
 		return seed == 0 ? SAFE_SEED : seed;
 	}
 
-	@Override
+	//@Override
 	public synchronized void setSeed(final long seed) {
 		_x = toSafeSeed((int)seed);
 	}

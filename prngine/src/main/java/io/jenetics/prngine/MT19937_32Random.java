@@ -327,7 +327,7 @@ public class MT19937_32Random extends Random32 {
 		if (_state != null) _state.setSeed(seed);
 	}
 
-	@Override
+	//@Override
 	public synchronized void setSeed(final long seed) {
 		if (_state != null) _state.setSeed(seed);
 	}

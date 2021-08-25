@@ -22,6 +22,7 @@ package io.jenetics.prngine;
 import static java.lang.String.format;
 import static io.jenetics.prngine.utils.readInt;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
@@ -71,6 +72,7 @@ import java.util.Random;
  */
 public class KISS32Random extends Random32 {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -339,7 +341,7 @@ public class KISS32Random extends Random32 {
 		if (_state != null) _state.setSeed(seed);
 	}
 
-	@Override
+	//@Override
 	public synchronized void setSeed(final long seed) {
 		setSeed(PRNG.seedBytes(seed, SEED_BYTES));
 	}

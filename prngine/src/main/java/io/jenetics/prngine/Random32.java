@@ -19,6 +19,7 @@
  */
 package io.jenetics.prngine;
 
+import java.io.Serial;
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.IntSupplier;
@@ -47,7 +48,8 @@ import java.util.function.IntSupplier;
  */
 public abstract class Random32 extends PRNG {
 
-	private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 2L;
 
 	protected Random32(final long seed) {
 		super(seed);
@@ -82,7 +84,7 @@ public abstract class Random32 extends PRNG {
 		return ((long)nextInt() << 32) + nextInt();
 	}
 
-	@Override
+	//@Override
 	protected int next(final int bits) {
 		return nextInt() >>> (32 - bits);
 	}
@@ -123,7 +125,7 @@ public abstract class Random32 extends PRNG {
 				return supplier.getAsInt();
 			}
 
-			@Override
+			//@Override
 			public synchronized void setSeed(final long seed) {
 				if (_sentry != null) {
 					throw new UnsupportedOperationException(

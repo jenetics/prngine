@@ -79,7 +79,7 @@ public abstract class Random64 extends PRNG {
 		return (int)(nextLong() >>> Integer.SIZE);
 	}
 
-	@Override
+	//@Override
 	protected int next(final int bits) {
 		return (int)(nextLong() >>> (Long.SIZE - bits));
 	}
@@ -136,7 +136,7 @@ public abstract class Random64 extends PRNG {
 				return supplier.getAsLong();
 			}
 
-			@Override
+			//@Override
 			public synchronized void setSeed(final long seed) {
 				if (_sentry != null) {
 					throw new UnsupportedOperationException(

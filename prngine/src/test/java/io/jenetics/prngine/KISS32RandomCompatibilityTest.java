@@ -74,7 +74,7 @@ public class KISS32RandomCompatibilityTest {
 
 		for (int i = 0; i < 20; ++i) {
 			final long seed = i*12345678;
-			final Random random = new KISS32Random(seed);
+			final var random = new KISS32Random(seed);
 
 			final File file = new File(dir, format("random[%d].dat", seed));
 			file.getParentFile().mkdirs();

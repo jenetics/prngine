@@ -330,7 +330,7 @@ public class MT19937_64Random extends Random64 {
 		if (_state != null) _state.setSeed(seed);
 	}
 
-	@Override
+	//@Override
 	public synchronized void setSeed(final long seed) {
 		if (_state != null) _state.setSeed(seed);
 	}

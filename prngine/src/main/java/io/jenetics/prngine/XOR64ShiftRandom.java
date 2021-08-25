@@ -837,7 +837,7 @@ public class XOR64ShiftRandom extends Random64 {
 		return seed == 0 ? 1179196819L : seed;
 	}
 
-	@Override
+	//@Override
 	public synchronized void setSeed(final long seed) {
 		_x = toSafeSeed((int)seed);
 	}

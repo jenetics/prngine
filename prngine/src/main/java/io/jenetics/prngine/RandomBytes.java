@@ -40,7 +40,7 @@ public abstract class RandomBytes extends PRNG {
 		return (int)(nextLong() >>> Integer.SIZE);
 	}
 
-	@Override
+	//@Override
 	protected int next(final int bits) {
 		return (int)(nextLong() >>> (Long.SIZE - bits));
 	}

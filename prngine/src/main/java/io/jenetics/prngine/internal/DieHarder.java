@@ -42,6 +42,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * Class for testing a given random engine using the
@@ -62,10 +63,10 @@ public final class DieHarder {
 	 * @version 1.0
 	 */
 	private static final class Randomizer implements Runnable {
-		private final Random _random;
+		private final RandomGenerator _random;
 		private final CountingOutputStream _out;
 
-		Randomizer(final Random random, final OutputStream out) {
+		Randomizer(final RandomGenerator random, final OutputStream out) {
 			_random = requireNonNull(random);
 			_out = new CountingOutputStream(out);
 		}
@@ -99,7 +100,7 @@ public final class DieHarder {
 	}
 
 	public static List<Result> test(
-		final Random random,
+		final RandomGenerator random,
 		final List<String> args,
 		final PrintStream out
 	)
