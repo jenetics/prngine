@@ -24,6 +24,7 @@ import static java.lang.Math.min;
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.LongSupplier;
+import java.util.random.RandomGenerator;
 
 /**
  * An abstract base class which eases the implementation of {@code Random}
@@ -49,7 +50,7 @@ import java.util.function.LongSupplier;
  * @since 1.0
  * @version 1.0
  */
-public abstract class Random64 {
+public abstract class Random64 implements RandomGenerator {
 
 	private static final long serialVersionUID = 1L;
 
