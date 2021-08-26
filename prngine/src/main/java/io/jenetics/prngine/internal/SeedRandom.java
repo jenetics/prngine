@@ -19,7 +19,7 @@
  */
 package io.jenetics.prngine.internal;
 
-import io.jenetics.prngine.PRNG;
+import io.jenetics.prngine.PRNGSupport;
 import io.jenetics.prngine.Random64;
 
 /**
@@ -33,7 +33,7 @@ public final class SeedRandom extends Random64 {
 
 	@Override
 	public long nextLong() {
-		return PRNG.seed();
+		return PRNGSupport.seed();
 	}
 
 }

@@ -302,7 +302,7 @@ public class KISS64Random extends Random64 {
 	 * @param seed the random seed value
 	 */
 	public KISS64Random(final long seed) {
-		this(PRNG.expandSeedToBytes(seed, SEED_BYTES));
+		this(PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -351,7 +351,7 @@ public class KISS64Random extends Random64 {
 
 	//@Override
 	public synchronized void setSeed(final long seed) {
-		setSeed(PRNG.expandSeedToBytes(seed, SEED_BYTES));
+		setSeed(PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	@Override
@@ -376,12 +376,12 @@ public class KISS64Random extends Random64 {
 	 * Create a new <em>seed</em> byte array suitable for this PRNG. The
 	 * returned seed array is {@link #SEED_BYTES} long.
 	 *
-	 * @see PRNG#seedBytes(int)
+	 * @see PRNGSupport#seedBytes(int)
 	 *
 	 * @return a new <em>seed</em> byte array of length {@link #SEED_BYTES}
 	 */
 	public static byte[] seedBytes() {
-		return PRNG.seedBytes(SEED_BYTES);
+		return PRNGSupport.seedBytes(SEED_BYTES);
 	}
 
 }

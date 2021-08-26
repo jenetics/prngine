@@ -13,7 +13,7 @@ public abstract class RandomBytes {
 	}
 
 	protected RandomBytes() {
-		this(PRNG.seed());
+		this(PRNGSupport.seed());
 	}
 
 	/**
@@ -47,7 +47,7 @@ public abstract class RandomBytes {
 
 	//@Override
 	public float nextFloat() {
-		return PRNG.toFloat2(nextLong());
+		return PRNGSupport.toFloat2(nextLong());
 	}
 
 	/**
@@ -56,7 +56,7 @@ public abstract class RandomBytes {
 	 */
 	//@Override
 	public double nextDouble() {
-		return PRNG.toDouble2(nextLong());
+		return PRNGSupport.toDouble2(nextLong());
 	}
 
 }

@@ -40,8 +40,8 @@ import java.util.random.RandomGenerator;
  * @since 1.0
  * @version !__version__!
  */
-public abstract class PRNG {
-	private PRNG() {
+public abstract class PRNGSupport {
+	private PRNGSupport() {
 	}
 
 	private static final boolean USE_SECURE_RANDOM_SEED =

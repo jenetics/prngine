@@ -13,7 +13,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Enumeration;
 
-import io.jenetics.prngine.PRNG;
+import io.jenetics.prngine.PRNGSupport;
 import io.jenetics.prngine.Random64;
 
 public class FileRandom extends Random64 implements Closeable {
@@ -24,7 +24,7 @@ public class FileRandom extends Random64 implements Closeable {
 	private final DataInputStream _input;
 
 	public FileRandom(final File dir) {
-		_seed = PRNG.seed();
+		_seed = PRNGSupport.seed();
 		_input = new DataInputStream(new InfiniteInput(
 			dir.listFiles((dir1, name) -> name.endsWith(".jpg"))
 		));

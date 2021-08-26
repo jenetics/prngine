@@ -194,7 +194,7 @@ public class LCG64ShiftRandom extends Random64 {
 		private static final long STEP_BASE = 1L << 56;
 
 		private int _block = 0;
-		private long _seed = PRNG.seed();
+		private long _seed = PRNGSupport.seed();
 
 		private final Param _param;
 
@@ -237,7 +237,7 @@ public class LCG64ShiftRandom extends Random64 {
 		protected synchronized LCG64ShiftRandom initialValue() {
 			if (_block > 127) {
 				_block = 0;
-				_seed = PRNG.seed();
+				_seed = PRNGSupport.seed();
 			}
 
 			final LCG64ShiftRandom random = new TLRandom(_param, _seed);
@@ -451,7 +451,7 @@ public class LCG64ShiftRandom extends Random64 {
 	 * @throws NullPointerException if the given {@code param} is {@code null}.
 	 */
 	public LCG64ShiftRandom(final Param param, final long seed) {
-		this(param, PRNG.expandSeedToBytes(seed, SEED_BYTES));
+		this(param, PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -483,7 +483,7 @@ public class LCG64ShiftRandom extends Random64 {
 	 * @param seed the seed of the PRNG
 	 */
 	public LCG64ShiftRandom(final long seed) {
-		this(Param.DEFAULT, PRNG.expandSeedToBytes(seed, SEED_BYTES));
+		this(Param.DEFAULT, PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -491,7 +491,7 @@ public class LCG64ShiftRandom extends Random64 {
 	 * seed.
 	 */
 	public LCG64ShiftRandom() {
-		this(Param.DEFAULT, PRNG.seed());
+		this(Param.DEFAULT, PRNGSupport.seed());
 	}
 
 	@Override
@@ -522,7 +522,7 @@ public class LCG64ShiftRandom extends Random64 {
 
 	//@Override
 	public synchronized void setSeed(final long seed) {
-		setSeed(PRNG.expandSeedToBytes(seed, SEED_BYTES));
+		setSeed(PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -647,12 +647,12 @@ public class LCG64ShiftRandom extends Random64 {
 	 * Create a new <em>seed</em> byte array suitable for this PRNG. The
 	 * returned seed array is {@link #SEED_BYTES} long.
 	 *
-	 * @see PRNG#seedBytes(int)
+	 * @see PRNGSupport#seedBytes(int)
 	 *
 	 * @return a new <em>seed</em> byte array of length {@link #SEED_BYTES}
 	 */
 	public static byte[] seedBytes() {
-		return PRNG.seedBytes(SEED_BYTES);
+		return PRNGSupport.seedBytes(SEED_BYTES);
 	}
 
 

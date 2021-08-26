@@ -58,7 +58,7 @@ public abstract class Random64 {
 	}
 
 	protected Random64() {
-		this(PRNG.seed());
+		this(PRNGSupport.seed());
 	}
 
 	/**
@@ -101,7 +101,7 @@ public abstract class Random64 {
 
 	//@Override
 	public float nextFloat() {
-		return PRNG.toFloat2(nextLong());
+		return PRNGSupport.toFloat2(nextLong());
 	}
 
 	/**
@@ -110,7 +110,7 @@ public abstract class Random64 {
 	 */
 	//@Override
 	public double nextDouble() {
-		return PRNG.toDouble2(nextLong());
+		return PRNGSupport.toDouble2(nextLong());
 	}
 
 

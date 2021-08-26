@@ -61,7 +61,7 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public int nextIntRangeOriginBound() {
-			return PRNG.nextInt(
+			return PRNGSupport.nextInt(
 				Integer.MAX_VALUE/10,
 				Integer.MAX_VALUE/2,
 				random
@@ -75,12 +75,12 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public long nextLongRange() {
-			return PRNG.nextLong(Long.MAX_VALUE/2, random);
+			return PRNGSupport.nextLong(Long.MAX_VALUE/2, random);
 		}
 
 		@Benchmark
 		public long nextLongRangeOriginBound() {
-			return PRNG.nextLong(
+			return PRNGSupport.nextLong(
 				Long.MAX_VALUE/10,
 				Long.MAX_VALUE/2,
 				random
@@ -94,7 +94,7 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public float nextFloatRange() {
-			return PRNG.nextFloat(
+			return PRNGSupport.nextFloat(
 				Float.MAX_VALUE/10,
 				Float.MAX_VALUE/2,
 				random
@@ -108,7 +108,7 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public double nextDoubleRange() {
-			return PRNG.nextDouble(
+			return PRNGSupport.nextDouble(
 				Double.MAX_VALUE/10,
 				Double.MAX_VALUE/2,
 				random

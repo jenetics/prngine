@@ -77,7 +77,7 @@ public class MT19937_64Random extends Random64 {
 		 */
 		@Override
 		protected MT19937_64Random initialValue() {
-			return new TLRandom(PRNG.seed());
+			return new TLRandom(PRNGSupport.seed());
 		}
 	}
 
@@ -352,12 +352,12 @@ public class MT19937_64Random extends Random64 {
 	 * Create a new <em>seed</em> byte array suitable for this PRNG. The
 	 * returned seed array is {@link #SEED_BYTES} long.
 	 *
-	 * @see PRNG#seedBytes(int)
+	 * @see PRNGSupport#seedBytes(int)
 	 *
 	 * @return a new <em>seed</em> byte array of length {@link #SEED_BYTES}
 	 */
 	public static byte[] seedBytes() {
-		return PRNG.seedBytes(SEED_BYTES);
+		return PRNGSupport.seedBytes(SEED_BYTES);
 	}
 
 }
