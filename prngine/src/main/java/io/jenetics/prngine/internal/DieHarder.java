@@ -133,6 +133,7 @@ public final class DieHarder {
 			for (String l = stdout.readLine(); l != null; l = stdout.readLine()) {
 				Result.parse(l).ifPresent(results::add);
 				System.out.println(l);
+				System.out.flush();
 			}
 		}
 
@@ -267,6 +268,9 @@ public final class DieHarder {
 		}
 
 		static Optional<Result> parse(final String line) {
+			//System.out.println("## " + line);
+			//System.out.flush();
+
 			final String[] parts = line.split(quote("|"));
 
 			if (parts.length == 6) {
