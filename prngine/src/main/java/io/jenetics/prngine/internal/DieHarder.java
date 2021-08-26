@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
-import java.util.Random;
 import java.util.random.RandomGenerator;
 
 /**
@@ -51,7 +50,7 @@ import java.util.random.RandomGenerator;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version !__version__!
  */
 public final class DieHarder {
 
@@ -181,18 +180,12 @@ public final class DieHarder {
 	)
 		throws IOException, InterruptedException
 	{
-		final Random random;
-		try {
-			random = (Random)Class.forName(randomName).getDeclaredConstructor().newInstance();
-			printt(out,
-				"Testing: %s (%s)",
-				randomName,
-				new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())
-			);
-		} catch (Exception e) {
-			println(out, "Can't create random class '%s'.", randomName);
-			throw new RuntimeException("Invalid random name: " + randomName);
-		}
+		final RandomGenerator random = RandomGenerator.of(randomName);
+		printt(out,
+			"Testing: %s (%s)",
+			randomName,
+			new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())
+		);
 
 		return test(random, args, out);
 	}
