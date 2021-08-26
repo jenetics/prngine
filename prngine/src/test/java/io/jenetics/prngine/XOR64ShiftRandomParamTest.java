@@ -19,7 +19,6 @@
  */
 package io.jenetics.prngine;
 
-import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;

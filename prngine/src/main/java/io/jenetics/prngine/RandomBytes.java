@@ -1,7 +1,5 @@
 package io.jenetics.prngine;
 
-import static java.lang.Math.min;
-
 import java.util.Random;
 
 public abstract class RandomBytes {

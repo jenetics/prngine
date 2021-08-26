@@ -19,12 +19,6 @@
  */
 package io.jenetics.prngine;
 
-import java.util.Arrays;
-import java.util.Random;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  */

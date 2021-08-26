@@ -49,26 +49,6 @@ public class LCG64ShiftRandomCompatibilityTest {
 		}
 	}
 
-	@Test(dataProvider = "data")
-	public void threadSafeRandom(final TestData data) {
-		final String[] parameters = data.getParameters();
-		final long seed = Long.parseLong(parameters[0]);
-		final int splitp = Integer.parseInt(parameters[1]);
-		final int splits = Integer.parseInt(parameters[2]);
-		final long jump = Long.parseLong(parameters[3]);
-		final int jump2 = Integer.parseInt(parameters[4]);
-
-		final LCG64ShiftRandom random = new LCG64ShiftRandom.ThreadSafe(seed);
-		random.split(splitp, splits);
-		random.jump(jump);
-		random.jump2(jump2);
-
-		for (final String[] value : data) {
-			final long expected = Long.parseLong(value[0]);
-			Assert.assertEquals(random.nextLong(), expected);
-		}
-	}
-
 	@DataProvider(name = "data")
 	public Object[][] data() {
 		return TestData.list("/org/jenetics/random/LCG64ShiftRandom")

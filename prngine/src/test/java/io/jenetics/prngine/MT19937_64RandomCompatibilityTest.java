@@ -41,19 +41,6 @@ public class MT19937_64RandomCompatibilityTest {
 		}
 	}
 
-	@Test(dataProvider = "data")
-	public void threadSafeRandom(final TestData data) {
-		final String[] parameters = data.getParameters();
-		final long seed = Long.parseLong(parameters[0]);
-
-		final MT19937_64Random random = new MT19937_64Random.ThreadSafe(seed);
-
-		for (final String[] value : data) {
-			final long expected = Long.parseLong(value[0]);
-			Assert.assertEquals(random.nextLong(), expected);
-		}
-	}
-
 	@DataProvider(name = "data")
 	public Object[][] data() {
 		return TestData.list("/org/jenetics/random/MT19937_64Random")

@@ -25,7 +25,6 @@ import static io.jenetics.prngine.IntMath.log2Floor;
 import static io.jenetics.prngine.utils.readLong;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * This class implements a linear congruential PRNG with additional bit-shift
@@ -59,8 +58,6 @@ import java.util.Objects;
  * <strong>Not that the base implementation of the {@code LCG64ShiftRandom}
  * class is not thread-safe.</strong> If multiple threads requests random
  * numbers from this class, it <i>must</i> be synchronized externally.
- * Alternatively you can use the thread-safe implementations
- * {@link LCG64ShiftRandom.ThreadSafe} or {@link LCG64ShiftRandom.ThreadLocal}.
  *
  * @see <a href="https://github.com/rabauke/trng4/blob/master/doc/trng.pdf">TRNG</a>
  *
@@ -69,8 +66,6 @@ import java.util.Objects;
  * @version 1.0
  */
 public class LCG64ShiftRandom extends Random64 {
-
-	private static final long serialVersionUID = 1L;
 
 	/* *************************************************************************
 	 * Parameter classes.
@@ -83,312 +78,42 @@ public class LCG64ShiftRandom extends Random64 {
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since 1.1
-	 * @version 2.0
+	 * @version !__version__!
 	 */
-	public static final class Param implements Serializable {
-
-		private static final long serialVersionUID = 1L;
+	public static final record Param(long a, long b) implements Serializable {
 
 		/**
 		 * The default PRNG parameters: a = 0xFBD19FBBC5C07FF5L; b = 1
 		 */
-		public static final Param DEFAULT = Param.of(0xFBD19FBBC5C07FF5L, 1L);
+		public static final Param DEFAULT = new Param(0xFBD19FBBC5C07FF5L, 1L);
 
 		/**
 		 * LEcuyer 1 parameters: a = 0x27BB2EE687B0B0FDL; b = 1
 		 */
-		public static final Param LECUYER1 = Param.of(0x27BB2EE687B0B0FDL, 1L);
+		public static final Param LECUYER1 = new Param(0x27BB2EE687B0B0FDL, 1L);
 
 		/**
 		 * LEcuyer 2 parameters: a = 0x2C6FE96EE78B6955L; b = 1
 		 */
-		public static final Param LECUYER2 = Param.of(0x2C6FE96EE78B6955L, 1L);
+		public static final Param LECUYER2 = new Param(0x2C6FE96EE78B6955L, 1L);
 
 		/**
 		 * LEcuyer 3 parameters: a = 0x369DEA0F31A53F85L; b = 1
 		 */
-		public static final Param LECUYER3 = Param.of(0x369DEA0F31A53F85L, 1L);
-
-
-		/**
-		 * The parameter <i>a</i> of the LC recursion.
-		 */
-		public final long a;
-
-		/**
-		 * The parameter <i>b</i> of the LC recursion.
-		 */
-		public final long b;
-
-		/**
-		 * Create a new parameter object.
-		 *
-		 * @param a the parameter <i>a</i> of the LC recursion.
-		 * @param b the parameter <i>b</i> of the LC recursion.
-		 */
-		private Param(final long a, final long b) {
-			this.a = a;
-			this.b = b;
-		}
-
-		public static Param of(final long a, final long b) {
-			return new Param(a, b);
-		}
-
-		@Override
-		public int hashCode() {
-			return 31*(int)(a^(a >>> 32)) + 31*(int)(b^(b >>> 32));
-		}
-
-		@Override
-		public boolean equals(final Object obj) {
-			return obj instanceof Param &&
-				((Param)obj).a == a &&
-				((Param)obj).b == b;
-		}
-
-		@Override
-		public String toString() {
-			return format("%s[a=%d, b=%d]", getClass().getName(), a, b);
-		}
-	}
-
-
-	/* *************************************************************************
-	 * Thread safe classes.
-	 * ************************************************************************/
-
-	/**
-	 * This class represents a <i>thread local</i> implementation of the
-	 * {@code LCG64ShiftRandom} PRNG.
-	 *
-	 * It's recommended to initialize the {@code RandomRegistry} the following
-	 * way:
-	 *
-	 * <pre>{@code
-	 * // Register the PRNG with the default parameters.
-	 * RandomRegistry.setRandom(new LCG64ShiftRandom.ThreadLocal());
-	 *
-	 * // Register the PRNG with the {@code LECUYER3} parameters.
-	 * RandomRegistry.setRandom(new LCG64ShiftRandom.ThreadLocal(
-	 *     LCG64ShiftRandom.LECUYER3
-	 * ));
-	 * }</pre>
-	 *
-	 * Be aware, that calls of the {@code setSeed(long)} method will throw an
-	 * {@code UnsupportedOperationException} for <i>thread local</i> instances.
-	 * <pre>{@code
-	 * RandomRegistry.setRandom(new LCG64ShiftRandom.ThreadLocal());
-	 *
-	 * // Will throw 'UnsupportedOperationException'.
-	 * RandomRegistry.getRandom().setSeed(1234);
-	 * }</pre>
-	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since 1.1
-	 * @version 3.0
-	 */
-	public static final class ThreadLocal
-		extends java.lang.ThreadLocal<LCG64ShiftRandom>
-	{
-		private static final long STEP_BASE = 1L << 56;
-
-		private int _block = 0;
-		private long _seed = PRNGSupport.seed();
-
-		private final Param _param;
-
-		/**
-		 * Create a new <i>thread local</i> instance of the
-		 * {@code LCG64ShiftRandom} PRNG with the given parameters.
-		 *
-		 * @param param the LC parameters.
-		 * @throws NullPointerException if the given parameters are null.
-		 */
-		public ThreadLocal(final Param param) {
-			_param = requireNonNull(param, "PRNG param must not be null.");
-		}
-
-		/**
-		 * Create a new <i>thread local</i> instance of the
-		 * {@code LCG64ShiftRandom} PRNG with the {@code DEFAULT} parameters.
-		 */
-		public ThreadLocal() {
-			this(Param.DEFAULT);
-		}
-
-		/**
-		 * Create a new PRNG using <i>block splitting</i> for guaranteeing well
-		 * distributed PRN for every thread.
-		 *
-		 * <p>
-		 * <strong>Tina’s Random Number Generator Library</strong>
-		 * <br>
-		 * <em>Chapter 2. Pseudo-random numbers for parallel Monte Carlo
-		 *     simulations, Page 7</em>
-		 * <br>
-		 * <small>Heiko Bauke</small>
-		 * <br>
-		 * [<a href="https://github.com/rabauke/trng4/blob/master/doc/trng.pdf">
-		 *  https://github.com/rabauke/trng4/blob/master/doc/trng.pdf
-		 *  </a>].
-		 */
-		@Override
-		protected synchronized LCG64ShiftRandom initialValue() {
-			if (_block > 127) {
-				_block = 0;
-				_seed = PRNGSupport.seed();
-			}
-
-			final LCG64ShiftRandom random = new TLRandom(_param, _seed);
-			random.jump(_block++*STEP_BASE);
-			return random;
-		}
+		public static final Param LECUYER3 = new Param(0x369DEA0F31A53F85L, 1L);
 
 	}
 
-	private static final class TLRandom extends LCG64ShiftRandom {
-		private static final long serialVersionUID = 1L;
-
-		private final Boolean _sentry = Boolean.TRUE;
-
-		private TLRandom(final Param param, final long seed) {
-			super(param, seed);
-		}
-
-		@Override
-		public void setSeed(final byte[] seed) {
-			if (_sentry != null) {
-				throw new UnsupportedOperationException(
-					"The 'setSeed(long)' method is not supported " +
-					"for thread local instances."
-				);
-			}
-		}
-
-	}
-
-	/**
-	 * This is a <i>thread safe</i> variation of the this PRNG&mdash;by
-	 * synchronizing the random number generation.
-	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since 1.1
-	 * @version 3.0
-	 */
-	public static final class ThreadSafe extends LCG64ShiftRandom {
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * Create a new PRNG instance with the given parameter and seed.
-		 *
-		 * @param param the parameter of the PRNG.
-		 * @param seed the seed of the PRNG.
-		 * @throws NullPointerException if the given {@code param} or {@code seed}
-		 *         is {@code null}.
-		 * @throws IllegalArgumentException if the given seed is shorter than
-		 *         {@link #SEED_BYTES}
-		 */
-		public ThreadSafe(final Param param, final byte[] seed) {
-			super(param, seed);
-		}
-
-		/**
-		 * Create a new PRNG instance with the given parameter and seed.
-		 *
-		 * @param seed the seed of the PRNG.
-		 * @param param the parameter of the PRNG.
-		 * @throws NullPointerException if the given {@code param} is
-		 *         {@code null}.
-		 */
-		public ThreadSafe(final Param param, final long seed) {
-			super(param, seed);
-		}
-
-		/**
-		 * Create a new PRNG instance with the given parameter and a safe seed
-		 *
-		 * @param param the PRNG parameter.
-		 * @throws NullPointerException if the given {@code param} is null.
-		 */
-		public ThreadSafe(final Param param) {
-			super(param);
-		}
-
-		/**
-		 * Create a new PRNG instance with the given parameter and seed.
-		 *
-		 * @param seed the seed of the PRNG.
-		 * @throws NullPointerException if the given {@code seed} is {@code null}.
-		 * @throws IllegalArgumentException if the given seed is shorter than
-		 *         {@link #SEED_BYTES}
-		 */
-		public ThreadSafe(final byte[] seed) {
-			super(seed);
-		}
-
-		/**
-		 * Create a new PRNG instance with {@link Param#DEFAULT} parameter and the
-		 * given seed.
-		 *
-		 * @param seed the seed of the PRNG
-		 */
-		public ThreadSafe(final long seed) {
-			super(seed);
-		}
-
-		/**
-		 * Create a new PRNG instance with {@link Param#DEFAULT} parameter and
-		 * a safe seed.
-		 */
-		public ThreadSafe() {
-		}
-
-		@Override
-		public synchronized void setSeed(final byte[] seed) {
-			super.setSeed(seed);
-		}
-
-		@Override
-		public synchronized void setSeed(final long seed) {
-			super.setSeed(seed);
-		}
-
-		@Override
-		public synchronized long nextLong() {
-			return super.nextLong();
-		}
-
-		@Override
-		public synchronized void split(final int p, final int s) {
-			super.split(p, s);
-		}
-
-		@Override
-		public synchronized void jump2(final int s) {
-			super.jump2(s);
-		}
-
-		@Override
-		public synchronized void jump(final long step) {
-			super.jump(step);
-		}
-
-	}
 
 	/**
 	 * Represents the state of this random engine
 	 */
-	private final static class State implements Serializable {
-		private static final long serialVersionUID = 1L;
+	private final static class State {
+		static final int SEED_BYTES = 8;
 
-		long _r;
+		long r;
 
 		State(final byte[] seed) {
-			setSeed(seed);
-		}
-
-		void setSeed(final byte[] seed) {
 			if (seed.length < SEED_BYTES) {
 				throw new IllegalArgumentException(format(
 					"Required %d seed bytes, but got %d.",
@@ -396,22 +121,7 @@ public class LCG64ShiftRandom extends Random64 {
 				));
 			}
 
-			_r = readLong(seed, 0);
-		}
-
-		@Override
-		public int hashCode() {
-			return Long.hashCode(_r);
-		}
-
-		@Override
-		public boolean equals(final Object obj) {
-			return obj instanceof State && ((State)obj)._r == _r;
-		}
-
-		@Override
-		public String toString() {
-			return format("State[%d]", _r);
+			r = readLong(seed, 0);
 		}
 	}
 
@@ -423,10 +133,10 @@ public class LCG64ShiftRandom extends Random64 {
 	/**
 	 * The number of seed bytes (8) this PRNG requires.
 	 */
-	public static final int SEED_BYTES = 8;
+	public static final int SEED_BYTES = State.SEED_BYTES;
 
-	private Param _param;
-	private final State _state;
+	private Param param;
+	private final State state;
 
 	/**
 	 * Create a new PRNG instance with the given parameter and seed.
@@ -439,8 +149,8 @@ public class LCG64ShiftRandom extends Random64 {
 	 *         {@link #SEED_BYTES}
 	 */
 	public LCG64ShiftRandom(final Param param, final byte[] seed) {
-		_param = requireNonNull(param, "PRNG param must not be null.");
-		_state = new State(seed);
+		this.param = requireNonNull(param, "PRNG param must not be null.");
+		state = new State(seed);
 	}
 
 	/**
@@ -498,7 +208,7 @@ public class LCG64ShiftRandom extends Random64 {
 	public long nextLong() {
 		step();
 
-		long t = _state._r;
+		long t = state.r;
 		t ^= t >>> 17;
 		t ^= t << 31;
 		t ^= t >>> 8;
@@ -506,23 +216,7 @@ public class LCG64ShiftRandom extends Random64 {
 	}
 
 	private void step() {
-		_state._r = _param.a*_state._r + _param.b;
-	}
-
-	/**
-	 * Set the seed value of the PRNG.
-	 *
-	 * @param seed the seed value.
-	 * @throws IllegalArgumentException if the given seed is shorter than
-	 *         {@link #SEED_BYTES}
-	 */
-	public void setSeed(final byte[] seed) {
-		if (_state != null) _state.setSeed(seed);
-	}
-
-	//@Override
-	public synchronized void setSeed(final long seed) {
-		setSeed(PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
+		state.r = param.a* state.r + param.b;
 	}
 
 	/**
@@ -550,9 +244,9 @@ public class LCG64ShiftRandom extends Random64 {
 
 		if (p > 1) {
 			jump(s + 1);
-			final long b = _param.b*f(p, _param.a);
-			final long a = IntMath.pow(_param.a, p);
-			_param = Param.of(a, b);
+			final long b = param.b*f(p, param.a);
+			final long a = IntMath.pow(param.a, p);
+			param = new Param(a, b);
 			backward();
 		}
 	}
@@ -578,8 +272,8 @@ public class LCG64ShiftRandom extends Random64 {
 			));
 		}
 
-		_state._r = _state._r*IntMath.pow(_param.a, 1L << s) +
-					f(1L << s, _param.a)*_param.b;
+		state.r = state.r *IntMath.pow(param.a, 1L << s) +
+					f(1L << s, param.a)* param.b;
 	}
 
 	/**
@@ -619,28 +313,8 @@ public class LCG64ShiftRandom extends Random64 {
 		}
 	}
 
-	public Param getParam() {
-		return _param;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 31;
-		hash += 17*_param.hashCode() + 37;
-		hash += 17*_state.hashCode() + 37;
-		return hash;
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		return obj instanceof LCG64ShiftRandom &&
-			Objects.equals(((LCG64ShiftRandom)obj)._param, _param) &&
-			Objects.equals(((LCG64ShiftRandom)obj)._state, _state);
-	}
-
-	@Override
-	public String toString() {
-		return format("%s[%s, %s]", getClass().getSimpleName(), _param, _state);
+	public Param param() {
+		return param;
 	}
 
 	/**
