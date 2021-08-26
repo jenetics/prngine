@@ -49,12 +49,12 @@ import java.util.function.LongSupplier;
  * @since 1.0
  * @version 1.0
  */
-public abstract class Random64 extends PRNG {
+public abstract class Random64 {
 
 	private static final long serialVersionUID = 1L;
 
 	protected Random64(final long seed) {
-		super(seed);
+		//super(seed);
 	}
 
 	protected Random64() {
@@ -65,16 +65,16 @@ public abstract class Random64 extends PRNG {
 	 * Force to explicitly override the Random.nextLong() method. All other
 	 * methods of this class are implemented by calling this method.
 	 */
-	@Override
+	//@Override
 	public abstract long nextLong();
 
 
-	@Override
+	//@Override
 	public boolean nextBoolean() {
 		return (nextLong() & 0x8000000000000000L) != 0L;
 	}
 
-	@Override
+	//@Override
 	public int nextInt() {
 		return (int)(nextLong() >>> Integer.SIZE);
 	}
@@ -88,7 +88,7 @@ public abstract class Random64 extends PRNG {
 	 * Optimized version of the {@link Random#nextBytes(byte[])} method for
 	 * 64-bit random engines.
 	 */
-	@Override
+	//@Override
 	public void nextBytes(final byte[] bytes) {
 		for (int i = 0, len = bytes.length; i < len;) {
 			int n = min(len - i, Long.BYTES);
@@ -99,7 +99,7 @@ public abstract class Random64 extends PRNG {
 		}
 	}
 
-	@Override
+	//@Override
 	public float nextFloat() {
 		return PRNG.toFloat2(nextLong());
 	}
@@ -108,7 +108,7 @@ public abstract class Random64 extends PRNG {
 	 * Optimized version of the {@link Random#nextDouble()} method for 64-bit
 	 * random engines.
 	 */
-	@Override
+	//@Override
 	public double nextDouble() {
 		return PRNG.toDouble2(nextLong());
 	}

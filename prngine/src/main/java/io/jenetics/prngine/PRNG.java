@@ -27,8 +27,7 @@ import static java.lang.Math.min;
 import static java.lang.String.format;
 import static io.jenetics.prngine.utils.toBytes;
 
-import java.io.Serial;
-import java.util.Random;
+import java.security.PrivilegedAction;
 import java.util.random.RandomGenerator;
 
 /**
@@ -41,113 +40,22 @@ import java.util.random.RandomGenerator;
  * @since 1.0
  * @version !__version__!
  */
-public abstract class PRNG implements RandomGenerator {
-
-	/**
-	 * Create a new {@code PRNG} instance with the given {@code seed}.
-	 *
-	 * @param seed the seed of the new {@code PRNG} instance.
-	 */
-	protected PRNG(final long seed) {
-		//super(seed);
+public abstract class PRNG {
+	private PRNG() {
 	}
 
-	/**
-	 * Create a new {@code PRNG} instance with a seed created with the
-	 * {@link PRNG#seed()} value.
-	 */
-	protected PRNG() {
-		this(seed());
+	private static final boolean USE_SECURE_RANDOM_SEED =
+		secureRandomSeedRequested();
+
+	private static boolean secureRandomSeedRequested() {
+		@SuppressWarnings("removal")
+		final boolean value = java.security.AccessController.doPrivileged(
+			(PrivilegedAction<Boolean>)() ->
+				Boolean.getBoolean("java.util.secureRandomSeed")
+		);
+		return value;
 	}
 
-//	/**
-//	 * Returns a pseudo-random, uniformly distributed int value between origin
-//	 * (included) and bound (excluded).
-//	 *
-//	 * @param origin the origin (inclusive) of each random value
-//	 * @param bound the bound (exclusive) of each random value
-//	 * @return a random integer greater than or equal to {@code min} and
-//	 *         less than or equal to {@code max}
-//	 * @throws IllegalArgumentException if {@code origin >= bound}
-//	 *
-//	 * @see PRNG#nextInt(int, int, Random)
-//	 */
-//	public int nextInt(final int origin, final int bound) {
-//		return nextInt(origin, bound, this);
-//	}
-
-//	/**
-//	 * Returns a pseudo-random, uniformly distributed int value between origin
-//	 * (included) and bound (excluded).
-//	 *
-//	 * @param origin the origin (inclusive) of each random value
-//	 * @param bound the bound (exclusive) of each random value
-//	 * @return a random long integer greater than or equal to {@code min}
-//	 *         and less than or equal to {@code max}
-//	 * @throws IllegalArgumentException if {@code origin >= bound}
-//	 *
-//	 * @see PRNG#nextLong(long, long, Random)
-//	 */
-//	public long nextLong(final long origin, final long bound) {
-//		return nextLong(origin, bound, this);
-//	}
-
-//	/**
-//	 * Returns a pseudorandom, uniformly distributed int value between 0
-//	 * (inclusive) and the specified value (exclusive), drawn from the given
-//	 * random number generator's sequence.
-//	 *
-//	 * @param n the bound on the random number to be returned. Must be
-//	 *        positive.
-//	 * @return the next pseudorandom, uniformly distributed int value
-//	 *         between 0 (inclusive) and n (exclusive) from the given random
-//	 *         number generator's sequence
-//	 * @throws IllegalArgumentException if n is smaller than 1.
-//	 *
-//	 * @see PRNG#nextLong(long, Random)
-//	 */
-//	public long nextLong(final long n) {
-//		return nextLong(n, this);
-//	}
-
-//	/**
-//	 * Returns a pseudorandom, uniformly distributed double value between
-//	 * origin (inclusively) and bound (exclusively).
-//	 *
-//	 * @param origin lower bound for generated float value (inclusively)
-//	 * @param bound upper bound for generated float value (exclusively)
-//	 * @return a random float greater than or equal to {@code origin} and less
-//	 *         than to {@code bound}
-//	 * @throws IllegalArgumentException if {@code origin} is greater than or
-//	 *         equal to {@code bound}
-//	 *
-//	 * @see PRNG#nextFloat(float, float, Random)
-//	 */
-//	public float nextFloat(final float origin, final float bound) {
-//		return nextFloat(origin, bound, this);
-//	}
-
-//	/**
-//	 * Returns a pseudorandom, uniformly distributed double value between
-//	 * origin (inclusively) and bound (exclusively).
-//	 *
-//	 * @param origin lower bound for generated double value (inclusively)
-//	 * @param bound upper bound for generated double value (exclusively)
-//	 * @return a random double greater than or equal to {@code origin} and less
-//	 *         than to {@code bound}
-//	 * @throws IllegalArgumentException if {@code origin} is greater than or
-//	 *         equal to {@code bound}
-//	 *
-//	 * @see PRNG#nextDouble(double, double, Random)
-//	 */
-//	public double nextDouble(final double origin, final double bound) {
-//		return nextDouble(origin, bound, this);
-//	}
-
-
-	/* *************************************************************************
-	 * Static helper methods.
-	 **************************************************************************/
 
 	static float toFloat2(final long a) {
 		return (int)(a >>> 41)*0x1.0p-23f;
@@ -412,7 +320,7 @@ public abstract class PRNG implements RandomGenerator {
 	 * }
 	 * }</pre>
 	 *
-	 * @see #seedBytes(long, int)
+	 * @see #expandSeedToBytes(long, int)
 	 *
 	 * @param seed the seed value
 	 * @param seedBytes the resulting seeding byte array to fill
@@ -420,7 +328,7 @@ public abstract class PRNG implements RandomGenerator {
 	 * @throws NullPointerException if the {@code seedBytes} array is
 	 *         {@code null}.
 	 */
-	public static byte[] seedBytes(final long seed, final byte[] seedBytes) {
+	public static byte[] expandSeedToBytes(final long seed, final byte[] seedBytes) {
 		long seedValue = seed;
 		for (int i = 0, len = seedBytes.length; i < len;) {
 			final int n = min(len - i, Long.SIZE/Byte.SIZE);
@@ -445,7 +353,7 @@ public abstract class PRNG implements RandomGenerator {
 	 * array. This method is deterministic and doesn't increase the entropy of
 	 * the input {@code seed}.
 	 *
-	 * @see #seedBytes(long, byte[])
+	 * @see #expandSeedToBytes(long, byte[])
 	 *
 	 * @param seed the seed value
 	 * @param length the length of the new seed byte array
@@ -453,8 +361,8 @@ public abstract class PRNG implements RandomGenerator {
 	 * @throws NegativeArraySizeException if the given {@code length} is smaller
 	 *         than zero
 	 */
-	public static byte[] seedBytes(final long seed, final int length) {
-		return seedBytes(seed, new byte[length]);
+	public static byte[] expandSeedToBytes(final long seed, final int length) {
+		return expandSeedToBytes(seed, new byte[length]);
 	}
 
 	/**
@@ -480,7 +388,9 @@ public abstract class PRNG implements RandomGenerator {
 	 * @return the random seed value.
 	 */
 	public static long seed() {
-		return seed(System.nanoTime());
+		final long a = mixStafford13(System.currentTimeMillis());
+		final long b = mixStafford13(System.nanoTime());
+		return seed(mix(a, b));
 	}
 
 	/**
@@ -514,9 +424,17 @@ public abstract class PRNG implements RandomGenerator {
 		return c;
 	}
 
-	private static long objectHashSeed() {
-		return (long)new Object().hashCode() << 32 | new Object().hashCode();
+	private static long mixStafford13(long z) {
+		z = (z ^ (z >>> 30)) * 0xbf58476d1ce4e5b9L;
+		z = (z ^ (z >>> 27)) * 0x94d049bb133111ebL;
+		return z ^ (z >>> 31);
 	}
 
+	private static long objectHashSeed() {
+		return mixStafford13(
+			(long)new Object().hashCode() << 32 |
+				new Object().hashCode()
+		);
+	}
 
 }

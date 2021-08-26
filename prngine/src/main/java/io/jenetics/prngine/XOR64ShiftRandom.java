@@ -772,7 +772,7 @@ public class XOR64ShiftRandom extends Random64 {
 	 * @throws NullPointerException if the given {@code param} is {@code null}.
 	 */
 	public XOR64ShiftRandom(final Param param, final long seed) {
-		this(param, PRNG.seedBytes(seed, SEED_BYTES));
+		this(param, PRNG.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -804,7 +804,7 @@ public class XOR64ShiftRandom extends Random64 {
 	 * @param seed the seed of the PRNG
 	 */
 	public XOR64ShiftRandom(final long seed) {
-		this(Param.DEFAULT, PRNG.seedBytes(seed, SEED_BYTES));
+		this(Param.DEFAULT, PRNG.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**

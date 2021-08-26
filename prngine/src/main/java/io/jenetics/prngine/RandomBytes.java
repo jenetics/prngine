@@ -4,12 +4,12 @@ import static java.lang.Math.min;
 
 import java.util.Random;
 
-public abstract class RandomBytes extends PRNG {
+public abstract class RandomBytes {
 
 	private static final long serialVersionUID = 1L;
 
 	protected RandomBytes(final long seed) {
-		super(seed);
+		//super(seed);
 	}
 
 	protected RandomBytes() {
@@ -20,22 +20,22 @@ public abstract class RandomBytes extends PRNG {
 	 * Force to explicitly override the {@link Random#nextBytes(byte[])} method. All other
 	 * methods of this class are implemented by calling this method.
 	 */
-	@Override
+	//@Override
 	public abstract void nextBytes(final byte[] bytes);
 
 	/**
 	 * Force to explicitly override the Random.nextLong() method. All other
 	 * methods of this class are implemented by calling this method.
 	 */
-	@Override
+	//@Override
 	public abstract long nextLong();
 
-	@Override
+	//@Override
 	public boolean nextBoolean() {
 		return (nextLong() & 0x8000000000000000L) != 0L;
 	}
 
-	@Override
+	//@Override
 	public int nextInt() {
 		return (int)(nextLong() >>> Integer.SIZE);
 	}
@@ -45,7 +45,7 @@ public abstract class RandomBytes extends PRNG {
 		return (int)(nextLong() >>> (Long.SIZE - bits));
 	}
 
-	@Override
+	//@Override
 	public float nextFloat() {
 		return PRNG.toFloat2(nextLong());
 	}
@@ -54,7 +54,7 @@ public abstract class RandomBytes extends PRNG {
 	 * Optimized version of the {@link Random#nextDouble()} method for 64-bit
 	 * random engines.
 	 */
-	@Override
+	//@Override
 	public double nextDouble() {
 		return PRNG.toDouble2(nextLong());
 	}
