@@ -19,10 +19,7 @@
  */
 package io.jenetics.prngine;
 
-import static java.lang.Math.min;
-
 import java.util.Objects;
-import java.util.Random;
 import java.util.function.LongSupplier;
 import java.util.random.RandomGenerator;
 
@@ -48,18 +45,11 @@ import java.util.random.RandomGenerator;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version !__version__!
  */
 public abstract class Random64 implements RandomGenerator {
 
-	private static final long serialVersionUID = 1L;
-
-	protected Random64(final long seed) {
-		//super(seed);
-	}
-
 	protected Random64() {
-		this(PRNGSupport.seed());
 	}
 
 	/**
@@ -70,49 +60,6 @@ public abstract class Random64 implements RandomGenerator {
 	public abstract long nextLong();
 
 
-	//@Override
-	public boolean nextBoolean() {
-		return (nextLong() & 0x8000000000000000L) != 0L;
-	}
-
-	//@Override
-	public int nextInt() {
-		return (int)(nextLong() >>> Integer.SIZE);
-	}
-
-	//@Override
-	protected int next(final int bits) {
-		return (int)(nextLong() >>> (Long.SIZE - bits));
-	}
-
-	/**
-	 * Optimized version of the {@link Random#nextBytes(byte[])} method for
-	 * 64-bit random engines.
-	 */
-	//@Override
-	public void nextBytes(final byte[] bytes) {
-		for (int i = 0, len = bytes.length; i < len;) {
-			int n = min(len - i, Long.BYTES);
-
-			for (long x = nextLong(); --n >= 0; x >>= Byte.SIZE) {
-				bytes[i++] = (byte)x;
-			}
-		}
-	}
-
-	//@Override
-	public float nextFloat() {
-		return PRNGSupport.toFloat2(nextLong());
-	}
-
-	/**
-	 * Optimized version of the {@link Random#nextDouble()} method for 64-bit
-	 * random engines.
-	 */
-	//@Override
-	public double nextDouble() {
-		return PRNGSupport.toDouble2(nextLong());
-	}
 
 
 	/**
@@ -128,22 +75,9 @@ public abstract class Random64 implements RandomGenerator {
 		Objects.requireNonNull(supplier);
 
 		return new Random64() {
-			private static final long serialVersionUID = 1L;
-
-			private final Boolean _sentry = Boolean.TRUE;
-
 			@Override
 			public long nextLong() {
 				return supplier.getAsLong();
-			}
-
-			//@Override
-			public synchronized void setSeed(final long seed) {
-				if (_sentry != null) {
-					throw new UnsupportedOperationException(
-						"The 'setSeed(long)' method is not supported."
-					);
-				}
 			}
 		};
 	}

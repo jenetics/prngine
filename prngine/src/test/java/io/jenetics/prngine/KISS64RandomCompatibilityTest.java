@@ -24,7 +24,6 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -41,19 +40,6 @@ public class KISS64RandomCompatibilityTest {
 		final long seed = Long.parseLong(parameters[0]);
 
 		final KISS64Random random = new KISS64Random(seed);
-
-		for (final String[] value : data) {
-			final long expected = Long.parseLong(value[0]);
-			Assert.assertEquals(random.nextLong(), expected);
-		}
-	}
-
-	@Test(dataProvider = "data")
-	public void threadSafeRandom(final TestData data) {
-		final String[] parameters = data.getParameters();
-		final long seed = Long.parseLong(parameters[0]);
-
-		final KISS64Random random = new KISS64Random.ThreadSafe(seed);
 
 		for (final String[] value : data) {
 			final long expected = Long.parseLong(value[0]);
