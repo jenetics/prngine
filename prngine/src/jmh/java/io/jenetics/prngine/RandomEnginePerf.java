@@ -22,6 +22,7 @@ package io.jenetics.prngine;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.random.RandomGenerator;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -44,9 +45,9 @@ public class RandomEnginePerf {
 	@State(Scope.Benchmark)
 	@BenchmarkMode(Mode.Throughput)
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static abstract class Base {
+	public static class KISS32RandomPerf {
 
-		public Random random;
+		public RandomGenerator random =  new KISS32Random();
 
 		@Benchmark
 		public int nextInt() {
@@ -60,7 +61,7 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public int nextIntRangeOriginBound() {
-			return PRNG.nextInt(
+			return Seeds.nextInt(
 				Integer.MAX_VALUE/10,
 				Integer.MAX_VALUE/2,
 				random
@@ -74,12 +75,12 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public long nextLongRange() {
-			return PRNG.nextLong(Long.MAX_VALUE/2, random);
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
 		}
 
 		@Benchmark
 		public long nextLongRangeOriginBound() {
-			return PRNG.nextLong(
+			return Seeds.nextLong(
 				Long.MAX_VALUE/10,
 				Long.MAX_VALUE/2,
 				random
@@ -93,7 +94,7 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public float nextFloatRange() {
-			return PRNG.nextFloat(
+			return Seeds.nextFloat(
 				Float.MAX_VALUE/10,
 				Float.MAX_VALUE/2,
 				random
@@ -107,7 +108,7 @@ public class RandomEnginePerf {
 
 		@Benchmark
 		public double nextDoubleRange() {
-			return PRNG.nextDouble(
+			return Seeds.nextDouble(
 				Double.MAX_VALUE/10,
 				Double.MAX_VALUE/2,
 				random
@@ -115,61 +116,671 @@ public class RandomEnginePerf {
 		}
 	}
 
-	public static class KISS32RandomPerf extends Base {{
-		random = new KISS32Random();
-	}}
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class KISS64RandomPerf {
 
-	public static class KISS64RandomPerf extends Base {{
-		random = new KISS64Random();
-	}}
+		public RandomGenerator random =  new KISS64Random();
 
-	public static class LCG64ShiftRandomPerf extends Base {{
-		random = new LCG64ShiftRandom();
-	}}
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
 
-	public static class MT19937_32RandomPerf extends Base {{
-		random = new MT19937_32Random();
-	}}
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
 
-	public static class MT19937_64RandomPerf extends Base {{
-		random = new MT19937_64Random();
-	}}
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
 
-	public static class XOR32ShiftRandomPerf extends Base {{
-		random = new XOR32ShiftRandom();
-	}}
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
 
-	public static class XOR64ShiftRandomPerf extends Base {{
-		random = new XOR64ShiftRandom();
-	}}
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
 
-	public static class SimpleRandom64Perf extends Base {{
-		random = new Random64() {
-			long _x = 0;
-			@Override
-			public long nextLong() {
-				return ++_x;
-			}
-		};
-	}}
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
 
-	public static class SimpleRandom32Perf extends Base {{
-		random = new Random32() {
-			int _x = 0;
-			@Override
-			public int nextInt() {
-				return ++_x;
-			}
-		};
-	}}
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
 
-	public static class RandomPerf extends Base {{
-		random = new Random();
-	}}
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
 
-	public static class ThreadLocalRandomPerf extends Base {{
-		random = ThreadLocalRandom.current();
-	}}
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class LCG64ShiftRandomPerf {
+
+		public RandomGenerator random =  new LCG64ShiftRandom();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class MT19937_32RadnomPerf {
+
+		public RandomGenerator random =  new MT19937_32Random();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class MT19937_64RandomPerf {
+
+		public RandomGenerator random =  new MT19937_64Random();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class XOR32ShiftRandomPerf {
+
+		public RandomGenerator random =  new XOR32ShiftRandom();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class XOR64ShiftRandomPerf {
+
+		public RandomGenerator random =  new XOR64ShiftRandom();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class JavaRandomPerf {
+
+		public RandomGenerator random =  new Random();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class DefaultRandomGeneratorPerf {
+
+		public RandomGenerator random =  RandomGenerator.getDefault();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
+
+	@State(Scope.Benchmark)
+	@BenchmarkMode(Mode.Throughput)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	public static class JavaThreadLocalRandomPerf {
+
+		public RandomGenerator random =  ThreadLocalRandom.current();
+
+		@Benchmark
+		public int nextInt() {
+			return random.nextInt();
+		}
+
+		@Benchmark
+		public int nextIntRange() {
+			return random.nextInt(Integer.MAX_VALUE/2);
+		}
+
+		@Benchmark
+		public int nextIntRangeOriginBound() {
+			return Seeds.nextInt(
+				Integer.MAX_VALUE/10,
+				Integer.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public long nextLong() {
+			return random.nextLong();
+		}
+
+		@Benchmark
+		public long nextLongRange() {
+			return Seeds.nextLong(Long.MAX_VALUE/2, random);
+		}
+
+		@Benchmark
+		public long nextLongRangeOriginBound() {
+			return Seeds.nextLong(
+				Long.MAX_VALUE/10,
+				Long.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public float nextFloat() {
+			return random.nextFloat();
+		}
+
+		@Benchmark
+		public float nextFloatRange() {
+			return Seeds.nextFloat(
+				Float.MAX_VALUE/10,
+				Float.MAX_VALUE/2,
+				random
+			);
+		}
+
+		@Benchmark
+		public double nextDouble() {
+			return random.nextDouble();
+		}
+
+		@Benchmark
+		public double nextDoubleRange() {
+			return Seeds.nextDouble(
+				Double.MAX_VALUE/10,
+				Double.MAX_VALUE/2,
+				random
+			);
+		}
+	}
 
 	public static void main(String[] args) throws RunnerException {
 		final Options opt = new OptionsBuilder()
@@ -185,6 +796,118 @@ public class RandomEnginePerf {
 
 
 }
+
+/*
+# Run complete. Total time: 13:55:10
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+Benchmark                                                              Mode  Cnt    Score    Error   Units
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextDouble                thrpt   25   97.360 ±  0.463  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextDoubleRange           thrpt   25   89.932 ±  0.154  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextFloat                 thrpt   25  160.578 ±  0.439  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextFloatRange            thrpt   25  135.929 ±  0.334  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextInt                   thrpt   25  190.206 ±  0.250  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextIntRange              thrpt   25  144.070 ±  1.348  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextIntRangeOriginBound   thrpt   25   86.885 ±  0.572  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextLong                  thrpt   25  119.714 ±  0.297  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextLongRange             thrpt   25   94.908 ±  0.212  ops/us
+RandomEnginePerf.DefaultRandomGeneratorPerf.nextLongRangeOriginBound  thrpt   25   63.190 ±  0.154  ops/us
+RandomEnginePerf.JavaRandomPerf.nextDouble                            thrpt   25   47.168 ±  0.077  ops/us
+RandomEnginePerf.JavaRandomPerf.nextDoubleRange                       thrpt   25   46.351 ±  0.090  ops/us
+RandomEnginePerf.JavaRandomPerf.nextFloat                             thrpt   25   93.864 ±  0.199  ops/us
+RandomEnginePerf.JavaRandomPerf.nextFloatRange                        thrpt   25   92.733 ±  0.156  ops/us
+RandomEnginePerf.JavaRandomPerf.nextInt                               thrpt   25   94.410 ±  0.210  ops/us
+RandomEnginePerf.JavaRandomPerf.nextIntRange                          thrpt   25   92.186 ±  2.473  ops/us
+RandomEnginePerf.JavaRandomPerf.nextIntRangeOriginBound               thrpt   25   68.462 ±  0.128  ops/us
+RandomEnginePerf.JavaRandomPerf.nextLong                              thrpt   25   47.256 ±  0.072  ops/us
+RandomEnginePerf.JavaRandomPerf.nextLongRange                         thrpt   25   47.208 ±  0.082  ops/us
+RandomEnginePerf.JavaRandomPerf.nextLongRangeOriginBound              thrpt   25   34.775 ±  0.324  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextDouble                 thrpt   25  142.655 ±  0.281  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextDoubleRange            thrpt   25  124.341 ±  0.162  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextFloat                  thrpt   25  211.338 ±  0.621  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextFloatRange             thrpt   25  163.035 ±  0.289  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextInt                    thrpt   25  253.591 ±  0.549  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextIntRange               thrpt   25  186.080 ±  0.314  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextIntRangeOriginBound    thrpt   25   98.175 ±  0.433  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextLong                   thrpt   25  253.087 ±  0.696  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextLongRange              thrpt   25  164.764 ±  0.394  ops/us
+RandomEnginePerf.JavaThreadLocalRandomPerf.nextLongRangeOriginBound   thrpt   25   94.589 ±  0.300  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextDouble                          thrpt   25   98.665 ±  0.202  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextDoubleRange                     thrpt   25   83.710 ±  0.218  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextFloat                           thrpt   25  120.126 ±  0.612  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextFloatRange                      thrpt   25  109.802 ±  0.233  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextInt                             thrpt   25  148.482 ±  0.542  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextIntRange                        thrpt   25  126.518 ±  0.569  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextIntRangeOriginBound             thrpt   25   81.452 ±  0.466  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextLong                            thrpt   25  109.987 ±  0.187  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextLongRange                       thrpt   25   91.283 ±  0.164  ops/us
+RandomEnginePerf.KISS32RandomPerf.nextLongRangeOriginBound            thrpt   25   65.615 ±  0.122  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextDouble                          thrpt   25  122.836 ±  0.286  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextDoubleRange                     thrpt   25  106.883 ±  0.228  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextFloat                           thrpt   25  119.527 ±  0.489  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextFloatRange                      thrpt   25  104.145 ±  0.583  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextInt                             thrpt   25  132.728 ±  0.230  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextIntRange                        thrpt   25  112.677 ±  0.144  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextIntRangeOriginBound             thrpt   25   69.398 ±  0.146  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextLong                            thrpt   25  135.122 ±  0.163  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextLongRange                       thrpt   25  116.227 ±  0.249  ops/us
+RandomEnginePerf.KISS64RandomPerf.nextLongRangeOriginBound            thrpt   25   71.885 ±  0.193  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextDouble                      thrpt   25  190.805 ±  0.322  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextDoubleRange                 thrpt   25  152.657 ±  0.247  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextFloat                       thrpt   25  174.456 ±  0.606  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextFloatRange                  thrpt   25  150.500 ±  0.170  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextInt                         thrpt   25  240.318 ±  0.502  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextIntRange                    thrpt   25  167.222 ±  0.388  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextIntRangeOriginBound         thrpt   25   93.285 ±  1.071  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextLong                        thrpt   25  250.122 ±  0.628  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextLongRange                   thrpt   25  148.523 ±  0.296  ops/us
+RandomEnginePerf.LCG64ShiftRandomPerf.nextLongRangeOriginBound        thrpt   25   91.225 ±  0.250  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextDouble                      thrpt   25   86.248 ±  0.221  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextDoubleRange                 thrpt   25   74.306 ±  0.600  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextFloat                       thrpt   25  131.913 ±  0.727  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextFloatRange                  thrpt   25  114.268 ±  0.222  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextInt                         thrpt   25  168.558 ±  0.347  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextIntRange                    thrpt   25  120.130 ±  0.912  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextIntRangeOriginBound         thrpt   25   62.006 ±  7.089  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextLong                        thrpt   25   97.436 ±  1.738  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextLongRange                   thrpt   25   66.622 ± 12.412  ops/us
+RandomEnginePerf.MT19937_32RadnomPerf.nextLongRangeOriginBound        thrpt   25   30.576 ±  0.083  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextDouble                      thrpt   25  124.367 ±  0.164  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextDoubleRange                 thrpt   25  117.178 ±  0.210  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextFloat                       thrpt   25  118.080 ±  1.728  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextFloatRange                  thrpt   25  110.365 ±  0.242  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextInt                         thrpt   25  152.713 ±  0.250  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextIntRange                    thrpt   25  111.553 ±  0.224  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextIntRangeOriginBound         thrpt   25   62.858 ±  4.299  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextLong                        thrpt   25  141.779 ± 15.605  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextLongRange                   thrpt   25  115.722 ±  0.168  ops/us
+RandomEnginePerf.MT19937_64RandomPerf.nextLongRangeOriginBound        thrpt   25   68.247 ±  0.786  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextDouble                      thrpt   25  120.176 ±  0.176  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextDoubleRange                 thrpt   25  102.624 ±  0.226  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextFloat                       thrpt   25  165.008 ±  2.746  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextFloatRange                  thrpt   25  151.449 ±  0.293  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextInt                         thrpt   25  220.940 ±  0.538  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextIntRange                    thrpt   25  151.161 ±  1.723  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextIntRangeOriginBound         thrpt   25   93.949 ±  0.469  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextLong                        thrpt   25  140.559 ±  0.258  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextLongRange                   thrpt   25  110.855 ±  0.201  ops/us
+RandomEnginePerf.XOR32ShiftRandomPerf.nextLongRangeOriginBound        thrpt   25   68.239 ±  0.319  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextDouble                      thrpt   25  164.714 ±  1.710  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextDoubleRange                 thrpt   25  150.338 ±  1.485  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextFloat                       thrpt   25  163.754 ±  2.070  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextFloatRange                  thrpt   25  145.982 ±  0.632  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextInt                         thrpt   25  193.338 ±  0.278  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextIntRange                    thrpt   25  146.203 ±  1.309  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextIntRangeOriginBound         thrpt   25   89.656 ±  0.931  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextLong                        thrpt   25  217.812 ±  0.716  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextLongRange                   thrpt   25  153.408 ±  0.359  ops/us
+RandomEnginePerf.XOR64ShiftRandomPerf.nextLongRangeOriginBound        thrpt   25   88.905 ±  1.318  ops/us
+ */
 
 /*
 Result: 93.621 ±(99.9%) 0.786 ops/us [Average]

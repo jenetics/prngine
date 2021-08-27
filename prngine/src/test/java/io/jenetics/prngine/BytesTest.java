@@ -27,16 +27,39 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  */
-public abstract class Random64TestBase extends RandomTestBase {
+public class BytesTest {
 
-	@Test(dataProvider = "seededPRNGPair")
-	public void sameByteLongValueSequence(final Random rand1, final Random rand2) {
-		final byte[] bytes = new byte[8];
-		for (int i = 0; i < 1234; ++i) {
-			rand1.nextBytes(bytes);
-			RandomTestBase.reverse(bytes);
+	@Test
+	public void readInt() {
+		for (int i = 1; i < 100; ++i) {
+			final byte[] data = new byte[i*4];
 
-			Assert.assertEquals(Random64TestBase.toLong(bytes), rand2.nextLong());
+			final Random random = new Random(i);
+			for (int j = 0; j < i; ++j) {
+				System.arraycopy(Bytes.toBytes(random.nextInt()), 0, data, j*4, 4);
+			}
+
+			random.setSeed(i);
+			for (int j = 0; j < i; ++j) {
+				Assert.assertEquals(Bytes.readInt(data, j), random.nextInt());
+			}
+		}
+	}
+
+	@Test
+	public void readLong() {
+		for (int i = 1; i < 100; ++i) {
+			final byte[] data = new byte[i*8];
+
+			final Random random = new Random(i);
+			for (int j = 0; j < i; ++j) {
+				System.arraycopy(Bytes.toBytes(random.nextLong()), 0, data, j*8, 8);
+			}
+
+			random.setSeed(i);
+			for (int j = 0; j < i; ++j) {
+				Assert.assertEquals(Bytes.readLong(data, j), random.nextLong());
+			}
 		}
 	}
 

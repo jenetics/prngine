@@ -4,21 +4,25 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.jenetics/prngine/badge.svg)](http://search.maven.org/#search|ga|1|a%3A%22prngine%22)
 [![Javadoc](https://www.javadoc.io/badge/io.jenetics/prngine.svg)](http://www.javadoc.io/doc/io.jenetics/prngine)
 
-*PRNGine* is a pseudo-random number generator library for sequential and parallel [Monte Carlo simulations](https://de.wikipedia.org/wiki/Monte-Carlo-Simulation). It has been designed to work smoothly with the [Jenetics](http://jenetics.io) GA library, but it has no dependency to it. All PRNG implementations of this library extends the Java [Random](http://docs.oracle.com/javase/8/docs/api/java/util/Random.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
+*PRNGine* is a pseudo-random number generator library for sequential and parallel [Monte Carlo simulations](https://de.wikipedia.org/wiki/Monte-Carlo-Simulation). All PRNG implementations of this library extends the Java [RandomGenerator](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/random/RandomGenerator.html) class, which makes it easily usable in other projects. *The PRNGs are* **not** *cryptographically strong RNGs.*
 
-The following PRNGs are currently implemented:
+The following PRNGs are implemented:
 
 * `KISS32Random`: Implementation of an simple PRNG as proposed in [Good Practice in (Pseudo) Random Number Generation for Bioinformatics Applications](http://www0.cs.ucl.ac.uk/staff/d.jones/GoodPracticeRNG.pdf) (JKISS32, page 3) [*David Jones*](mailto:d.jones@cs.ucl.ac.uk), UCL Bioinformatics Group.
 * `KISS64Random`: Implementation of an simple PRNG as proposed in [Good Practice in (Pseudo) Random Number Generation for Bioinformatics Applications](http://www0.cs.ucl.ac.uk/staff/d.jones/GoodPracticeRNG.pdf) (JKISS64, page 10) [*David Jones*](mailto:d.jones@cs.ucl.ac.uk), UCL Bioinformatics Group.
-* `LCG64ShiftRandom`: This class implements a linear congruential PRNG with additional bit-shift transition. It is a port of the [trng::lcg64_shift](https://github.com/rabauke/trng4/blob/master/src/lcg64_shift.hpp) PRNG class of the [TRNG](http://numbercrunch.de/trng/) library created by Heiko Bauke.
+* `LCG64ShiftRandom`: This class implements a linear congruential PRNG with additional bit-shift transition. It is a port of the [trng::lcg64_shift](https://github.com/rabauke/trng4/blob/master/trng/lcg64_shift.hpp) PRNG class of the [TRNG](https://www.numbercrunch.de/trng/) library created by Heiko Bauke.
 * `MT19937_32Random`: This is a 32-bit version of Mersenne Twister pseudorandom number generator.
 * `MT19937_64Random`: This is a 64-bit version of Mersenne Twister pseudorandom number generator.
 * `XOR32ShiftRandom`: This generator was discovered and characterized by George Marsaglia [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just three XORs and three shifts (generally fast operations) it produces a full period of 2<sup>32</sup> - 1 on 32 bits. (The missing value is zero, which perpetuates itself and must be avoided.) High and low bits pass Diehard.
 * `XOR64ShiftRandom`: This generator was discovered and characterized by George Marsaglia  [[Xorshift RNGs](http://www.jstatsoft.org/v08/i14/paper)]. In just  three XORs and three shifts (generally fast operations) it produces a full  period of 2<sup>64</sup> - 1 on 64 bits. (The missing value is zero, which  perpetuates itself and must be avoided.) High and low bits pass Diehard.
 
+> **NOTE**
+> 
+> All implemented random generators are not thread-safe. If they are used in a multi-threaded environment, they must be *synchronized* externally. 
+
 ## Requirements
 
-*  **JDK 11**: You need Java 11 for building the library.
+*  **JDK 17**: You need Java 17 for building the library.
 
 ## Building PRNGine
 
@@ -38,39 +42,14 @@ For  building the PRNGine library you have to check out the master branch from G
 
 ## Examples
 
-### PRN creation
+### PRNG creation
 
-Every PRNG of the library comes in three flavours, a un-synchronized *base* implementation, a synchronized implementation and in a *thread-local* implementation.
+All random generators can be created with `new` or via the `RandomGenerator.of("<name>")` or `RandomGeneratorFactory.of("<name>")` factory method.
 
-**Un-synchronized base implementation** with the naming scheme `XXXRandom`:
 ```java
-final Random random = new LCG64ShiftRandom();
-random.doubles(10).forEach(System.out::println);
-```
-
-**Synchronized implementation** with the naming scheme `XXXRandom.ThreadSafe`:
-```java
-final Random random = new LCG64ShiftRandom.ThreadSafe();
-final Runnable runnable = () -> random.doubles(10).forEach(System.out::println);
-
-final ExecutionService executor = ...;
-for (int i = 0; i < 10; ++i) {
-	executor.submit(runnable);
-}
-```
-
-**`ThreadLocal `implementation** with the naming scheme `XXXRandom.ThreadLocal`:
-```java
-static final ThreadLocal<? extends Random> random = 
-    new LCG64ShiftRandom.ThreadLocal();
-
-final Runnable runnable = () -> random.get()
-    .doubles(10).forEach(System.out::println);
-
-final ExecutionService executor = ...;
-for (int i = 0; i < 10; ++i) {
-	executor.submit(runnable);
-}
+final var random1 = new LCG64ShiftRandom();
+final RandomGenerator random2 = RandomGenerator.of("LCG64ShiftRandom");
+final RandomGenerator random3 = RandomGeneratorFactory.of("LCG64ShiftRandom").create();
 ```
 
 ### PRNG seeding
@@ -83,15 +62,15 @@ final long seed = PRNG.seed();
 final Random ranomd = new LCG64ShiftRandom(seed);
 ```
 
-A more detailed description of how the seeding is implemented can be found [here](random_seeding.adoc). Every random engine has a `seedBytes()` method, which return the seed `byte[]` array with the length required by the PRNG.
+Every random engine has a `seedBytes()` method, which return the seed `byte[]` array with the length required by the PRNG.
 
 ```java
 // This random creation is equivalent to...
-final Random random1 = new LCG64ShiftRandom();
+final RandomGenerator random1 = new LCG64ShiftRandom();
 
 // ...creating it with the seed bytes of the PRNG. 
 final byte[] seed = LCG64ShiftRandom.seedBytes();
-final Random random2 = new LCG53ShiftRandom(seed);
+final RandomGenerator random2 = new LCG53ShiftRandom(seed);
 ```
 
 ## Test results
@@ -109,7 +88,6 @@ All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.
   MT19937_64Random | 111 | 3 | 0
   XOR32ShiftRandom | 101 | 4 | 9
   XOR64ShiftRandom | 107 | 7 | 0
-  java.util.Random | 106 | 4 | 4
   
 ### Runtime performance tests  
 
@@ -124,14 +102,13 @@ The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.ja
   MT19937_64Random | 148 | 120 |148 | 120
   XOR32ShiftRandom | 227 | 161 |140 | 120
   XOR64ShiftRandom | 225 | 166 |235 | 166
-  java.util.Random | 91 | 89 |46 | 46
   
   
 ## License
 
 The library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-    Copyright 2017-2020 Franz Wilhelmstötter
+    Copyright 2017-2021 Franz Wilhelmstötter
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -146,6 +123,10 @@ The library is licensed under the [Apache License, Version 2.0](http://www.apach
     limitations under the License.
 
 ## Release notes
+
+### [2.0.0](https://github.com/jenetics/prngine/releases/tag/v2.0.0)
+
+* Make the random generators work seamlessly with the new Java 17 `RandomGenerator` API.
 
 ### [1.1.0](https://github.com/jenetics/prngine/releases/tag/v1.1.0)
 

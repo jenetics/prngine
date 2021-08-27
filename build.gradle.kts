@@ -74,6 +74,10 @@ gradle.projectsEvaluated {
 				targetCompatibility = JavaVersion.current()
 			}
 
+			configure<JavaPluginExtension> {
+				modularity.inferModulePath.set(true)
+			}
+
 			setupJava(project)
 			setupTestReporting(project)
 			setupJavadoc(project)

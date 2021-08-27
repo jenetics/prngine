@@ -21,22 +21,13 @@ package io.jenetics.prngine;
 
 import static java.lang.String.format;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
  * @version 1.0
  */
-final class utils {
-	private utils() {}
-
-	@SafeVarargs
-	static <T> List<T> listOf(final T... elements) {
-		return Collections.unmodifiableList(Arrays.asList(elements));
-	}
+final class Bytes {
+	private Bytes() {}
 
 	static int readInt(final byte[] bytes, final int index) {
 		final int offset = index*Integer.BYTES;

@@ -19,22 +19,31 @@
  */
 package io.jenetics.prngine.internal;
 
-import io.jenetics.prngine.Random64;
+import java.util.random.RandomGenerator;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @version 1.0
  * @since 1.0
  */
-public final class ObjectHashRandom extends Random64 {
-
-	private static final long serialVersionUID = 1L;
+public final class ObjectHashRandom implements RandomGenerator {
+	private static final class ObjectSeedSource {
+		static long seed() {
+			final long a = new ObjectSeedSource().hashCode();
+			final long b = new ObjectSeedSource().hashCode();
+			return mixStafford13(a << 32 | b);
+		}
+		private static long mixStafford13(final long z) {
+			long v = (z^(z >>> 30))*0xbf58476d1ce4e5b9L;
+			v = (v^(v >>> 27))*0x94d049bb133111ebL;
+			return v^(v >>> 31);
+		}
+	}
 
 	@Override
 	public long nextLong() {
-		return ((long)new Object().hashCode() << 32) | new Object().hashCode();
+		return ObjectSeedSource.seed();
 	}
-
 }
 
 /*

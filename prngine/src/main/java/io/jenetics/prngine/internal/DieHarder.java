@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
-import java.util.Random;
+import java.util.random.RandomGenerator;
 
 /**
  * Class for testing a given random engine using the
@@ -50,7 +50,7 @@ import java.util.Random;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version !__version__!
  */
 public final class DieHarder {
 
@@ -62,10 +62,10 @@ public final class DieHarder {
 	 * @version 1.0
 	 */
 	private static final class Randomizer implements Runnable {
-		private final Random _random;
+		private final RandomGenerator _random;
 		private final CountingOutputStream _out;
 
-		Randomizer(final Random random, final OutputStream out) {
+		Randomizer(final RandomGenerator random, final OutputStream out) {
 			_random = requireNonNull(random);
 			_out = new CountingOutputStream(out);
 		}
@@ -99,7 +99,7 @@ public final class DieHarder {
 	}
 
 	public static List<Result> test(
-		final Random random,
+		final RandomGenerator random,
 		final List<String> args,
 		final PrintStream out
 	)
@@ -133,6 +133,7 @@ public final class DieHarder {
 			for (String l = stdout.readLine(); l != null; l = stdout.readLine()) {
 				Result.parse(l).ifPresent(results::add);
 				System.out.println(l);
+				System.out.flush();
 			}
 		}
 
@@ -180,18 +181,12 @@ public final class DieHarder {
 	)
 		throws IOException, InterruptedException
 	{
-		final Random random;
-		try {
-			random = (Random)Class.forName(randomName).getDeclaredConstructor().newInstance();
-			printt(out,
-				"Testing: %s (%s)",
-				randomName,
-				new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())
-			);
-		} catch (Exception e) {
-			println(out, "Can't create random class '%s'.", randomName);
-			throw new RuntimeException("Invalid random name: " + randomName);
-		}
+		final RandomGenerator random = RandomGenerator.of(randomName);
+		printt(out,
+			"Testing: %s (%s)",
+			randomName,
+			new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())
+		);
 
 		return test(random, args, out);
 	}
@@ -273,6 +268,9 @@ public final class DieHarder {
 		}
 
 		static Optional<Result> parse(final String line) {
+			//System.out.println("## " + line);
+			//System.out.flush();
+
 			final String[] parts = line.split(quote("|"));
 
 			if (parts.length == 6) {

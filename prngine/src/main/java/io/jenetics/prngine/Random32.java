@@ -20,8 +20,8 @@
 package io.jenetics.prngine;
 
 import java.util.Objects;
-import java.util.Random;
 import java.util.function.IntSupplier;
+import java.util.random.RandomGenerator;
 
 /**
  * Base class for random generators which create 32 bit random values natively.
@@ -43,19 +43,9 @@ import java.util.function.IntSupplier;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version !__version__!
  */
-public abstract class Random32 extends PRNG {
-
-	private static final long serialVersionUID = 1L;
-
-	protected Random32(final long seed) {
-		super(seed);
-	}
-
-	protected Random32() {
-		this(PRNG.seed());
-	}
+public abstract class Random32 implements RandomGenerator {
 
 	/**
 	 * Force to explicitly override the Random.nexInt() method. All other
@@ -64,41 +54,9 @@ public abstract class Random32 extends PRNG {
 	@Override
 	public abstract int nextInt();
 
-	/*
-	@Override
-	public void nextBytes(final byte[] bytes) {
-		for (int i = 0, len = bytes.length; i < len;) {
-			int n = Math.min(len - i, Integer.BYTES);
-
-			for (int x = nextInt(); --n >= 0; x >>= Byte.SIZE) {
-				bytes[i++] = (byte)x;
-			}
-		}
-	}
-	*/
-
 	@Override
 	public long nextLong() {
 		return ((long)nextInt() << 32) + nextInt();
-	}
-
-	@Override
-	protected int next(final int bits) {
-		return nextInt() >>> (32 - bits);
-	}
-
-	@Override
-	public float nextFloat() {
-		return PRNG.toFloat2(nextInt());
-	}
-
-	/**
-	 * Optimized version of the {@link Random#nextDouble()} method for 32-bit
-	 * random engines.
-	 */
-	@Override
-	public double nextDouble() {
-		return PRNG.toDouble2(nextInt(), nextInt());
 	}
 
 	/**
@@ -114,22 +72,9 @@ public abstract class Random32 extends PRNG {
 		Objects.requireNonNull(supplier);
 
 		return new Random32() {
-			private static final long serialVersionUID = 1L;
-
-			private final Boolean _sentry = Boolean.TRUE;
-
 			@Override
 			public int nextInt() {
 				return supplier.getAsInt();
-			}
-
-			@Override
-			public synchronized void setSeed(final long seed) {
-				if (_sentry != null) {
-					throw new UnsupportedOperationException(
-						"The 'setSeed(long)' method is not supported."
-					);
-				}
 			}
 		};
 	}

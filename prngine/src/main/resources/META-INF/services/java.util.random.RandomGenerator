@@ -1,0 +1,7 @@
+io.jenetics.prngine.KISS32Random
+io.jenetics.prngine.KISS64Random
+io.jenetics.prngine.LCG64ShiftRandom
+io.jenetics.prngine.MT19937_32Random
+io.jenetics.prngine.MT19937_64Random
+io.jenetics.prngine.XOR32ShiftRandom
+io.jenetics.prngine.XOR64ShiftRandom

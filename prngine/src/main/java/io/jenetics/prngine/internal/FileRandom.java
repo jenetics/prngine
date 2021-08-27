@@ -12,11 +12,11 @@ import java.io.SequenceInputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Enumeration;
+import java.util.random.RandomGenerator;
 
-import io.jenetics.prngine.PRNG;
-import io.jenetics.prngine.Random64;
+import io.jenetics.prngine.Seeds;
 
-public class FileRandom extends Random64 implements Closeable {
+public class FileRandom implements RandomGenerator, Closeable {
 	private static final long serialVersionUID = 1L;
 
 	private long _seed;
@@ -24,7 +24,7 @@ public class FileRandom extends Random64 implements Closeable {
 	private final DataInputStream _input;
 
 	public FileRandom(final File dir) {
-		_seed = PRNG.seed();
+		_seed = Seeds.seed();
 		_input = new DataInputStream(new InfiniteInput(
 			dir.listFiles((dir1, name) -> name.endsWith(".jpg"))
 		));
