@@ -20,7 +20,7 @@
 package io.jenetics.prngine;
 
 import static java.lang.Math.min;
-import static io.jenetics.prngine.utils.toBytes;
+import static io.jenetics.prngine.Bytes.toBytes;
 
 import java.util.random.RandomGenerator;
 

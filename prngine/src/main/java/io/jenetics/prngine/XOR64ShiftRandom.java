@@ -21,7 +21,7 @@ package io.jenetics.prngine;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static io.jenetics.prngine.utils.readLong;
+import static io.jenetics.prngine.Bytes.readLong;
 
 import java.util.List;
 import java.util.random.RandomGenerator;

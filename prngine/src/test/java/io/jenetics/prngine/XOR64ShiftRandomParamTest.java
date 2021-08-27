@@ -22,7 +22,6 @@ package io.jenetics.prngine;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
-import static io.jenetics.prngine.utils.listOf;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,7 @@ import io.jenetics.prngine.internal.DieHarder.Result;
  */
 public class XOR64ShiftRandomParamTest {
 
-	private static final List<Param> ALL_PARAMS = listOf(
+	private static final List<Param> ALL_PARAMS = List.of(
 		new Param( 1, 1,54),
 		new Param( 1, 1,55),
 		new Param( 1, 3,45),

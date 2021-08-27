@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  */
-public class utilsTest {
+public class BytesTest {
 
 	@Test
 	public void readInt() {
@@ -36,12 +36,12 @@ public class utilsTest {
 
 			final Random random = new Random(i);
 			for (int j = 0; j < i; ++j) {
-				System.arraycopy(utils.toBytes(random.nextInt()), 0, data, j*4, 4);
+				System.arraycopy(Bytes.toBytes(random.nextInt()), 0, data, j*4, 4);
 			}
 
 			random.setSeed(i);
 			for (int j = 0; j < i; ++j) {
-				Assert.assertEquals(utils.readInt(data, j), random.nextInt());
+				Assert.assertEquals(Bytes.readInt(data, j), random.nextInt());
 			}
 		}
 	}
@@ -53,12 +53,12 @@ public class utilsTest {
 
 			final Random random = new Random(i);
 			for (int j = 0; j < i; ++j) {
-				System.arraycopy(utils.toBytes(random.nextLong()), 0, data, j*8, 8);
+				System.arraycopy(Bytes.toBytes(random.nextLong()), 0, data, j*8, 8);
 			}
 
 			random.setSeed(i);
 			for (int j = 0; j < i; ++j) {
-				Assert.assertEquals(utils.readLong(data, j), random.nextLong());
+				Assert.assertEquals(Bytes.readLong(data, j), random.nextLong());
 			}
 		}
 	}

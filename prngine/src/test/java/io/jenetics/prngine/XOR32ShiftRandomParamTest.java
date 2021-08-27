@@ -23,7 +23,6 @@ import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
-import static io.jenetics.prngine.utils.listOf;
 
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,7 @@ import io.jenetics.prngine.internal.DieHarder.Result;
  */
 public class XOR32ShiftRandomParamTest {
 
-	private final static List<Param> ALL_PARAMS = listOf(
+	private final static List<Param> ALL_PARAMS = List.of(
 		new Param( 1, 3,10),
 		new Param( 1, 5,16),
 		new Param( 1, 5,19),

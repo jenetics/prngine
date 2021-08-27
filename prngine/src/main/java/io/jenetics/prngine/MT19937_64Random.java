@@ -20,7 +20,7 @@
 package io.jenetics.prngine;
 
 import static java.lang.String.format;
-import static io.jenetics.prngine.utils.readLong;
+import static io.jenetics.prngine.Bytes.readLong;
 
 import java.util.random.RandomGenerator;
 
