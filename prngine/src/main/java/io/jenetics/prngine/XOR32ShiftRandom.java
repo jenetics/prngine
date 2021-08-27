@@ -21,7 +21,6 @@ package io.jenetics.prngine;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static io.jenetics.prngine.utils.listOf;
 import static io.jenetics.prngine.utils.readInt;
 
 import java.util.List;
@@ -257,7 +256,7 @@ public class XOR32ShiftRandom extends Random32 {
 		 * Contains a list of the parameters with the highest <i>dieharder</i>
 		 * scores.
 		 */
-		public static final List<Param> PARAMS = listOf(
+		public static final List<Param> PARAMS = List.of(
 			new Param(2, 21, 9),
 			new Param(3, 13, 7),
 			new Param(5, 13, 6),

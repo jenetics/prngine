@@ -33,11 +33,6 @@ import java.util.List;
 final class utils {
 	private utils() {}
 
-	@SafeVarargs
-	static <T> List<T> listOf(final T... elements) {
-		return Collections.unmodifiableList(Arrays.asList(elements));
-	}
-
 	static int readInt(final byte[] bytes, final int index) {
 		final int offset = index*Integer.BYTES;
 		if (offset + Integer.BYTES > bytes.length) {
