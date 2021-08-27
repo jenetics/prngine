@@ -25,6 +25,7 @@ import static io.jenetics.prngine.IntMath.log2Floor;
 import static io.jenetics.prngine.utils.readLong;
 
 import java.io.Serializable;
+import java.util.random.RandomGenerator;
 
 /**
  * This class implements a linear congruential PRNG with additional bit-shift
@@ -65,7 +66,7 @@ import java.io.Serializable;
  * @since 1.0
  * @version 1.0
  */
-public class LCG64ShiftRandom extends Random64 {
+public class LCG64ShiftRandom implements RandomGenerator {
 
 	/* *************************************************************************
 	 * Parameter classes.
@@ -79,8 +80,11 @@ public class LCG64ShiftRandom extends Random64 {
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since 1.1
 	 * @version !__version__!
+	 *
+	 * @param a the LEcuyer parameter a
+	 * @param b the LEcuyer parameter b
 	 */
-	public static final record Param(long a, long b) implements Serializable {
+	public static final record Param(long a, long b) {
 
 		/**
 		 * The default PRNG parameters: a = 0xFBD19FBBC5C07FF5L; b = 1
@@ -313,6 +317,11 @@ public class LCG64ShiftRandom extends Random64 {
 		}
 	}
 
+	/**
+	 * Return the parameters for {@code this} random generator.
+	 *
+	 * @return the parameters for {@code this} random generator
+	 */
 	public Param param() {
 		return param;
 	}

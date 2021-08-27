@@ -23,6 +23,8 @@ import static java.lang.String.format;
 import static io.jenetics.prngine.utils.readInt;
 import static io.jenetics.prngine.utils.readLong;
 
+import java.util.random.RandomGenerator;
+
 /**
  * Implementation of an simple PRNG as proposed in
  * <a href="http://www0.cs.ucl.ac.uk/staff/d.jones/GoodPracticeRNG.pdf">
@@ -68,7 +70,7 @@ import static io.jenetics.prngine.utils.readLong;
  * @since 1.0
  * @version !__version__!
  */
-public class KISS64Random extends Random64 {
+public class KISS64Random implements RandomGenerator {
 
 	/**
 	 * The internal state of this PRNG.

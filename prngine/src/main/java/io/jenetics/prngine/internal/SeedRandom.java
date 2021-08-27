@@ -19,23 +19,20 @@
  */
 package io.jenetics.prngine.internal;
 
+import java.util.random.RandomGenerator;
+
 import io.jenetics.prngine.PRNGSupport;
-import io.jenetics.prngine.Random64;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
  * @version 1.0
  */
-public final class SeedRandom extends Random64 {
-
-	private static final long serialVersionUID = 1L;
-
+public final class SeedRandom implements RandomGenerator {
 	@Override
 	public long nextLong() {
 		return PRNGSupport.seed();
 	}
-
 }
 
 /*

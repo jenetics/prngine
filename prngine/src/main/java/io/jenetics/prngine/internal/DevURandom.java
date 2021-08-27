@@ -25,16 +25,14 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-
-import io.jenetics.prngine.Random64;
+import java.util.random.RandomGenerator;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version !__version__!
  */
-public class DevURandom extends Random64 implements Closeable {
-	private static final long serialVersionUID = 1L;
+public class DevURandom implements RandomGenerator, Closeable {
 
 	private final DataInputStream _input = input();
 

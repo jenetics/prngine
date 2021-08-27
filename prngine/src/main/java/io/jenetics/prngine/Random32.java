@@ -47,9 +47,6 @@ import java.util.random.RandomGenerator;
  */
 public abstract class Random32 implements RandomGenerator {
 
-	protected Random32() {
-	}
-
 	/**
 	 * Force to explicitly override the Random.nexInt() method. All other
 	 * methods of this class are implemented by calling this method.

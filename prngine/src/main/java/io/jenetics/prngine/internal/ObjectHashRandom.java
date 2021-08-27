@@ -19,22 +19,18 @@
  */
 package io.jenetics.prngine.internal;
 
-import io.jenetics.prngine.Random64;
+import java.util.random.RandomGenerator;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @version 1.0
  * @since 1.0
  */
-public final class ObjectHashRandom extends Random64 {
-
-	private static final long serialVersionUID = 1L;
-
+public final class ObjectHashRandom implements RandomGenerator {
 	@Override
 	public long nextLong() {
 		return ((long)new Object().hashCode() << 32) | new Object().hashCode();
 	}
-
 }
 
 /*

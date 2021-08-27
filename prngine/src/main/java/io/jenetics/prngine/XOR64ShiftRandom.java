@@ -25,6 +25,7 @@ import static io.jenetics.prngine.utils.listOf;
 import static io.jenetics.prngine.utils.readLong;
 
 import java.util.List;
+import java.util.random.RandomGenerator;
 
 /**
  * This generator was discovered and characterized by George Marsaglia
@@ -53,7 +54,7 @@ import java.util.List;
  * @since 1.0
  * @version !__version__!
  */
-public class XOR64ShiftRandom extends Random64 {
+public class XOR64ShiftRandom implements RandomGenerator {
 
 	/* *************************************************************************
 	 * Parameter classes.

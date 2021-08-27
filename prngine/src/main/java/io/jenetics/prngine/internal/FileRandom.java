@@ -12,11 +12,11 @@ import java.io.SequenceInputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.util.Enumeration;
+import java.util.random.RandomGenerator;
 
 import io.jenetics.prngine.PRNGSupport;
-import io.jenetics.prngine.Random64;
 
-public class FileRandom extends Random64 implements Closeable {
+public class FileRandom implements RandomGenerator, Closeable {
 	private static final long serialVersionUID = 1L;
 
 	private long _seed;
