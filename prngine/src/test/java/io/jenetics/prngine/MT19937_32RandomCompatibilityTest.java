@@ -43,7 +43,7 @@ public class MT19937_32RandomCompatibilityTest {
 
 	@DataProvider(name = "data")
 	public Object[][] data() {
-		return TestData.list("/org/jenetics/random/MT19937_32Random")
+		return TestData.list("/io/jenetics/prngine/MT19937_32Random")
 			.map(data -> new Object[]{data})
 			.toArray(Object[][]::new);
 	}

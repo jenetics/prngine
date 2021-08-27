@@ -316,7 +316,7 @@ public class XOR64ShiftRandomParamTest {
 		new Param(55, 9,56)
 	);
 
-	// ./jrun org.jenetics.random.XOR64ShiftRandomParamTest 2>> XOR64ShiftRandom.results
+	// ./jrun io.jenetics.prngine.XOR64ShiftRandomParamTest 2>> XOR64ShiftRandom.results
 	public static void main(final String[] args) throws Exception {
 		final int start = Stream.of(args).findFirst()
 			.map(Integer::valueOf)

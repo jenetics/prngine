@@ -49,14 +49,14 @@ public class KISS64RandomCompatibilityTest {
 
 	@DataProvider(name = "data")
 	public Object[][] data() {
-		return TestData.list("/org/jenetics/random/KISS64Random")
+		return TestData.list("/io/jenetics/prngine/KISS64Random")
 			.map(data -> new Object[]{data})
 			.toArray(Object[][]::new);
 	}
 
 	public static void main(final String[] args) throws IOException {
-		final String dir = "org.jenetics.random/src/test/resources/" +
-			"org/jenetics/random/KISS64Random";
+		final String dir = "prngine/src/test/resources/" +
+			"io/jenetics/prngine/KISS64Random";
 
 		for (int i = 0; i < 20; ++i) {
 			final long seed = i*12345678;

@@ -123,7 +123,7 @@ public class XOR32ShiftRandomParamTest {
 		new Param(17,15,26)
 	);
 
-	// ./jrun org.jenetics.random.XOR32ShiftRandomParamTest 2>> XOR32ShiftRandom.results
+	// ./jrun io.jenetics.prngine.XOR32ShiftRandomParamTest 2>> XOR32ShiftRandom.results
 	public static void main(final String[] args) throws Exception {
 		final int start = Stream.of(args).findFirst()
 			.map(Integer::valueOf)
