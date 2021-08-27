@@ -47,7 +47,7 @@ For  building the PRNGine library you have to check out the master branch from G
 All random generators can be created with `new` or via the `RandomGenerator.of("<name>")` or `RandomGeneratorFactory.of("<name>")` factory method.
 
 ```java
-final var random1 = new LCG64ShiftRandom();
+final LCG64ShiftRandom random1 = new LCG64ShiftRandom();
 final RandomGenerator random2 = RandomGenerator.of("LCG64ShiftRandom");
 final RandomGenerator random3 = RandomGeneratorFactory.of("LCG64ShiftRandom").create();
 ```
@@ -58,7 +58,7 @@ The library also contains methods for creating *random* seed values, which can b
 
 ```java
 // Creating a new 64 bit seed value.
-final long seed = PRNG.seed();
+final long seed = Seeds.seed();
 final Random ranomd = new LCG64ShiftRandom(seed);
 ```
 
