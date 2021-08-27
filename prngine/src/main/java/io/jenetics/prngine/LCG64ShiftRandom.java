@@ -21,8 +21,8 @@ package io.jenetics.prngine;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static io.jenetics.prngine.IntMath.log2Floor;
 import static io.jenetics.prngine.Bytes.readLong;
+import static io.jenetics.prngine.IntMath.log2Floor;
 
 import java.util.random.RandomGenerator;
 
@@ -63,9 +63,9 @@ import java.util.random.RandomGenerator;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version !__version__!
  */
-public class LCG64ShiftRandom implements RandomGenerator {
+public class LCG64ShiftRandom implements RandomGenerator.ArbitrarilyJumpableGenerator {
 
 	/* *************************************************************************
 	 * Parameter classes.
@@ -116,6 +116,10 @@ public class LCG64ShiftRandom implements RandomGenerator {
 
 		long r;
 
+		private State(final State state) {
+			this.r = state.r;
+		}
+
 		State(final byte[] seed) {
 			if (seed.length < SEED_BYTES) {
 				throw new IllegalArgumentException(format(
@@ -129,10 +133,6 @@ public class LCG64ShiftRandom implements RandomGenerator {
 	}
 
 
-	/* *************************************************************************
-	 * Main class.
-	 * ************************************************************************/
-
 	/**
 	 * The number of seed bytes (8) this PRNG requires.
 	 */
@@ -140,6 +140,11 @@ public class LCG64ShiftRandom implements RandomGenerator {
 
 	private Param param;
 	private final State state;
+
+	private LCG64ShiftRandom(final Param param, final State state) {
+		this.param = requireNonNull(param);
+		this.state = new State(state);
+	}
 
 	/**
 	 * Create a new PRNG instance with the given parameter and seed.
@@ -261,7 +266,8 @@ public class LCG64ShiftRandom implements RandomGenerator {
 	 * @param s the 2<sup>s</sup> steps to jump ahead.
 	 * @throws IllegalArgumentException if {@code s < 0}.
 	 */
-	public void jump2(final int s) {
+	@Override
+	public void jumpPowerOfTwo(final int s) {
 		if (s < 0) {
 			throw new IllegalArgumentException(format(
 				"s must be positive but was %d.", s
@@ -279,14 +285,8 @@ public class LCG64ShiftRandom implements RandomGenerator {
 					f(1L << s, param.a)* param.b;
 	}
 
-	/**
-	 * Changes the internal state of the PRNG in such a way that the engine
-	 * <i>jumps</i> s steps ahead.
-	 *
-	 * @param step the steps to jump ahead.
-	 * @throws IllegalArgumentException if {@code s < 0}.
-	 */
-	public void jump(final long step) {
+	@Override
+	public void jump(final double step) {
 		if (step < 0) {
 			throw new IllegalArgumentException(format(
 				"step must be positive but was %d", step
@@ -298,11 +298,11 @@ public class LCG64ShiftRandom implements RandomGenerator {
 				step();
 			}
 		} else {
-			long s = step;
+			long s = Math.round(step);
 			int i = 0;
 			while (s > 0) {
 				if (s%2 == 1) {
-					jump2(i);
+					jumpPowerOfTwo(i);
 				}
 				++i;
 				s >>= 1;
@@ -312,8 +312,23 @@ public class LCG64ShiftRandom implements RandomGenerator {
 
 	private void backward() {
 		for (int i = 0; i < Long.SIZE; ++i) {
-			jump2(i);
+			jumpPowerOfTwo(i);
 		}
+	}
+
+	@Override
+	public double jumpDistance() {
+		return 1 << 20;
+	}
+
+	@Override
+	public double leapDistance() {
+		return 1L << 40;
+	}
+
+	@Override
+	public LCG64ShiftRandom copy() {
+		return new LCG64ShiftRandom(param, state);
 	}
 
 	/**

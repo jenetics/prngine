@@ -41,7 +41,7 @@ public class LCG64ShiftRandomCompatibilityTest {
 		final LCG64ShiftRandom random = new LCG64ShiftRandom(seed);
 		random.split(splitp, splits);
 		random.jump(jump);
-		random.jump2(jump2);
+		random.jumpPowerOfTwo(jump2);
 
 		for (final String[] value : data) {
 			final long expected = Long.parseLong(value[0]);
