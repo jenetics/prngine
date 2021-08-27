@@ -458,7 +458,7 @@ public class XOR64ShiftRandom implements RandomGenerator {
 	 * @throws NullPointerException if the given {@code param} is {@code null}.
 	 */
 	public XOR64ShiftRandom(final Param param, final long seed) {
-		this(param, PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
+		this(param, Seeds.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -490,7 +490,7 @@ public class XOR64ShiftRandom implements RandomGenerator {
 	 * @param seed the seed of the PRNG
 	 */
 	public XOR64ShiftRandom(final long seed) {
-		this(Param.DEFAULT, PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
+		this(Param.DEFAULT, Seeds.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -498,7 +498,7 @@ public class XOR64ShiftRandom implements RandomGenerator {
 	 * seed.
 	 */
 	public XOR64ShiftRandom() {
-		this(Param.DEFAULT, PRNGSupport.seed());
+		this(Param.DEFAULT, Seeds.seed());
 	}
 
 	private void setSeed(final byte[] seed) {
@@ -525,12 +525,12 @@ public class XOR64ShiftRandom implements RandomGenerator {
 	 * Create a new <em>seed</em> byte array suitable for this PRNG. The
 	 * returned seed array is {@link #SEED_BYTES} long.
 	 *
-	 * @see PRNGSupport#seedBytes(int)
+	 * @see Seeds#seedBytes(int)
 	 *
 	 * @return a new <em>seed</em> byte array of length {@link #SEED_BYTES}
 	 */
 	public static byte[] seedBytes() {
-		return PRNGSupport.seedBytes(SEED_BYTES);
+		return Seeds.seedBytes(SEED_BYTES);
 	}
 
 }

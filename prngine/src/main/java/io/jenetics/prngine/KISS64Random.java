@@ -136,7 +136,7 @@ public class KISS64Random implements RandomGenerator {
 	 * @param seed the random seed value
 	 */
 	public KISS64Random(final long seed) {
-		this(PRNGSupport.expandSeedToBytes(seed, SEED_BYTES));
+		this(Seeds.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -170,12 +170,12 @@ public class KISS64Random implements RandomGenerator {
 	 * Create a new <em>seed</em> byte array suitable for this PRNG. The
 	 * returned seed array is {@link #SEED_BYTES} long.
 	 *
-	 * @see PRNGSupport#seedBytes(int)
+	 * @see Seeds#seedBytes(int)
 	 *
 	 * @return a new <em>seed</em> byte array of length {@link #SEED_BYTES}
 	 */
 	public static byte[] seedBytes() {
-		return PRNGSupport.seedBytes(SEED_BYTES);
+		return Seeds.seedBytes(SEED_BYTES);
 	}
 
 }

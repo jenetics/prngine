@@ -21,7 +21,7 @@ package io.jenetics.prngine.internal;
 
 import java.util.random.RandomGenerator;
 
-import io.jenetics.prngine.PRNGSupport;
+import io.jenetics.prngine.Seeds;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
@@ -31,7 +31,7 @@ import io.jenetics.prngine.PRNGSupport;
 public final class SeedRandom implements RandomGenerator {
 	@Override
 	public long nextLong() {
-		return PRNGSupport.seed();
+		return Seeds.seed();
 	}
 }
 

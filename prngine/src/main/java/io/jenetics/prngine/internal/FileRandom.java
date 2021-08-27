@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.util.Enumeration;
 import java.util.random.RandomGenerator;
 
-import io.jenetics.prngine.PRNGSupport;
+import io.jenetics.prngine.Seeds;
 
 public class FileRandom implements RandomGenerator, Closeable {
 	private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class FileRandom implements RandomGenerator, Closeable {
 	private final DataInputStream _input;
 
 	public FileRandom(final File dir) {
-		_seed = PRNGSupport.seed();
+		_seed = Seeds.seed();
 		_input = new DataInputStream(new InfiniteInput(
 			dir.listFiles((dir1, name) -> name.endsWith(".jpg"))
 		));
