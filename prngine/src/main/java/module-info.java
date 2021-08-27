@@ -86,7 +86,7 @@ import io.jenetics.prngine.XOR64ShiftRandom;
  * <pre>{@code
  * // This random creation is equivalent to...
  * final RandomGenerator random1 = new LCG64ShiftRandom();
- * 
+ *
  * // ...creating it with the seed bytes of the PRNG.
  * final byte[] seed = LCG64ShiftRandom.seedBytes();
  * final RandomGenerator random2 = new LCG53ShiftRandom(seed);
