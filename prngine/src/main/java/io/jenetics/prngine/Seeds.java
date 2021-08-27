@@ -31,8 +31,8 @@ import java.util.random.RandomGenerator;
  * range.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
- * @version !__version__!
+ * @since 2.0.0
+ * @version 2.0.0
  */
 public abstract class Seeds {
 

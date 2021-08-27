@@ -68,7 +68,7 @@ import java.util.random.RandomGenerator;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version !__version__!
+ * @version 2.0.0
  */
 public class KISS64Random implements RandomGenerator {
 

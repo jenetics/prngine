@@ -97,7 +97,7 @@ import io.jenetics.prngine.XOR64ShiftRandom;
  * externally.</em>
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since !__version__!
+ * @since 2.0.0
  */
 module io.jenetics.prngine {
 	exports io.jenetics.prngine;

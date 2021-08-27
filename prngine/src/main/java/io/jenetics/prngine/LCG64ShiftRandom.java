@@ -63,7 +63,7 @@ import java.util.random.RandomGenerator;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version !__version__!
+ * @version 2.0.0
  */
 public class LCG64ShiftRandom implements RandomGenerator.ArbitrarilyJumpableGenerator {
 
@@ -78,7 +78,7 @@ public class LCG64ShiftRandom implements RandomGenerator.ArbitrarilyJumpableGene
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since 1.1
-	 * @version !__version__!
+	 * @version 2.0.0
 	 *
 	 * @param a the LEcuyer parameter a
 	 * @param b the LEcuyer parameter b
