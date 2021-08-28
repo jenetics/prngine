@@ -50,9 +50,9 @@ import java.util.List;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 2.0.0
+ * @version 2.0
  */
-public class XOR32ShiftRandom extends Random32 {
+public class XOR32ShiftRandom extends Random32 implements SplittableRandom {
 
 	/* *************************************************************************
 	 * Parameter classes.
@@ -398,6 +398,17 @@ public class XOR32ShiftRandom extends Random32 {
 	@Override
 	public int nextInt() {
 		return x = shift.shift(x, param);
+	}
+
+
+	@Override
+	public SplittableGenerator split(final SplittableGenerator source) {
+		final var shift = Shift.values()[source.nextInt(Shift.values().length)];
+		final var param = Param.PARAMS.get(source.nextInt(Param.PARAMS.size()));
+		final var seed = new byte[SEED_BYTES];
+		source.nextBytes(seed);
+
+		return new XOR32ShiftRandom(shift, param, seed);
 	}
 
 	/**

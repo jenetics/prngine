@@ -65,7 +65,7 @@ import java.util.Random;
  * @since 1.0
  * @version 2.0.0
  */
-public class KISS32Random extends Random32 {
+public class KISS32Random extends Random32 implements SplittableRandom {
 
 	/**
 	 * The internal state of random engine.
@@ -164,6 +164,14 @@ public class KISS32Random extends Random32 {
 		state.x += 1411392427;
 
 		return state.x + state.y + state.w;
+	}
+
+	@Override
+	public SplittableGenerator split(final SplittableGenerator source) {
+		final var seed = new byte[SEED_BYTES];
+		source.nextBytes(seed);
+
+		return new KISS32Random(seed);
 	}
 
 	/**

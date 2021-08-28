@@ -70,7 +70,7 @@ import java.util.random.RandomGenerator;
  * @since 1.0
  * @version 2.0.0
  */
-public class KISS64Random implements RandomGenerator {
+public class KISS64Random implements SplittableRandom {
 
 	/**
 	 * The internal state of this PRNG.
@@ -164,6 +164,14 @@ public class KISS64Random implements RandomGenerator {
 		state.z2 = (int)t;
 
 		return state.x + state.y + state.z1 + ((long)state.z2 << 32);
+	}
+
+	@Override
+	public SplittableGenerator split(final SplittableGenerator source) {
+		final var seed = new byte[SEED_BYTES];
+		source.nextBytes(seed);
+
+		return new KISS64Random(seed);
 	}
 
 	/**

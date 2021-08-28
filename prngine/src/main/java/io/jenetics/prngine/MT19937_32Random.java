@@ -42,7 +42,7 @@ import static io.jenetics.prngine.Bytes.readInt;
  * @since 1.0
  * @version 2.0.0
  */
-public class MT19937_32Random extends Random32 {
+public class MT19937_32Random extends Random32 implements SplittableRandom {
 
 	private static final int N = 624;
 	private static final int M = 397;
@@ -165,6 +165,14 @@ public class MT19937_32Random extends Random32 {
 		x ^= x >>> 18;
 
 		return x;
+	}
+
+	@Override
+	public SplittableGenerator split(final SplittableGenerator source) {
+		final var seed = new byte[SEED_BYTES];
+		source.nextBytes(seed);
+
+		return new MT19937_32Random(seed);
 	}
 
 	/**
