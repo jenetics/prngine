@@ -91,7 +91,7 @@ public final class DieHarder {
 		final PrintStream out = System.out;
 		if (args.length < 1) {
 			println(out, "Usage: \n" +
-				"   java org.jenetics.internal.util.DieHarder <random-class-name>");
+				"   java io.jenetics.prngine.internal.DieHarder <random-class-name>");
 			return;
 		}
 
