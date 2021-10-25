@@ -25,14 +25,12 @@ import static io.jenetics.prngine.Bytes.toBytes;
 import java.util.random.RandomGenerator;
 
 /**
- * Abstract {@code Random} class with additional <i>next</i> random number
- * methods. It also contains static helper methods for creating sane random
- * seed values ({@link #seed()}) and creating random values within a given
- * range.
+ * This class contains helper methods for creating sane random seed values
+ * ({@link #seed()}).
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
- * @since 2.0.0
- * @version 2.0.0
+ * @since 1.0
+ * @version 1.0
  */
 public abstract class Seeds {
 

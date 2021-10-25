@@ -53,7 +53,7 @@ import java.util.random.RandomGenerator;
  * @since 1.0
  * @version 2.0.0
  */
-public class XOR64ShiftRandom implements RandomGenerator {
+public class XOR64ShiftRandom implements SplittableRandom {
 
 	/* *************************************************************************
 	 * Parameter classes.
@@ -248,7 +248,7 @@ public class XOR64ShiftRandom implements RandomGenerator {
 	 * Parameter class for the {@code XOR64ShiftRandom} generator.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @version 1.0
+	 * @version 2.0
 	 * @since 1.0
 	 */
 	public static final record Param(int a, int b, int c) {
@@ -518,6 +518,16 @@ public class XOR64ShiftRandom implements RandomGenerator {
 	@Override
 	public long nextLong() {
 		return x = shift.shift(x, param);
+	}
+
+	@Override
+	public SplittableGenerator split(final SplittableGenerator source) {
+		final var shift = Shift.values()[source.nextInt(Shift.values().length)];
+		final var param = Param.PARAMS.get(source.nextInt(Param.PARAMS.size()));
+		final var seed = new byte[SEED_BYTES];
+		source.nextBytes(seed);
+
+		return new XOR64ShiftRandom(shift, param, seed);
 	}
 
 	/**

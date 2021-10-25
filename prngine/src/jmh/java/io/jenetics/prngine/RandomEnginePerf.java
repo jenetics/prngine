@@ -19,17 +19,20 @@
  */
 package io.jenetics.prngine;
 
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.random.RandomGenerator;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -37,750 +40,88 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz  Wilhelmstötter</a>
- * @version 1.0
+ * @version 2.0
  * @since 1.0
  */
+@Fork(value = 1, warmups = 3)
+@Warmup(iterations = 3)
+@BenchmarkMode(Mode.Throughput)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class RandomEnginePerf {
 
 	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class KISS32RandomPerf {
+	public static class BenchmarkState {
 
-		public RandomGenerator random =  new KISS32Random();
+		@Param({
+			"KISS32Random",
+			"KISS64Random",
+			"LCG64ShiftRandom",
+			"MT19937_32Random",
+			"MT19937_64Random",
+			"XOR32ShiftRandom",
+			"XOR64ShiftRandom"
+		})
+		public String name;
 
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
+		public RandomGenerator random;
+
+		@Setup(Level.Trial)
+		public void setUp() {
+			random = RandomGenerator.of(name);
 		}
 
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
 	}
 
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class KISS64RandomPerf {
-
-		public RandomGenerator random =  new KISS64Random();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
+	@Benchmark
+	public int nextInt(final BenchmarkState state) {
+		return state.random.nextInt();
 	}
 
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class LCG64ShiftRandomPerf {
+//	@Benchmark
+//	public int nextIntRange(final BenchmarkState state) {
+//		return state.random.nextInt(Integer.MAX_VALUE/2);
+//	}
+//
+//	@Benchmark
+//	public int nextIntRangeOriginBound(final BenchmarkState state) {
+//		return state.random.nextInt(Integer.MAX_VALUE/10, Integer.MAX_VALUE/2);
+//	}
 
-		public RandomGenerator random =  new LCG64ShiftRandom();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
+	@Benchmark
+	public long nextLong(final BenchmarkState state) {
+		return state.random.nextLong();
 	}
 
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class MT19937_32RadnomPerf {
+//	@Benchmark
+//	public long nextLongRange(final BenchmarkState state) {
+//		return state.random.nextLong(Long.MAX_VALUE/2);
+//	}
+//
+//	@Benchmark
+//	public long nextLongRangeOriginBound(final BenchmarkState state) {
+//		return state.random.nextLong(Long.MAX_VALUE/10, Long.MAX_VALUE/2);
+//	}
+
+//	@Benchmark
+//	public float nextFloat(final BenchmarkState state) {
+//		return state.random.nextFloat();
+//	}
+//
+//	@Benchmark
+//	public float nextFloatRange(final BenchmarkState state) {
+//		return state.random.nextFloat(Float.MAX_VALUE/10, Float.MAX_VALUE/2);
+//	}
+//
+//	@Benchmark
+//	public double nextDouble(final BenchmarkState state) {
+//		return state.random.nextDouble();
+//	}
+//
+//	@Benchmark
+//	public double nextDoubleRange(final BenchmarkState state) {
+//		return state.random.nextDouble(Double.MAX_VALUE/10, Double.MAX_VALUE/2);
+//	}
 
-		public RandomGenerator random =  new MT19937_32Random();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
-	}
-
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class MT19937_64RandomPerf {
-
-		public RandomGenerator random =  new MT19937_64Random();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
-	}
-
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class XOR32ShiftRandomPerf {
-
-		public RandomGenerator random =  new XOR32ShiftRandom();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
-	}
-
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class XOR64ShiftRandomPerf {
-
-		public RandomGenerator random =  new XOR64ShiftRandom();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
-	}
-
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class JavaRandomPerf {
-
-		public RandomGenerator random =  new Random();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
-	}
-
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class DefaultRandomGeneratorPerf {
-
-		public RandomGenerator random =  RandomGenerator.getDefault();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
-	}
-
-	@State(Scope.Benchmark)
-	@BenchmarkMode(Mode.Throughput)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
-	public static class JavaThreadLocalRandomPerf {
-
-		public RandomGenerator random =  ThreadLocalRandom.current();
-
-		@Benchmark
-		public int nextInt() {
-			return random.nextInt();
-		}
-
-		@Benchmark
-		public int nextIntRange() {
-			return random.nextInt(Integer.MAX_VALUE/2);
-		}
-
-		@Benchmark
-		public int nextIntRangeOriginBound() {
-			return Seeds.nextInt(
-				Integer.MAX_VALUE/10,
-				Integer.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public long nextLong() {
-			return random.nextLong();
-		}
-
-		@Benchmark
-		public long nextLongRange() {
-			return Seeds.nextLong(Long.MAX_VALUE/2, random);
-		}
-
-		@Benchmark
-		public long nextLongRangeOriginBound() {
-			return Seeds.nextLong(
-				Long.MAX_VALUE/10,
-				Long.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public float nextFloat() {
-			return random.nextFloat();
-		}
-
-		@Benchmark
-		public float nextFloatRange() {
-			return Seeds.nextFloat(
-				Float.MAX_VALUE/10,
-				Float.MAX_VALUE/2,
-				random
-			);
-		}
-
-		@Benchmark
-		public double nextDouble() {
-			return random.nextDouble();
-		}
-
-		@Benchmark
-		public double nextDoubleRange() {
-			return Seeds.nextDouble(
-				Double.MAX_VALUE/10,
-				Double.MAX_VALUE/2,
-				random
-			);
-		}
-	}
 
 	public static void main(String[] args) throws RunnerException {
 		final Options opt = new OptionsBuilder()

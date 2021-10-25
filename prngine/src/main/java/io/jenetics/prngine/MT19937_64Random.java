@@ -22,8 +22,6 @@ package io.jenetics.prngine;
 import static java.lang.String.format;
 import static io.jenetics.prngine.Bytes.readLong;
 
-import java.util.random.RandomGenerator;
-
 /**
  * This is a 64-bit version of Mersenne Twister pseudorandom number generator.
  * <p>
@@ -42,9 +40,9 @@ import java.util.random.RandomGenerator;
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version 2.0
  */
-public class MT19937_64Random implements RandomGenerator {
+public class MT19937_64Random implements SplittableRandom {
 
 	private static final int N = 312;
 	private static final int M = 156;
@@ -168,6 +166,14 @@ public class MT19937_64Random implements RandomGenerator {
 		x ^= x >>> 43;
 
 		return x;
+	}
+
+	@Override
+	public SplittableGenerator split(final SplittableGenerator source) {
+		final var seed = new byte[SEED_BYTES];
+		source.nextBytes(seed);
+
+		return new MT19937_64Random(seed);
 	}
 
 	/**
