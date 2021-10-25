@@ -201,7 +201,7 @@ fun setupJavadoc(project: Project) {
 		project.tasks.register("java2html") {
 			doLast {
 				project.javaexec {
-					main = "de.java2html.Java2Html"
+					mainClass.set("de.java2html.Java2Html")
 					args = listOf(
 							"-srcdir", "src/main/java",
 							"-targetdir", "${javadoc.destinationDir}/src-html"
