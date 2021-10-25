@@ -176,6 +176,4 @@ public abstract class Seeds {
 		return expandSeedToBytes(seed, new byte[length]);
 	}
 
-
-
 }
