@@ -170,8 +170,8 @@ fun setupJavadoc(project: Project) {
 				"https://docs.oracle.com/en/java/javase/17/docs/api",
 				"${project.rootDir}/buildSrc/resources/javadoc/java.se"
 		)
-		doclet.windowTitle = "JPX ${project.version}"
-		doclet.docTitle = "<h1>JPX ${project.version}</h1>"
+		doclet.windowTitle = "PRNGine ${project.version}"
+		doclet.docTitle = "<h1>PRNGine ${project.version}</h1>"
 		doclet.bottom = "&copy; ${Env.COPYRIGHT_YEAR} Franz Wilhelmst&ouml;tter  &nbsp;<i>(${Env.BUILD_DATE})</i>"
 		doclet.stylesheetFile = project.file("${project.rootDir}/buildSrc/resources/javadoc/stylesheet.css")
 
