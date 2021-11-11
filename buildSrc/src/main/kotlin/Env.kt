@@ -49,7 +49,7 @@ object Env {
  * Information about the library and author.
  */
 object PRNGine {
-	const val VERSION = "2.0.0-SNAPSHOT"
+	const val VERSION = "2.0.0"
 	const val ID = "prngine"
 	const val NAME = "prngine"
 	const val GROUP = "io.jenetics"
