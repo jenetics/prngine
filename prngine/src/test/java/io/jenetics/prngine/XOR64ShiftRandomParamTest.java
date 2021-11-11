@@ -19,11 +19,9 @@
  */
 package io.jenetics.prngine;
 
-import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
-import static io.jenetics.prngine.utils.listOf;
 
 import java.util.List;
 import java.util.Map;
@@ -40,7 +38,7 @@ import io.jenetics.prngine.internal.DieHarder.Result;
  */
 public class XOR64ShiftRandomParamTest {
 
-	private static final List<Param> ALL_PARAMS = listOf(
+	private static final List<Param> ALL_PARAMS = List.of(
 		new Param( 1, 1,54),
 		new Param( 1, 1,55),
 		new Param( 1, 3,45),
@@ -318,7 +316,7 @@ public class XOR64ShiftRandomParamTest {
 		new Param(55, 9,56)
 	);
 
-	// ./jrun org.jenetics.random.XOR64ShiftRandomParamTest 2>> XOR64ShiftRandom.results
+	// ./jrun io.jenetics.prngine.XOR64ShiftRandomParamTest 2>> XOR64ShiftRandom.results
 	public static void main(final String[] args) throws Exception {
 		final int start = Stream.of(args).findFirst()
 			.map(Integer::valueOf)
@@ -354,10 +352,10 @@ public class XOR64ShiftRandomParamTest {
 			final long failed = grouped.getOrDefault(Assessment.FAILED, 0L);
 
 			synchronized (System.err) {
-				System.err.println(format(
-					"%d; %d; %d; %d; %s",
+				System.err.printf(
+					"%d; %d; %d; %d; %s%n",
 					(passed - failed), passed, weak, failed, param
-				));
+				);
 			}
 
 		} catch (Exception e) {

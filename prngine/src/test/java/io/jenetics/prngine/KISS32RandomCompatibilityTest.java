@@ -24,7 +24,6 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -48,33 +47,20 @@ public class KISS32RandomCompatibilityTest {
 		}
 	}
 
-	@Test(dataProvider = "data")
-	public void threadSafeRandom(final TestData data) {
-		final String[] parameters = data.getParameters();
-		final long seed = Long.parseLong(parameters[0]);
-
-		final KISS32Random random = new KISS32Random.ThreadSafe(seed);
-
-		for (final String[] value : data) {
-			final int expected = Integer.parseInt(value[0]);
-			Assert.assertEquals(random.nextInt(), expected);
-		}
-	}
-
 	@DataProvider(name = "data")
 	public Object[][] data() {
-		return TestData.list("/org/jenetics/random/KISS32Random")
+		return TestData.list("/io/jenetics/prngine/KISS32Random")
 			.map(data -> new Object[]{data})
 			.toArray(Object[][]::new);
 	}
 
 	public static void main(final String[] args) throws IOException {
-		final String dir = "org.jenetics.random/src/test/resources/" +
-			"org/jenetics/random/KISS32Random";
+		final String dir = "prngine/src/test/resources/" +
+			"io/jenetics/prngine/KISS32Random";
 
 		for (int i = 0; i < 20; ++i) {
 			final long seed = i*12345678;
-			final Random random = new KISS32Random(seed);
+			final var random = new KISS32Random(seed);
 
 			final File file = new File(dir, format("random[%d].dat", seed));
 			file.getParentFile().mkdirs();

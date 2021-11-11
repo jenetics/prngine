@@ -19,25 +19,39 @@
  */
 package io.jenetics.prngine;
 
-import java.util.Random;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import java.util.random.RandomGenerator;
+import java.util.stream.Stream;
 
 /**
+ * Default implementations for most of the <em>split</em> methods.
+ *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
+ * @since 2.0
+ * @version 2.0
  */
-public abstract class Random64TestBase extends RandomTestBase {
+interface SplittableRandom extends RandomGenerator.SplittableGenerator {
 
-	@Test(dataProvider = "seededPRNGPair")
-	public void sameByteLongValueSequence(final Random rand1, final Random rand2) {
-		final byte[] bytes = new byte[8];
-		for (int i = 0; i < 1234; ++i) {
-			rand1.nextBytes(bytes);
-			RandomTestBase.reverse(bytes);
+	@Override
+	default SplittableGenerator split() {
+		return split(this);
+	}
 
-			Assert.assertEquals(Random64TestBase.toLong(bytes), rand2.nextLong());
-		}
+	@Override
+	default Stream<SplittableGenerator> splits(final long streamSize) {
+		return Stream.generate(this::split).limit(streamSize);
+	}
+
+	@Override
+	default Stream<SplittableGenerator> splits(final SplittableGenerator source) {
+		return Stream.generate(() -> split(source));
+	}
+
+	@Override
+	default Stream<SplittableGenerator> splits(
+		final long streamSize,
+		final SplittableGenerator source
+	) {
+		return splits(source).limit(streamSize);
 	}
 
 }

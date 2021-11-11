@@ -20,10 +20,8 @@
 package io.jenetics.prngine;
 
 import static java.lang.String.format;
-import static io.jenetics.prngine.utils.readInt;
+import static io.jenetics.prngine.Bytes.readInt;
 
-import java.io.Serializable;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -62,153 +60,26 @@ import java.util.Random;
  * <strong>Not that the base implementation of the {@code KISS32Random}
  * class is not thread-safe.</strong> If multiple threads requests random
  * numbers from this class, it <i>must</i> be synchronized externally.
- * Alternatively you can use the thread-safe implementations
- * {@link KISS32Random.ThreadSafe} or {@link KISS32Random.ThreadLocal}.
  *
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  * @since 1.0
- * @version 1.0
+ * @version 2.0.0
  */
-public class KISS32Random extends Random32 {
-
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * This class represents a <i>thread local</i> implementation of the
-	 * {@code KISS32Random} PRNG.
-	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since 1.0
-	 * @version 1.0
-	 */
-	public static final class ThreadLocal
-		extends java.lang.ThreadLocal<KISS32Random>
-	{
-
-		/**
-		 * Create a new PRNG using different seed values for every thread.
-		 */
-		@Override
-		protected KISS32Random initialValue() {
-			return new TLRandom();
-		}
-	}
-
-	private static final class TLRandom extends KISS32Random {
-		private static final long serialVersionUID = 1L;
-
-		private final Boolean _sentry = Boolean.TRUE;
-
-		private TLRandom() {
-			super(KISS32Random.seedBytes());
-		}
-
-		@Override
-		public void setSeed(final byte[] seed) {
-			if (_sentry != null) {
-				throw new UnsupportedOperationException(
-					"The 'setSeed' method is not supported " +
-						"for thread local instances."
-				);
-			}
-		}
-	}
-
-
-	/**
-	 * This is a <i>thread safe</i> variation of the this PRNG&mdash;by
-	 * synchronizing the random number generation.
-	 *
-	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
-	 * @since 1.0
-	 * @version 1.0
-	 */
-	public static final class ThreadSafe extends KISS32Random {
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * Create a new thread-safe instance of the {@code KISS32Random}
-		 * engine.
-		 *
-		 * <pre>{@code
-		 * final byte[] seed = KISS32Random.seedBytes();
-		 * final Random random = new KISS32Random.ThreadSafe(seed);
-		 * }</pre>
-		 *
-		 * @see #seedBytes()
-		 *
-		 * @param seed the random seed value. The seed must be (at least)
-		 *        {@link #SEED_BYTES} long.
-		 * @throws IllegalArgumentException if the given seed is shorter than
-		 *         {@link #SEED_BYTES}
-		 */
-		public ThreadSafe(final byte[] seed) {
-			super(seed);
-		}
-
-		/**
-		 * Create a new thread-safe instance of the {@code KISS32Random}
-		 * engine. The constructed PRNG is equivalent with
-		 * <pre>{@code
-		 * final long seed = ...;
-		 * final Random random = new KISS32Random.ThreadSafe();
-		 * random.setSeed(seed);
-		 * }</pre>
-		 * which is there for compatibility reasons with the Java {@link Random}
-		 * engine.
-		 *
-		 * @param seed the random seed value
-		 */
-		public ThreadSafe(final long seed) {
-			super(seed);
-		}
-
-		/**
-		 * Create a new thread-safe instance of the {@code KISS32Random}
-		 * engine. The PRNG is initialized with {@link #seedBytes()}.
-		 */
-		public ThreadSafe() {
-		}
-
-		@Override
-		public synchronized void setSeed(final byte[] seed) {
-			super.setSeed(seed);
-		}
-
-		@Override
-		public synchronized void setSeed(final long seed) {
-			super.setSeed(seed);
-		}
-
-		@Override
-		public synchronized int nextInt() {
-			return super.nextInt();
-		}
-
-	}
-
+public class KISS32Random extends Random32 implements SplittableRandom {
 
 	/**
 	 * The internal state of random engine.
 	 *
 	 * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
 	 * @since 1.0
-	 * @version 1.0
+	 * @version 2.0.0
 	 */
-	private static final class State implements Serializable {
-		private static final long serialVersionUID = 1L;
+	private static final class State {
+		private static final int SEED_BYTES = 16;
 
-		int _x = 123456789;
-		int _y = 234567891;
-		int _z = 345678912;
-		int _w = 456789123;
-		int _c = 0;
+		int x, y, z, w, c;
 
 		State(final byte[] seed) {
-			setSeed(seed);
-		}
-
-		void setSeed(final byte[] seed) {
 			if (seed.length < SEED_BYTES) {
 				throw new IllegalArgumentException(format(
 					"Required %d seed bytes, but got %d.",
@@ -216,39 +87,12 @@ public class KISS32Random extends Random32 {
 				));
 			}
 
-			_x = readInt(seed, 0);
-			_y = readInt(seed, 1);
-			_z = readInt(seed, 2);
-			_w = readInt(seed, 3);
+			x = readInt(seed, 0);
+			y = readInt(seed, 1);
+			z = readInt(seed, 2);
+			w = readInt(seed, 3);
+			c = 0;
 		}
-
-		@Override
-		public int hashCode() {
-			int hash = 31;
-			hash += 37*_x + 17;
-			hash += 37*_y + 17;
-			hash += 37*_z + 17;
-			hash += 37*_w + 17;
-			hash += 37*_c + 17;
-
-			return hash;
-		}
-
-		@Override
-		public boolean equals(final Object obj) {
-			return obj instanceof State &&
-				_x == ((State)obj)._x &&
-				_y == ((State)obj)._y &&
-				_z == ((State)obj)._z &&
-				_w == ((State)obj)._w &&
-				_c == ((State)obj)._c;
-		}
-
-		@Override
-		public String toString() {
-			return format("State[%d, %d, %d, %d, %d]", _x, _y, _z, _w, _c);
-		}
-
 	}
 
 	/* *************************************************************************
@@ -258,9 +102,9 @@ public class KISS32Random extends Random32 {
 	/**
 	 * The number of seed bytes (16) this PRNG requires.
 	 */
-	public static final int SEED_BYTES = 16;
+	public static final int SEED_BYTES = State.SEED_BYTES;
 
-	private final State _state;
+	private final State state;
 
 	/**
 	 * Create a new <em>not</em> thread-safe instance of the {@code KISS32Random}
@@ -268,7 +112,7 @@ public class KISS32Random extends Random32 {
 	 *
 	 * <pre>{@code
 	 * final byte[] seed = KISS32Random.seedBytes();
-	 * final Random random = new KISS32Random(seed);
+	 * final RandomGenerator random = new KISS32Random(seed);
 	 * }</pre>
 	 *
 	 * @see #seedBytes()
@@ -279,7 +123,7 @@ public class KISS32Random extends Random32 {
 	 *         {@link #SEED_BYTES}
 	 */
 	public KISS32Random(final byte[] seed) {
-		_state = new State(seed);
+		state = new State(seed);
 	}
 
 	/**
@@ -296,7 +140,7 @@ public class KISS32Random extends Random32 {
 	 * @param seed the random seed value
 	 */
 	public KISS32Random(final long seed) {
-		this(seedBytes(seed, SEED_BYTES));
+		this(Seeds.expandSeedToBytes(seed, SEED_BYTES));
 	}
 
 	/**
@@ -309,69 +153,37 @@ public class KISS32Random extends Random32 {
 
 	@Override
 	public int nextInt() {
-		step();
-		return _state._x + _state._y + _state._w;
-	}
+		state.y ^= state.y << 5;
+		state.y ^= state.y >>> 7;
+		state.y ^= state.y << 22;
 
-	private void step() {
-		_state._y ^= _state._y << 5;
-		_state._y ^= _state._y >>> 7;
-		_state._y ^= _state._y << 22;
+		final int t = state.z + state.w + state.c;
+		state.z = state.w;
+		state.c = t >>> 31;
+		state.w = t&2147483647;
+		state.x += 1411392427;
 
-		final int t = _state._z + _state._w + _state._c;
-		_state._z = _state._w;
-		_state._c = t >>> 31;
-		_state._w = t&2147483647;
-		_state._x += 1411392427;
-	}
-
-	/**
-	 * Initializes the PRNg with the given seed.
-	 *
-	 * @see #seedBytes()
-	 *
-	 * @param seed the random seed value. The seed must be (at least)
-	 *        {@link #SEED_BYTES} big.
-	 * @throws IllegalArgumentException if the given seed is shorter than
-	 *         {@link #SEED_BYTES}
-	 */
-	public void setSeed(final byte[] seed) {
-		if (_state != null) _state.setSeed(seed);
+		return state.x + state.y + state.w;
 	}
 
 	@Override
-	public synchronized void setSeed(final long seed) {
-		setSeed(PRNG.seedBytes(seed, SEED_BYTES));
-	}
+	public SplittableGenerator split(final SplittableGenerator source) {
+		final var seed = new byte[SEED_BYTES];
+		source.nextBytes(seed);
 
-	@Override
-	public int hashCode() {
-		int hash = 37;
-		hash += 31*_state.hashCode() + 17;
-		return hash;
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		return obj instanceof KISS32Random &&
-			Objects.equals(((KISS32Random)obj)._state, _state);
-	}
-
-	@Override
-	public String toString() {
-		return format("%s[%s]", getClass().getSimpleName(), _state);
+		return new KISS32Random(seed);
 	}
 
 	/**
 	 * Create a new <em>seed</em> byte array suitable for this PRNG. The
 	 * returned seed array is {@link #SEED_BYTES} long.
 	 *
-	 * @see PRNG#seedBytes(int)
+	 * @see Seeds#seedBytes(int)
 	 *
 	 * @return a new <em>seed</em> byte array of length {@link #SEED_BYTES}
 	 */
 	public static byte[] seedBytes() {
-		return PRNG.seedBytes(SEED_BYTES);
+		return Seeds.seedBytes(SEED_BYTES);
 	}
 
 }

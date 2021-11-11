@@ -26,13 +26,13 @@
  */
 plugins {
 	base
-	id("me.champeau.gradle.jmh") version "0.5.0" apply false
+	id("me.champeau.jmh") version "0.6.6" apply false
 }
 
 rootProject.version = PRNGine.VERSION
 
 tasks.named<Wrapper>("wrapper") {
-	version = "6.7.1"
+	gradleVersion = "7.3"
 	distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -49,7 +49,6 @@ allprojects {
 		}
 		mavenLocal()
 		mavenCentral()
-		jcenter()
 	}
 
 	configurations.all {
@@ -70,9 +69,13 @@ gradle.projectsEvaluated {
 		}
 
 		plugins.withType<JavaPlugin> {
-			configure<JavaPluginConvention> {
-				sourceCompatibility = JavaVersion.VERSION_1_8
-				targetCompatibility = JavaVersion.VERSION_1_8
+			configure<JavaPluginExtension> {
+				sourceCompatibility = JavaVersion.VERSION_17
+				targetCompatibility = JavaVersion.current()
+			}
+
+			configure<JavaPluginExtension> {
+				modularity.inferModulePath.set(true)
 			}
 
 			setupJava(project)
@@ -128,7 +131,7 @@ fun setupTestReporting(project: Project) {
 	project.apply(plugin = "jacoco")
 
 	project.configure<JacocoPluginExtension> {
-		toolVersion = "0.8.6"
+		toolVersion = "0.8.7"
 	}
 
 	project.tasks {
@@ -136,9 +139,9 @@ fun setupTestReporting(project: Project) {
 			dependsOn("test")
 
 			reports {
-				html.isEnabled = true
-				xml.isEnabled = true
-				csv.isEnabled = true
+				html.required.set(true)
+				xml.required.set(true)
+				csv.required.set(true)
 			}
 		}
 
@@ -164,11 +167,11 @@ fun setupJavadoc(project: Project) {
 		doclet.charSet = "UTF-8"
 		doclet.linkSource(true)
 		doclet.linksOffline(
-				"https://docs.oracle.com/en/java/javase/11/docs/api",
+				"https://docs.oracle.com/en/java/javase/17/docs/api",
 				"${project.rootDir}/buildSrc/resources/javadoc/java.se"
 		)
-		doclet.windowTitle = "JPX ${project.version}"
-		doclet.docTitle = "<h1>JPX ${project.version}</h1>"
+		doclet.windowTitle = "PRNGine ${project.version}"
+		doclet.docTitle = "<h1>PRNGine ${project.version}</h1>"
 		doclet.bottom = "&copy; ${Env.COPYRIGHT_YEAR} Franz Wilhelmst&ouml;tter  &nbsp;<i>(${Env.BUILD_DATE})</i>"
 		doclet.stylesheetFile = project.file("${project.rootDir}/buildSrc/resources/javadoc/stylesheet.css")
 
@@ -198,7 +201,7 @@ fun setupJavadoc(project: Project) {
 		project.tasks.register("java2html") {
 			doLast {
 				project.javaexec {
-					main = "de.java2html.Java2Html"
+					mainClass.set("de.java2html.Java2Html")
 					args = listOf(
 							"-srcdir", "src/main/java",
 							"-targetdir", "${javadoc.destinationDir}/src-html"

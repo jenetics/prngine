@@ -23,7 +23,6 @@ import static java.lang.String.format;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
-import static io.jenetics.prngine.utils.listOf;
 
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,7 @@ import io.jenetics.prngine.internal.DieHarder.Result;
  */
 public class XOR32ShiftRandomParamTest {
 
-	private final static List<Param> ALL_PARAMS = listOf(
+	private final static List<Param> ALL_PARAMS = List.of(
 		new Param( 1, 3,10),
 		new Param( 1, 5,16),
 		new Param( 1, 5,19),
@@ -124,7 +123,7 @@ public class XOR32ShiftRandomParamTest {
 		new Param(17,15,26)
 	);
 
-	// ./jrun org.jenetics.random.XOR32ShiftRandomParamTest 2>> XOR32ShiftRandom.results
+	// ./jrun io.jenetics.prngine.XOR32ShiftRandomParamTest 2>> XOR32ShiftRandom.results
 	public static void main(final String[] args) throws Exception {
 		final int start = Stream.of(args).findFirst()
 			.map(Integer::valueOf)

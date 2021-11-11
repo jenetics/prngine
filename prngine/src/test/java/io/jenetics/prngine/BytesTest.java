@@ -27,16 +27,39 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:franz.wilhelmstoetter@gmail.com">Franz Wilhelmstötter</a>
  */
-public class Random32Test {
+public class BytesTest {
 
 	@Test
-	public void compatibility() {
-		final Random random1 = new Random(123);
-		final Random random2 = new Random(123);
+	public void readInt() {
+		for (int i = 1; i < 100; ++i) {
+			final byte[] data = new byte[i*4];
 
-		final Random32 random32  = Random32.of(random2::nextInt);
-		for (int i = 0; i < 10; ++i) {
-			Assert.assertEquals(random32.nextInt(), random1.nextInt());
+			final Random random = new Random(i);
+			for (int j = 0; j < i; ++j) {
+				System.arraycopy(Bytes.toBytes(random.nextInt()), 0, data, j*4, 4);
+			}
+
+			random.setSeed(i);
+			for (int j = 0; j < i; ++j) {
+				Assert.assertEquals(Bytes.readInt(data, j), random.nextInt());
+			}
+		}
+	}
+
+	@Test
+	public void readLong() {
+		for (int i = 1; i < 100; ++i) {
+			final byte[] data = new byte[i*8];
+
+			final Random random = new Random(i);
+			for (int j = 0; j < i; ++j) {
+				System.arraycopy(Bytes.toBytes(random.nextLong()), 0, data, j*8, 8);
+			}
+
+			random.setSeed(i);
+			for (int j = 0; j < i; ++j) {
+				Assert.assertEquals(Bytes.readLong(data, j), random.nextLong());
+			}
 		}
 	}
 

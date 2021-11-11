@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Spliterator;
@@ -147,16 +146,7 @@ public class TestData implements Iterable<String[]> {
 
 	private static Stream<String> resources(final String path) {
 		try {
-			final String className = TestData.class.getName();
-			final String classPath = className.replace(".", "/") + ".class";
-
-			final URL url = TestData.class.getClassLoader().getResource(classPath);
-			final String absoluteClassPath = new File(url.toURI()).getAbsolutePath();
-			final String basePath = absoluteClassPath
-				.substring(0, absoluteClassPath.length() - classPath.length())
-				.replace("/build/classes/test", "/build/resources/test");
-
-			return ofNullable(new File(basePath, path).list())
+			return ofNullable(new File("src/test/resources", path).list())
 				.map(Arrays::stream)
 				.map(lines -> lines
 					.filter(line -> line.endsWith(".dat"))
@@ -166,26 +156,6 @@ public class TestData implements Iterable<String[]> {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	public static int[] toInt(final String[] line) {
-		return Arrays.stream(line).mapToInt(Integer::parseInt).toArray();
-	}
-
-	public static int[] toInt(final double[] array) {
-		final int[] result = new int[array.length];
-		for (int i = 0; i < result.length; ++i) {
-			result[i] = (int)array[i];
-		}
-		return result;
-	}
-
-	public static long[] toLong(final String[] line) {
-		return Arrays.stream(line).mapToLong(Long::parseLong).toArray();
-	}
-
-	public static double[] toDouble(final String[] line) {
-		return Arrays.stream(line).mapToDouble(Double::parseDouble).toArray();
 	}
 
 	/**
