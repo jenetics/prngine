@@ -23,15 +23,18 @@
  * @since 1.0
  * @version 1.1.0
  */
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-    }
+plugins {
+	`java-library`
+	idea
+	`maven-publish`
+	id("me.champeau.jmh")
 }
 
-rootProject.name = "prngine"
+description = "PRNGine - Java PRNG Library"
 
-// The PRNGine projects.
-include("prngine")
-include("prngine.objective")
+extra["moduleName"] = "io.jenetics.prngine.objective"
+
+dependencies {
+	testImplementation(Libs.TestNG)
+	testImplementation(Libs.EqualsVerifier)
+}
