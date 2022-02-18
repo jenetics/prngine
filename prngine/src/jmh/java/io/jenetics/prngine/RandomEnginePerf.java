@@ -59,7 +59,8 @@ public class RandomEnginePerf {
 			"MT19937_32Random",
 			"MT19937_64Random",
 			"XOR32ShiftRandom",
-			"XOR64ShiftRandom"
+			"XOR64ShiftRandom",
+			"L64X256MixRandom"
 		})
 		public String name;
 
@@ -77,50 +78,50 @@ public class RandomEnginePerf {
 		return state.random.nextInt();
 	}
 
-//	@Benchmark
-//	public int nextIntRange(final BenchmarkState state) {
-//		return state.random.nextInt(Integer.MAX_VALUE/2);
-//	}
-//
-//	@Benchmark
-//	public int nextIntRangeOriginBound(final BenchmarkState state) {
-//		return state.random.nextInt(Integer.MAX_VALUE/10, Integer.MAX_VALUE/2);
-//	}
+	@Benchmark
+	public int nextIntRange(final BenchmarkState state) {
+		return state.random.nextInt(Integer.MAX_VALUE/2);
+	}
+
+	@Benchmark
+	public int nextIntRangeOriginBound(final BenchmarkState state) {
+		return state.random.nextInt(Integer.MAX_VALUE/10, Integer.MAX_VALUE/2);
+	}
 
 	@Benchmark
 	public long nextLong(final BenchmarkState state) {
 		return state.random.nextLong();
 	}
 
-//	@Benchmark
-//	public long nextLongRange(final BenchmarkState state) {
-//		return state.random.nextLong(Long.MAX_VALUE/2);
-//	}
-//
-//	@Benchmark
-//	public long nextLongRangeOriginBound(final BenchmarkState state) {
-//		return state.random.nextLong(Long.MAX_VALUE/10, Long.MAX_VALUE/2);
-//	}
+	@Benchmark
+	public long nextLongRange(final BenchmarkState state) {
+		return state.random.nextLong(Long.MAX_VALUE/2);
+	}
 
-//	@Benchmark
-//	public float nextFloat(final BenchmarkState state) {
-//		return state.random.nextFloat();
-//	}
-//
-//	@Benchmark
-//	public float nextFloatRange(final BenchmarkState state) {
-//		return state.random.nextFloat(Float.MAX_VALUE/10, Float.MAX_VALUE/2);
-//	}
-//
-//	@Benchmark
-//	public double nextDouble(final BenchmarkState state) {
-//		return state.random.nextDouble();
-//	}
-//
-//	@Benchmark
-//	public double nextDoubleRange(final BenchmarkState state) {
-//		return state.random.nextDouble(Double.MAX_VALUE/10, Double.MAX_VALUE/2);
-//	}
+	@Benchmark
+	public long nextLongRangeOriginBound(final BenchmarkState state) {
+		return state.random.nextLong(Long.MAX_VALUE/10, Long.MAX_VALUE/2);
+	}
+
+	@Benchmark
+	public float nextFloat(final BenchmarkState state) {
+		return state.random.nextFloat();
+	}
+
+	@Benchmark
+	public float nextFloatRange(final BenchmarkState state) {
+		return state.random.nextFloat(Float.MAX_VALUE/10, Float.MAX_VALUE/2);
+	}
+
+	@Benchmark
+	public double nextDouble(final BenchmarkState state) {
+		return state.random.nextDouble();
+	}
+
+	@Benchmark
+	public double nextDoubleRange(final BenchmarkState state) {
+		return state.random.nextDouble(Double.MAX_VALUE/10, Double.MAX_VALUE/2);
+	}
 
 
 	public static void main(String[] args) throws RunnerException {
@@ -137,6 +138,99 @@ public class RandomEnginePerf {
 
 
 }
+
+/*
+# 18.02.2022
+# Run complete. Total time: 07:07:52
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+Benchmark                                            (name)   Mode  Cnt    Score   Error   Units
+RandomEnginePerf.nextDouble                    KISS32Random  thrpt    5  107.810 ± 1.011  ops/us
+RandomEnginePerf.nextDouble                    KISS64Random  thrpt    5  118.855 ± 0.738  ops/us
+RandomEnginePerf.nextDouble                LCG64ShiftRandom  thrpt    5  185.832 ± 2.250  ops/us
+RandomEnginePerf.nextDouble                MT19937_32Random  thrpt    5   82.944 ± 0.492  ops/us
+RandomEnginePerf.nextDouble                MT19937_64Random  thrpt    5  118.778 ± 0.967  ops/us
+RandomEnginePerf.nextDouble                XOR32ShiftRandom  thrpt    5  116.759 ± 1.763  ops/us
+RandomEnginePerf.nextDouble                XOR64ShiftRandom  thrpt    5  161.614 ± 1.422  ops/us
+RandomEnginePerf.nextDouble                L64X256MixRandom  thrpt    5  142.088 ± 5.123  ops/us
+RandomEnginePerf.nextDoubleRange               KISS32Random  thrpt    5   85.193 ± 1.636  ops/us
+RandomEnginePerf.nextDoubleRange               KISS64Random  thrpt    5  102.741 ± 2.415  ops/us
+RandomEnginePerf.nextDoubleRange           LCG64ShiftRandom  thrpt    5  149.922 ± 2.543  ops/us
+RandomEnginePerf.nextDoubleRange           MT19937_32Random  thrpt    5   68.689 ± 0.653  ops/us
+RandomEnginePerf.nextDoubleRange           MT19937_64Random  thrpt    5  112.990 ± 2.277  ops/us
+RandomEnginePerf.nextDoubleRange           XOR32ShiftRandom  thrpt    5   98.601 ± 1.300  ops/us
+RandomEnginePerf.nextDoubleRange           XOR64ShiftRandom  thrpt    5  147.273 ± 2.067  ops/us
+RandomEnginePerf.nextDoubleRange           L64X256MixRandom  thrpt    5  128.304 ± 0.513  ops/us
+RandomEnginePerf.nextFloat                     KISS32Random  thrpt    5  141.915 ± 1.528  ops/us
+RandomEnginePerf.nextFloat                     KISS64Random  thrpt    5  116.767 ± 1.472  ops/us
+RandomEnginePerf.nextFloat                 LCG64ShiftRandom  thrpt    5  168.775 ± 0.947  ops/us
+RandomEnginePerf.nextFloat                 MT19937_32Random  thrpt    5  127.777 ± 0.298  ops/us
+RandomEnginePerf.nextFloat                 MT19937_64Random  thrpt    5  120.071 ± 1.411  ops/us
+RandomEnginePerf.nextFloat                 XOR32ShiftRandom  thrpt    5  160.533 ± 1.568  ops/us
+RandomEnginePerf.nextFloat                 XOR64ShiftRandom  thrpt    5  156.456 ± 4.971  ops/us
+RandomEnginePerf.nextFloat                 L64X256MixRandom  thrpt    5  136.481 ± 1.805  ops/us
+RandomEnginePerf.nextFloatRange                KISS32Random  thrpt    5  127.456 ± 1.202  ops/us
+RandomEnginePerf.nextFloatRange                KISS64Random  thrpt    5  101.647 ± 1.310  ops/us
+RandomEnginePerf.nextFloatRange            LCG64ShiftRandom  thrpt    5  139.638 ± 1.942  ops/us
+RandomEnginePerf.nextFloatRange            MT19937_32Random  thrpt    5  113.059 ± 1.191  ops/us
+RandomEnginePerf.nextFloatRange            MT19937_64Random  thrpt    5  107.812 ± 1.011  ops/us
+RandomEnginePerf.nextFloatRange            XOR32ShiftRandom  thrpt    5  144.330 ± 2.306  ops/us
+RandomEnginePerf.nextFloatRange            XOR64ShiftRandom  thrpt    5  143.415 ± 1.038  ops/us
+RandomEnginePerf.nextFloatRange            L64X256MixRandom  thrpt    5  121.806 ± 1.628  ops/us
+RandomEnginePerf.nextInt                       KISS32Random  thrpt    5  169.538 ± 1.751  ops/us
+RandomEnginePerf.nextInt                       KISS64Random  thrpt    5  128.948 ± 2.466  ops/us
+RandomEnginePerf.nextInt                   LCG64ShiftRandom  thrpt    5  234.304 ± 2.190  ops/us
+RandomEnginePerf.nextInt                   MT19937_32Random  thrpt    5  164.359 ± 1.749  ops/us
+RandomEnginePerf.nextInt                   MT19937_64Random  thrpt    5  147.191 ± 1.947  ops/us
+RandomEnginePerf.nextInt                   XOR32ShiftRandom  thrpt    5  206.866 ± 6.698  ops/us
+RandomEnginePerf.nextInt                   XOR64ShiftRandom  thrpt    5  189.013 ± 1.452  ops/us
+RandomEnginePerf.nextInt                   L64X256MixRandom  thrpt    5  162.190 ± 3.239  ops/us
+RandomEnginePerf.nextIntRange                  KISS32Random  thrpt    5  134.528 ± 1.255  ops/us
+RandomEnginePerf.nextIntRange                  KISS64Random  thrpt    5  108.802 ± 1.320  ops/us
+RandomEnginePerf.nextIntRange              LCG64ShiftRandom  thrpt    5  147.772 ± 1.314  ops/us
+RandomEnginePerf.nextIntRange              MT19937_32Random  thrpt    5  114.181 ± 0.664  ops/us
+RandomEnginePerf.nextIntRange              MT19937_64Random  thrpt    5  109.633 ± 1.543  ops/us
+RandomEnginePerf.nextIntRange              XOR32ShiftRandom  thrpt    5  148.291 ± 1.760  ops/us
+RandomEnginePerf.nextIntRange              XOR64ShiftRandom  thrpt    5  133.048 ± 1.569  ops/us
+RandomEnginePerf.nextIntRange              L64X256MixRandom  thrpt    5  125.118 ± 0.873  ops/us
+RandomEnginePerf.nextIntRangeOriginBound       KISS32Random  thrpt    5   86.209 ± 1.229  ops/us
+RandomEnginePerf.nextIntRangeOriginBound       KISS64Random  thrpt    5   67.116 ± 0.811  ops/us
+RandomEnginePerf.nextIntRangeOriginBound   LCG64ShiftRandom  thrpt    5   87.564 ± 1.440  ops/us
+RandomEnginePerf.nextIntRangeOriginBound   MT19937_32Random  thrpt    5   51.792 ± 0.529  ops/us
+RandomEnginePerf.nextIntRangeOriginBound   MT19937_64Random  thrpt    5   63.910 ± 2.715  ops/us
+RandomEnginePerf.nextIntRangeOriginBound   XOR32ShiftRandom  thrpt    5   90.937 ± 0.800  ops/us
+RandomEnginePerf.nextIntRangeOriginBound   XOR64ShiftRandom  thrpt    5   90.119 ± 1.121  ops/us
+RandomEnginePerf.nextIntRangeOriginBound   L64X256MixRandom  thrpt    5   75.187 ± 0.646  ops/us
+RandomEnginePerf.nextLong                      KISS32Random  thrpt    5  124.859 ± 0.738  ops/us
+RandomEnginePerf.nextLong                      KISS64Random  thrpt    5  131.932 ± 1.541  ops/us
+RandomEnginePerf.nextLong                  LCG64ShiftRandom  thrpt    5  244.672 ± 2.164  ops/us
+RandomEnginePerf.nextLong                  MT19937_32Random  thrpt    5   92.299 ± 0.681  ops/us
+RandomEnginePerf.nextLong                  MT19937_64Random  thrpt    5  148.415 ± 1.300  ops/us
+RandomEnginePerf.nextLong                  XOR32ShiftRandom  thrpt    5  135.271 ± 1.325  ops/us
+RandomEnginePerf.nextLong                  XOR64ShiftRandom  thrpt    5  207.799 ± 2.774  ops/us
+RandomEnginePerf.nextLong                  L64X256MixRandom  thrpt    5  166.659 ± 1.161  ops/us
+RandomEnginePerf.nextLongRange                 KISS32Random  thrpt    5   98.124 ± 0.642  ops/us
+RandomEnginePerf.nextLongRange                 KISS64Random  thrpt    5  112.333 ± 1.801  ops/us
+RandomEnginePerf.nextLongRange             LCG64ShiftRandom  thrpt    5  162.372 ± 3.885  ops/us
+RandomEnginePerf.nextLongRange             MT19937_32Random  thrpt    5   44.922 ± 0.659  ops/us
+RandomEnginePerf.nextLongRange             MT19937_64Random  thrpt    5  115.043 ± 1.585  ops/us
+RandomEnginePerf.nextLongRange             XOR32ShiftRandom  thrpt    5  108.893 ± 0.982  ops/us
+RandomEnginePerf.nextLongRange             XOR64ShiftRandom  thrpt    5  139.520 ± 2.505  ops/us
+RandomEnginePerf.nextLongRange             L64X256MixRandom  thrpt    5  130.932 ± 1.497  ops/us
+RandomEnginePerf.nextLongRangeOriginBound      KISS32Random  thrpt    5   64.092 ± 0.502  ops/us
+RandomEnginePerf.nextLongRangeOriginBound      KISS64Random  thrpt    5   71.070 ± 0.514  ops/us
+RandomEnginePerf.nextLongRangeOriginBound  LCG64ShiftRandom  thrpt    5   89.863 ± 1.342  ops/us
+RandomEnginePerf.nextLongRangeOriginBound  MT19937_32Random  thrpt    5   30.742 ± 0.318  ops/us
+RandomEnginePerf.nextLongRangeOriginBound  MT19937_64Random  thrpt    5   33.834 ± 0.239  ops/us
+RandomEnginePerf.nextLongRangeOriginBound  XOR32ShiftRandom  thrpt    5   67.081 ± 0.757  ops/us
+RandomEnginePerf.nextLongRangeOriginBound  XOR64ShiftRandom  thrpt    5   88.871 ± 1.010  ops/us
+RandomEnginePerf.nextLongRangeOriginBound  L64X256MixRandom  thrpt    5   76.897 ± 2.615  ops/us
+ */
 
 /*
 # Run complete. Total time: 13:55:10
