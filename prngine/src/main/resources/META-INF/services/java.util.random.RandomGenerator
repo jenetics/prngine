@@ -1,3 +1,5 @@
+io.jenetics.prngine.internal.NanoTimeRandom
+io.jenetics.prngine.internal.ObjectHashRandom
 io.jenetics.prngine.KISS32Random
 io.jenetics.prngine.KISS64Random
 io.jenetics.prngine.LCG64ShiftRandom
