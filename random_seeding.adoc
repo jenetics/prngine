@@ -21,7 +21,7 @@ _seed()_ method has been wrapped into the _NanoTimeRandom_
 -----------------
 $ java -cp prngine-<version>.jar \
       io.jenetics.prngine.internal.DieHarder \
-      io.jenetics.prngine.internal.NanoTimeRandom -a
+      NanoTimeRandom -a
 -----------------
 
 will perform the statistical tests for the nano time random engine. The statistical
@@ -50,9 +50,15 @@ and most likely "randomly" distributed.
 
 [source,java]
 -----------------
-public static long seed() {
-    return ((long)new Object().hashCode() << 32) |
-        new Object().hashCode();
+static long seed() {
+    final long a = new Object().hashCode();
+    final long b = new Object().hashCode();
+    return mixStafford13(a << 32 | b);
+}
+private static long mixStafford13(final long z) {
+    long v = (z^(z >>> 30))*0xbf58476d1ce4e5b9L;
+    v = (v^(v >>> 27))*0x94d049bb133111ebL;
+    return v^(v >>> 31);
 }
 -----------------
 
@@ -63,7 +69,7 @@ well with
 -----------------
 $ java -cp prngine-<version>.jar \
       io.jenetics.prngine.internal.DieHarder \
-      io.jenetics.prngine.internal.ObjectHashRandom -a
+      ObjectHashRandom -a
 -----------------
 
 Table <<ObjectHashSeeding-quality, Object hash seeding quality>> shows the
@@ -88,9 +94,13 @@ was, that the PRNG seed shouldn't rely on a single source of entropy.
 [source,java]
 -----------------
 public static long seed() {
-    return mix(System.nanoType(), objectHashSeed());
+    final long a = mixStafford13(System.currentTimeMillis());
+    final long b = mixStafford13(System.nanoTime());
+    return seed(mix(a, b));
 }
-
+private static long seed(final long base) {
+    return mix(base, ObjectSeedSource.seed());
+}
 private static long mix(final long a, final long b) {
     long c = a^b;
     c ^= c << 17;
@@ -98,10 +108,15 @@ private static long mix(final long a, final long b) {
     c ^= c << 8;
     return c;
 }
-
-private static long objectHashSeed() {
-    return ((long)new Object().hashCode() << 32) |
-        new Object().hashCode();
+static long objectSeed() {
+    final long a = new Object().hashCode();
+    final long b = new Object().hashCode();
+    return mixStafford13(a << 32 | b);
+}
+private static long mixStafford13(final long z) {
+    long v = (z^(z >>> 30))*0xbf58476d1ce4e5b9L;
+    v = (v^(v >>> 27))*0x94d049bb133111ebL;
+    return v^(v >>> 31);
 }
 -----------------
 
@@ -111,7 +126,7 @@ The code above shows how the nano time seed is mixed  with the object seed. Runn
 -----------------
 $ java -cp prngine-<version>.jar \
       io.jenetics.prngine.internal.DieHarder \
-      io.jenetics.prngine.internal.SeedRandom -a
+      SeedRandom -a
 -----------------
 
 leads to the statistics following summary

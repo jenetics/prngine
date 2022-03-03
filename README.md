@@ -79,31 +79,32 @@ final RandomGenerator random2 = new LCG53ShiftRandom(seed);
 
 All implemented PRNGs has been tested with the [dieharder](https://www.phy.duke.edu/~rgb/General/dieharder.php) test suite.
 
- PRNG | Passed | Weak | Failed
- -----|--------|------|-------
-  KISS32Random | 108 | 6 | 0
-  KISS64Random | 109 | 5 | 0
-  LCG64ShiftRandom | 110 | 4 | 0
-  MT19937_32Random | 113 | 1 | 0
-  MT19937_64Random | 111 | 3 | 0
-  XOR32ShiftRandom | 101 | 4 | 9
-  XOR64ShiftRandom | 107 | 7 | 0
-  
+| PRNG             | Passed | Weak | Failed |
+|------------------|--------|------|--------|
+| KISS32Random     | 113    | 1    | 0      |
+| KISS64Random     | 109    | 5    | 0      |
+| LCG64ShiftRandom | 111    | 3    | 0      |
+| MT19937_32Random | 111    | 3    | 0      |
+| MT19937_64Random | 108    | 6    | 0      |
+| XOR32ShiftRandom | 103    | 6    | 5      |
+| XOR64ShiftRandom | 113    | 1    | 0      |
+| L64X256MixRandom | 111    | 3    | 0      |
+
 ### Runtime performance tests  
 
 The runtime performance of the PRNGs was tested with the [JMH](http://openjdk.java.net/projects/code-tools/jmh/) testing framework on an *Intel Core i7-6700HQ CPU @ 2.60GHz* with *Java SE Runtime Environment (build 1.8.0_112-b15)—Java HotSpot*. 
   
-  PRNG | 10<sup>6</sup> ints/s | 10<sup>6</sup> floats/s | 10<sup>6</sup> longs/s | 10<sup>6</sup> doubles/s
-  -----|-------|---------|--------|---------
-  KISS32Random | 189 | 143 |129 | 108
-  KISS64Random | 128 | 124 |115 | 124
-  LCG64ShiftRandom | 258 | 185 |261 | 191
-  MT19937_32Random | 140 | 115 |92 | 82
-  MT19937_64Random | 148 | 120 |148 | 120
-  XOR32ShiftRandom | 227 | 161 |140 | 120
-  XOR64ShiftRandom | 225 | 166 |235 | 166
-  
-  
+| PRNG             | 10e6 ints/s | 10e6 floats/s | F range | 10e6 longs/s | 10e6 doubles/s |
+|------------------|-------------|---------------|---------|--------------|----------------|
+| KISS32Random     | 169         | 143           | 126     | 124          | 108            |
+| KISS64Random     | 128         | 124           | 100     | 131          | 120            |
+| LCG64ShiftRandom | 234         | 168           | 19      | 244          | 185            |
+| MT19937_32Random | 164         | 127           | 113     | 92           | 82             |
+| MT19937_64Random | 148         | 120           | 107     | 148          | 120            |
+| XOR32ShiftRandom | 206         | 160           | 144     | 135          | 120            |
+| XOR64ShiftRandom | 189         | 156           | 143     | 207          | 166            |
+| L64X256MixRandom | 162         | 136           | 121     | 166          | 142            |
+
 ## License
 
 The library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
