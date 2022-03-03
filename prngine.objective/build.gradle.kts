@@ -35,6 +35,9 @@ description = "PRNGine - Java PRNG Library"
 extra["moduleName"] = "io.jenetics.prngine.objective"
 
 dependencies {
+	implementation("org.reflections:reflections:0.10.2")
+	implementation("io.jenetics:jenetics:7.0.0")
+
 	testImplementation(Libs.TestNG)
 	testImplementation(Libs.EqualsVerifier)
 }
